@@ -18,29 +18,39 @@
                         <thead>
                             <tr>
                                 <th style="width:40%;">Name</th>
-                                {{-- <th style="width:25%">Email</th>
-                                <th class="d-none d-md-table-cell" style="width:25%">Role</th> --}}
-                                <th>Actions</th>
+                               {{-- <th>Parent Category</th> --}}
+                                {{-- <th class="d-none d-md-table-cell" style="width:25%">Role</th> --}} 
+                                {{-- <th>Actions</th> --}}
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($post as $posts)
-                            <tr>
-                                <td>{{ $posts->name }}</td>
-                                {{-- <td>{{ $users->email }}</td> --}}
-                                {{-- <td class="d-none d-md-table-cell">{{App\Role::findOrFail($users->role)->name }}</td> --}}
-                                <td class="table-action">
-                                    <a href="#"><i class="align-middle" data-feather="edit-2"></i></a>
-                                    <a href="#"><i class="align-middle" data-feather="trash"></i></a>
-                                </td>
-                            </tr>
-  @endforeach
+                            {{-- <ul> --}}
+                                @foreach ($categories as $category)
+                                <tr>
+                                    <td>
+                                @if($category->id == 1)
+                                <h4></h4>
+                                @else
+                                    <li><a href="">{{ $category->name }}</a></li>
+                                    @endif
+                                    <ul>
+                                    @foreach ($category->childrenCategories as $childCategory)
+                                        @include('category.child_category', ['child_category' => $childCategory])
+                                    @endforeach
+                                    {{-- </ul> --}}
+                          
+                            </td>
+                            {{-- <td>{{ $category->category_id }}</td> --}}
+                                @endforeach
+                            {{-- </ul> --}}
+                        </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+    
 {{-- </main> --}}
 <div class="card">
     
@@ -62,6 +72,15 @@
                             @csrf
                         <div class="row">
                             <div class="form-group col-xl-12">
+                                <label for="my-select">Category</label>
+                                <select id="my-select" class="form-control"   name="category_id">
+                                    {{-- <option>Select Category</option> --}}
+                                    @foreach($sub_category as $sub_categories)        
+                                    <option value="{{ $sub_categories->id }}">{{ $sub_categories->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-xl-12">
                                 <label>Name</label>
                                 <input type="text" class="form-control" name="name">
                             </div>
@@ -73,4 +92,8 @@
 </div>
 </div>
 
+
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 @endsection

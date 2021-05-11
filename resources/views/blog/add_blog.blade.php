@@ -3,7 +3,7 @@
 	<main class="content">
         <div class="container-fluid p-0">
 
-            <h1 class="h3 mb-3">Add New  Company</h1>
+            <h1 class="h3 mb-3">Add New  Blog</h1>
 
             <div class="row">
                 <div class="col-12 col-xl-10 col-lg-10 col-md-10">
@@ -23,7 +23,7 @@
                                         <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Title</label>
-                                            <input type="text" class="form-control" placeholder="Email" name="title" imageOnly>
+                                            <input type="text" class="form-control" placeholder="Title" name="title" imageOnly>
                                         </div>
                                         </div>
                                     </div>
@@ -32,7 +32,7 @@
                                     <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Description</label>
-                                     <textarea class="form-control" placeholder="description" name="description"></textarea>
+                                     <textarea class="form-control" id="summary-ckeditor" placeholder="description" name="description"></textarea>
                                         </div>
                                     </div>
                                 </div>

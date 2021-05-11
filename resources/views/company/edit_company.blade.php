@@ -34,6 +34,21 @@
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
+                                            <label class="form-label">Openig Hour</label>
+                                            <input type="time" class="form-control" placeholder="" name="opening_hour" value="{{ $post->opening_hour }}" >
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Closing Hour</label>
+                                            <input type="time" class="form-control" placeholder="" name="closing_hour" value="{{ $post->closing_hour }}"  >
+                                        </div>
+                                     </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
                                             <label class="form-label">Image</label>
                                             <input type="file" class="form-control" placeholder="Email" name="company_logo_path" value="{{ $post->company_logo_path }}">
                                         </div>
@@ -59,8 +74,22 @@
                                     </div>
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
+                                            <label class="form-label">ስም</label>
+                                            <input type="text" class="form-control" placeholder="Amharic Name" name="company_name_am" value="{{ $post->name_am }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Website </label>
+                                            <input type="text" class="form-control" placeholder="Website" name="website" value="{{ $post->website }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
                                             <label class="form-label">Email address</label>
-                                            <input type="email" class="form-control" placeholder="Email" name="email" value="{{ $post->email }}">
+                                            <input type="email" class="form-control" placeholder="Email" name="company_email" value="{{ $post->company_email }}">
                                         </div>
                                     </div>
                                 </div>
@@ -81,8 +110,8 @@
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label">Website </label>
-                                            <input type="text" class="form-control" placeholder="Website" name="website" value="{{ $post->website }}">
+                                            <label class="form-label">Tin Number </label>
+                                            <input type="text" class="form-control" placeholder="Website" name="tin_number" value="{{ $post->tin_number }}">
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6">
@@ -92,6 +121,28 @@
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
+                                <label>Social Media Links</label>
+                        <div class="row">
+                                                        <div class="col-xl-6 col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-label">Facebook </label>
+                                    <input type="text" class="form-control" placeholder="www.facebook.com/...." name="facebook" value={{ $post->facebook }}>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-label">Twitter</label>
+                                    <input type="text" class="form-control" placeholder="www.twitter.com/..." name="twitter" value="{{ $post->twitter }}">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-label">Telegram</label>
+                                    <input type="text" class="form-control" placeholder="telegram" name="telegram" value="{{ $post->telegram }}">
+                                </div>
+                            </div>
+                        </div>
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
@@ -121,9 +172,9 @@
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
                                             <label for="my-select">Company Verfication</label>
-                                            <select id="my-select" class="form-control" name="verification" >
-                                                <option value="{{ $post->verfication }}">Select Verification</option>
-                                                <option value="0">Not Verified</option>
+                                            <select id="my-select" class="form-control" name="verification" value="{{ $post->verfication }}">
+                                                <option value="{{ $post->verification }}">{{ $post->verification }}</option>
+                                                <option value="">Not Verified</option>
                                                 <option value="1">Verified</option>
                                             </select>
                                         </div>
@@ -141,7 +192,15 @@
                                     <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Description</label>
-                                     <textarea name="description" class="form-control" placeholder="description" >{{ $post->description }}</textarea>
+                                     <textarea name="description" id="summary-ckeditor"  class="form-control" placeholder="description" >{{ $post->description }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-label">ገለጻ</label>
+                                     <textarea name="description_am" id="summary-ckeditor1"  class="form-control" placeholder="Amharic Description" >{{ $post->description_am }}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -149,7 +208,15 @@
                                     <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Services</label>
-                                     <textarea name="service" class="form-control" placeholder="service" >{{ $post->service }}</textarea>
+                                     <textarea name="service" id="summary-ckeditor2"  class="form-control" placeholder="service" >{{ $post->service }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-label">አገልግሎት</label>
+                                     <textarea name="service_am" id="summary-ckeditor3"  class="form-control" placeholder="service" >{{ $post->service_am }}</textarea>
                                         </div>
                                     </div>
                                 </div>

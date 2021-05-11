@@ -21,6 +21,10 @@ return [
         'driver' => 'eloquent',
         'model' => App\Subscriber::class,
     ],
+    'customers' => [
+        'driver' => 'eloquent',
+        'model' => App\Customer::class,
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -54,6 +58,10 @@ return [
             'driver' => 'session',
             'provider' => 'subscribers',
         ],
+        'customer' => [
+            'driver' => 'session',
+            'provider' => 'customers',
+        ],
     ],
 
     /*
@@ -81,6 +89,10 @@ return [
         'subscribers' => [
             'driver' => 'eloquent',
             'model' => App\Subscriber::class,
+        ],
+        'customers' => [
+            'driver' => 'eloquent',
+            'model' => App\Customer::class,
         ],
         // 'users' => [
         //     'driver' => 'database',
@@ -113,6 +125,11 @@ return [
         ],
         'subscribers' => [
             'provider' => 'subscribers',
+            'table' => 'password_resets',
+            'expire' => 15,
+        ],
+        'customers' => [
+            'provider' => 'customers',
             'table' => 'password_resets',
             'expire' => 15,
         ],

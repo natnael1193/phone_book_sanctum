@@ -22,7 +22,7 @@
   
                                 <th class="d-none d-md-table-cell" style="width:25%">Role</th>
                                 <th style="width:25%">Posts</th>
-                                <th>Actions</th>
+                                {{-- <th>Actions</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -32,10 +32,10 @@
                                 <td>{{ $users->email }}</td>
                              <td class="d-none d-md-table-cell">{{App\Role::findOrFail($users->role)->name }}</td>
                                 <td>@if($users->role == 4){{ DB::table('companies')->where('user_id', $users->id)->count() }}@elseif($users->role  == 5){{ DB::table('blogs')->where('user_id', $users->id)->count() }}@else 0 @endif</td>
-                                <td class="table-action">
+                                {{-- <td class="table-action">
                                     <a href="#"><i class="align-middle" data-feather="edit-2"></i></a>
                                     <a href="#"><i class="align-middle" data-feather="trash"></i></a>
-                                </td>
+                                </td> --}}
                             </tr>
   @endforeach
                         </tbody>
@@ -98,6 +98,7 @@
                     </form>
                     </div>
     </div>
+</div>
 </div>
 </div>
 

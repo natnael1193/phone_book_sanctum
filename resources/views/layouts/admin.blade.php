@@ -14,7 +14,7 @@
 
 	<title>AdminKit Demo - Web UI Kit &amp; Dashboard Template</title>
 
-	<link href="/../admins/css/app.css" rel="stylesheet">
+	<link href="/admins/css/app.css" rel="stylesheet">
 </head>
 
 <body>
@@ -31,7 +31,8 @@
 					</li>
 
 					<li class="sidebar-item active">
-						<a class="sidebar-link" href="index.html">
+						
+						<a class="sidebar-link" href="@if(Auth::user()->role == 1) /admin @elseif(Auth::user()->role == 4) /encoder @elseif(Auth::user()->role == 5)  /blogger @endif">
               <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
             </a>
 					</li>
@@ -43,24 +44,40 @@
 					</li>
 					<li class="sidebar-item active">
 						<a class="sidebar-link" href="{{ route('role.index') }}">
-              <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">User Roles</span>
+              <i class="align-middle" data-feather="user-check"></i> <span class="align-middle">User Roles</span>
             </a>
 					</li>
 					@endif
 					@if(Auth::user()->role == 1 || Auth::user()->role == 4)
-
+					<li class="sidebar-header">
+						Company Information
+					</li>
 					<li class="sidebar-item">
 						<a href="#forms1" data-toggle="collapse" class="sidebar-link collapsed">
               <i class="align-middle" data-feather="book"></i> <span class="align-middle">Companies</span>
             </a>
 						<ul id="forms1" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="{{ route('company.index') }}">All Company</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="{{ route('company.index') }}">All Companies</a></li>
 							<li class="sidebar-item"><a class="sidebar-link" href="{{ route('company.create') }}">Add New Company</a></li>
 						</ul>
 					</li>
-			
+					<li class="sidebar-item active">
+						<a class="sidebar-link" href="{{ route('company_category.index') }}">
+              <i class="align-middle" data-feather="package"></i> <span class="align-middle">Company Categories</span>
+            </a>
+					</li>
+					<li class="sidebar-item active">
+						<a class="sidebar-link" href="{{ route('company_requests.index') }}">
+              <i class="align-middle" data-feather="bell"></i> <span class="align-middle">Company Requests</span>
+            </a>
+					</li>
 					@endif
+
+
 					@if(Auth::user()->role == 1 || Auth::user()->role == 5)
+					<li class="sidebar-header">
+						Blog Information
+					</li>
 					<li class="sidebar-item">
 						<a href="#forms2" data-toggle="collapse" class="sidebar-link collapsed">
               <i class="align-middle" data-feather="book"></i> <span class="align-middle">Blog</span>
@@ -70,7 +87,9 @@
 							<li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog.create') }}">Add New Blog</a></li>
 						</ul>
 					</li>
+			
 			@endif
+			
 				</ul>
 
 				{{-- <div class="sidebar-cta">
@@ -242,7 +261,7 @@
               </a>
 
 							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-toggle="dropdown">
-                <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded mr-1" /> <span class="text-dark">{{ Auth::user()->name }}</span>
+                <span class="text-dark">{{ Auth::user()->name }}</span>
               </a>
 							<div class="dropdown-menu dropdown-menu-right">
 								<a class="dropdown-item" href="pages-profile.html"><i class="align-middle mr-1" data-feather="user"></i> Profile</a>
@@ -307,8 +326,21 @@
 	</div>
 
 
-	<script src="/../admins/js/app.js"></script>
-
+	<script src="/admins/js/app.js"></script>
+	<script src="{{ asset('/admins/ckeditor/ckeditor.js') }}"></script>
+	<script>
+	CKEDITOR.replace( 'summary-ckeditor' );
+	</script>
+	
+    <script>
+        CKEDITOR.replace( 'summary-ckeditor1' );
+        </script>
+        <script>
+            CKEDITOR.replace( 'summary-ckeditor2' );
+            </script>
+            <script>
+                CKEDITOR.replace( 'summary-ckeditor3' );
+                </script>
 	<script>
 		$(function() {
 			var ctx = document.getElementById('chartjs-dashboard-line').getContext("2d");

@@ -31,11 +31,20 @@
 					</li>
 
 					<li class="sidebar-item active">
-						<a class="sidebar-link" href="index.html">
+						<a class="sidebar-link" href="/subscriber">
               <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
             </a>
 					</li>
-
+					<li class="sidebar-item active">
+						<a class="sidebar-link" href="/bookmark">
+              <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Companies</span>
+            </a>
+					</li>
+					<li class="sidebar-item active">
+						<a class="sidebar-link" href="/bookmark/create">
+              <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Bookmarks</span>
+            </a>
+					</li>
 				</ul>
 
 				{{-- <div class="sidebar-cta">
@@ -273,6 +282,20 @@
 
 
 	<script src="/../admins/js/app.js"></script>
+	<script src="{{ asset('/admins/ckeditor/ckeditor.js') }}"></script>
+	<script>
+	CKEDITOR.replace( 'summary-ckeditor' );
+	</script>
+	
+    <script>
+        CKEDITOR.replace( 'summary-ckeditor1' );
+        </script>
+        <script>
+            CKEDITOR.replace( 'summary-ckeditor2' );
+            </script>
+            <script>
+                CKEDITOR.replace( 'summary-ckeditor3' );
+                </script>
 
 	<script>
 		$(function() {

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Category;
 use App\CompanyCategory;
+use App\Rating;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
@@ -36,6 +38,7 @@ class CompanyController extends Controller
     public function index()
     {
         //
+     
         if(Auth::guard('subscriber')->check()) {
             $this->user = Auth::guard('subscriber')->user();
             $this->subscriber = true;    
@@ -85,9 +88,10 @@ return view('company.company', compact('post', 'company', 'all'));
         //
    $data = request()->all();
    $user=['user_id' => auth()->user()->id];
+//    $subscriber =['user_id' => auth()->user('subscriber')->id];
 //    dd( $data, $user);
    Company::create(array_merge(
-       $data, $user
+       $data, $user,
    ));
    return redirect('/company');
     }
@@ -101,6 +105,25 @@ return view('company.company', compact('post', 'company', 'all'));
     public function show($id)
     {
         //
+        // $item = Company::findOrFail($id);
+        // $company=Company::query()->where('company_category',$id)->first();
+        // $post = DB::table('companies')->where('company_category', $id)->count();
+        // $data = Company::all();
+
+        
+        // // for ($company = 0; $company <= $post; $company++) {
+        //     // echo $company ;
+            
+        //     // $post == 0 ? array() :   ($y= $x =+ $company/$post) ;
+        //     foreach($company as $companies){
+        //         $x =+ $companies ;
+        //         $y = $x; 
+        //     }
+    
+        // //   }
+          
+        //    $y;
+        // return view('company.show_company', compact('company', 'post', 'data', 'y'));
     }
 
     /**
@@ -112,11 +135,13 @@ return view('company.company', compact('post', 'company', 'all'));
     public function edit($id)
     {
         //
+       
         $company=Company::find($id);
         $this->authorize('view', $company);
         $post = $company;
         $category = Category::all();
         $company_category = CompanyCategory::all()->sortBy('name');
+  
         return view('company.edit_company', compact('post', 'category','company_category'));
     }
 
@@ -130,6 +155,28 @@ return view('company.company', compact('post', 'company', 'all'));
     public function update(Request $request, $id)
     {
         //
+
+        $data = request()->all();
+        $user=['user_id' => auth()->user()->id];
+        // $oldData = $job;\
+        $oldData = Company::findOrFail($id);
+        
+        // activity()
+        // ->causedBy($user)
+        // ->performedOn($oldData)
+        // ->withProperties(['key' => 'name'])
+        // ->log('edited');
+    $oldData->update(array_merge(
+            $data,
+            $user
+        ));
+
+return redirect('/company');
+    }
+    
+    public function verified(Request $request, $id)
+    {
+        //
         $data = request()->all();
         $user=['user_id' => auth()->user()->id];
         // $oldData = $job;\
@@ -140,7 +187,7 @@ return view('company.company', compact('post', 'company', 'all'));
             $user
         ));
 
-return redirect('/company');
+return redirect()->back();
     }
 
     /**
@@ -152,5 +199,27 @@ return redirect('/company');
     public function destroy($id)
     {
         //
+        $company=Company::find($id);
+        $this->authorize('delete', $company);
+        Company::findOrfail($id)->delete();
+        return redirect()->back();
     }
+
+    public function register(Request $request)
+    {
+        //
+           if(Auth::guard('subscriber')->check()) {
+            $this->user = Auth::guard('subscriber')->user();
+            $this->subscriber = true;    
+   $data = request()->all();
+//    $user=['user_id' => auth()->user()->id];
+// $subscriber = ['subscriber_id' => auth()->user('subscriber')->id];
+//    dd( $data);
+   Company::create(array_merge(
+       $data
+       
+   ));
+   return redirect()->back();
+    }    
+}
 }

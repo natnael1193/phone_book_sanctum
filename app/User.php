@@ -3,13 +3,16 @@
 namespace App;
 
 use App\Company;
+use App\Service;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -42,5 +45,8 @@ class User extends Authenticatable
     }
     public function blogs(){
         return $this->hasMany(Blog::class);
+    }
+    public function services(){
+        return $this->hasMany(Service::class);
     }
 }

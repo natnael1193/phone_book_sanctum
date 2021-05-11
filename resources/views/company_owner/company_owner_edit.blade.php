@@ -12,7 +12,7 @@
                         <div class="row">
                             <div class="col-xl-10 col-lg-10 col-md-10">
                                 <h1 style="">{{ $post->company_name }}</h1>
-                                <h4>{{  $post->id }}</h4>
+                                {{-- <h4>{{  $post->id }}</h4> --}}
                             </div>
                             <div class="col-xl-2 col-lg-2 col-md-2">
                                 {{-- @if($post->verification == 1)
@@ -43,7 +43,20 @@
                                         <input type="file" class="form-control" placeholder="Email" name="company_logo_path" value="{{ $post->company_logo_path }}">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-xl-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Name</label>
+                                        <input type="text" class="form-control" placeholder="Name" name="company_name" value="{{ $post->company_name }}">
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Amharic Name</label>
+                                        <input type="text" class="form-control" placeholder="Name" name="company_name_am" value="{{ $post->company_name_am }}">
+                                    </div>
+                                </div>
                                     {{-- <div class="form-group">
                                         <label for="my-select">Category</label>
                                         <select id="my-select" class="form-control" name="categroy_id" value="{{ $post->categroy_id }}">
@@ -54,8 +67,8 @@
                                         </select>
                                     </div> --}}
                                 </div>
-                            </div>
-                            <div class="row">
+                            {{-- </div> --}}
+                            {{-- <div class="row">
                                 <div class="col-xl-6 col-lg-6">
                                     <div class="form-group">
                                         <label class="form-label">Name</label>
@@ -68,7 +81,7 @@
                                         <input type="email" class="form-control" placeholder="Email" name="email" value="{{ $post->email }}">
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="row">
                                 <div class="col-xl-6 col-lg-6">
                                     <div class="form-group">
@@ -145,7 +158,15 @@
                                 <div class="col-xl-12 col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label">Description</label>
-                                 <textarea name="description" class="form-control" placeholder="description" >{{ $post->description }}</textarea>
+                                 <textarea name="description" id="summary-ckeditor"  class="form-control" placeholder="description" >{{ $post->description }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-label">ገለጻ</label>
+                                 <textarea name="description_am" id="summary-ckeditor1"  class="form-control" placeholder="Amharic Description" >{{ $post->description_am }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -153,7 +174,15 @@
                                 <div class="col-xl-12 col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label">Services</label>
-                                 <textarea name="service" class="form-control" placeholder="service" >{{ $post->service }}</textarea>
+                                 <textarea name="service" id="summary-ckeditor2"  class="form-control" placeholder="service" >{{ $post->service }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-label">አገልግሎት</label>
+                                 <textarea name="service_am" id="summary-ckeditor3"  class="form-control" placeholder="service" >{{ $post->service_am }}</textarea>
                                     </div>
                                 </div>
                             </div>

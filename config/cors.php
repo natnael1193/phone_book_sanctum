@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'paths' => ['api/*'],
+    'paths' => ['api/*', "sanctum/csrf-cookie", "subscriber/login", "login", "api/register", "register", 'subscriber/create', 'create'],
 
     'allowed_methods' => ['*'],
 
@@ -29,6 +29,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    'supports_credentials' => true,
 
 ];

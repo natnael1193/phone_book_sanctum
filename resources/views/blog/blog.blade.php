@@ -4,8 +4,8 @@
 {{-- @can('viewAny', App\blog::class) --}}
             <div class="row m-3">
             <div class="col-auto d-none d-sm-block">
-                <h3><strong>Companies</strong> </h3>
-                <button class="btn btn-success">Add New blog</button>
+                <h3><strong>Blog</strong> </h3>
+           <a href="/blog/create"><button class="btn btn-success">Add New blog</button></a>     
             </div>
             </div>
 
@@ -41,7 +41,9 @@
                                 <button class="btn btn-danger" type="button">Delete</button>
                             </div>
                             <br>
+                            @if($companies->user_id != null)
                             <h4 style="color: black">Posted By: {{ App\User::findOrFail($companies->user_id)->name }}</h4>
+                            @endif
                         </div>
                     {{-- </div> --}}
                 </div>

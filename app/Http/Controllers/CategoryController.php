@@ -15,8 +15,15 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $post = Category::all()->sortBy('name');
-        return view('category.category', compact('post'));
+      $categories = Category::orderBy('name')->whereNull('category_id')
+        ->with('childrenCategories')
+    ->get();
+
+    // return response()->json($categories);
+    
+        $sub_category = Category::orderBy('name')->get();
+    // return view('categories', compact('categories'));
+        return view('category.category', compact('categories', 'sub_category'));
     }
 
     /**
@@ -40,6 +47,7 @@ class CategoryController extends Controller
         //
         $post = new Category();
         $post->name = $request->input('name');
+        $post->category_id = $request->input('category_id');
         $post->save();
         return redirect()->back();
     }
@@ -64,6 +72,9 @@ class CategoryController extends Controller
     public function edit($id)
     {
         //
+        $post = Category::findOrFail($id);
+        $sub_category = Category::orderBy('name')->get();
+        return view('category.edit_category', compact('post', 'sub_category'));
     }
 
     /**
@@ -76,6 +87,13 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $post = Category::findOrFail($id);
+
+        $post->name = $request->input('name');
+        $post->category_id = $request->input('category_id');
+        $post->save();
+        return redirect('/category');
+        
     }
 
     /**

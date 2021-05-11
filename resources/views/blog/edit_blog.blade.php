@@ -24,7 +24,7 @@
                                         <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Title</label>
-                                            <input type="text" class="form-control" placeholder="Email" value="{{ $post->title }}" name="title" imageOnly>
+                                            <input type="text" class="form-control" placeholder="Title" value="{{ $post->title }}" name="title" imageOnly>
                                         </div>
                                         </div>
                                     </div>
@@ -33,7 +33,7 @@
                                     <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Description</label>
-                                     <textarea class="form-control" placeholder="description" name="description">{{ $post->description }}</textarea>
+                                     <textarea class="form-control" id="summary-ckeditor" placeholder="description" name="description">{{ $post->description }}</textarea>
                                         </div>
                                     </div>
                                 </div>

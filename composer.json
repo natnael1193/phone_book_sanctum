@@ -13,9 +13,13 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
         "intervention/image": "^2.5",
+        "laravel/airlock": "^2.10",
         "laravel/framework": "^7.24",
+        "laravel/sanctum": "^2.10",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.4"
+        "laravel/ui": "^2.4",
+        "spatie/laravel-activitylog": "^3.17",
+        "spatie/laravel-backup": "^6.16"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

@@ -3,6 +3,12 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+        @if(Session::has('alert'))
+        <div class="alert alert-success alert-dismissible" role="alert">
+												<strong>Great!  </strong>{{ Session::get('alert') }}
+                                            </div>     
+            
+        @endif
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
