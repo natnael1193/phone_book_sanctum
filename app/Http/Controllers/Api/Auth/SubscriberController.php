@@ -35,8 +35,8 @@ class SubscriberController extends Controller
     
     public function index(){        
         $post =  Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
-        // $user = Subscriber:: where('email',auth()->user('subscriber'));    
-        return response()->json($post);
+        $user = Subscriber:: where('email',auth()->user('subscriber')->email)->first();    
+        return response()->json([$user,$post]);
        
     }
     public function edit(){

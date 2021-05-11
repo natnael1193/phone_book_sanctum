@@ -34,13 +34,29 @@ class MainController extends Controller
         $review = Review::where('blog_id',  $id)->get();        
         // $rating = Rating::query()->where('blog_id', $id)->get();
         
-        $sum =  Rating::query()->where('blog_id', $id)->sum('rating') ;
+        $sum =  Rating::query()->where('blog_id', $id)->sum('rating');
+        $rate = Rating::query()->where('blog_id', $id)->first();
+
+        if($rate != null){
         $blog = Rating::query()->where('blog_id', $id)->count();
-        // $data =  ($sum/$post) ;
-        $data = null ? array() : $data= $sum/$blog ;
-        // $data =  ($sum/$post) ;
+        $data =  $sum/$blog;
         $value = $data;
-        
+    
         return response()->json(['blog'=>$post, 'review'=>$review, 'rating'=>$value]);
+    }
+    else{
+        $blog = Rating::query()->where('blog_id', $id)->get();
+        $data = [];
+        $value = $data; 
+    
+        return response()->json(['blog'=>$post, 'review'=>$review, 'rating'=>$value]);
+    }
+
+
+        // $data =  ($sum/$post) ;
+
+        // $data =  ($sum/$post) ;
+    
+    
     }
 }

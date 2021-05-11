@@ -89,9 +89,9 @@
                 </div>
 
                 <div class="links">
-                    <a href="/subscriber/sign_up">Company Owner Register</a>
+                    <a href="/subscriber_company/sign_up">Company Owner Register</a>
                     <a href="/subscriber/sign_in">Company Owner Login</a>
-                    <a href="/customer/sign_up">User Register</a>
+                    <a href="/subscriber/sign_up">User Register</a>
                     <a href="/customer/sign_in">User Login</a>
                     {{-- <a href="https://nova.laravel.com">Nova</a>
                     <a href="https://forge.laravel.com">Forge</a>

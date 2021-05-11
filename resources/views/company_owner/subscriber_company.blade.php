@@ -8,9 +8,8 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('subscriber.registration') }}">
+                    <form method="POST" action="{{ route('subscriber.subscriber_company_register') }}">
                         @csrf
-                        <input type="hidden" name="subscriber_id" >
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
@@ -76,8 +75,8 @@
                         </div>
 <hr>
 
-
-{{-- <div class="form-group row">
+<input  type="hidden" class="form-control @error('company_email') is-invalid @enderror" name="subscriber_id" >
+<div class="form-group row">
     <label for="name" class="col-md-4 col-form-label text-md-right">Company {{ __('Name') }}</label>
 
     <div class="col-md-6">
@@ -103,7 +102,21 @@
             </span>
         @enderror
     </div>
-</div> --}}
+</div>
+
+<div class="form-group row">
+    <label for="email" class="col-md-4 col-form-label text-md-right">Phone}}</label>
+
+    <div class="col-md-6">
+        <input  type="text" class="form-control @error('company_email') is-invalid @enderror" name="phone_number" >
+
+        @error('company_email')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+</div>
 
 
                         <div class="form-group row mb-0">

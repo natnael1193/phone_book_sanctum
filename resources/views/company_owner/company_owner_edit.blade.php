@@ -170,7 +170,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-xl-12 col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label">Services</label>
@@ -185,7 +185,7 @@
                                  <textarea name="service_am" id="summary-ckeditor3"  class="form-control" placeholder="service" >{{ $post->service_am }}</textarea>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <button type="submit" class="btn btn-primary">Update</button>
                         </form>
                     </div>

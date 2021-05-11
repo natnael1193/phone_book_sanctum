@@ -82,14 +82,14 @@
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label">Website </label>
-                                            <input type="text" class="form-control" placeholder="Website" name="website" value="{{ $post->website }}">
+                                            <label class="form-label">Email address</label>
+                                            <input type="email" class="form-control" placeholder="Email" name="company_email" value="{{ $post->company_email }}">
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label">Email address</label>
-                                            <input type="email" class="form-control" placeholder="Email" name="company_email" value="{{ $post->company_email }}">
+                                            <label class="form-label">Website </label>
+                                            <input type="text" class="form-control" placeholder="Website" name="website" value="{{ $post->website }}">
                                         </div>
                                     </div>
                                 </div>

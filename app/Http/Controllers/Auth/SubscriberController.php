@@ -23,6 +23,7 @@ class SubscriberController extends Controller
         $user = auth()->user('subscriber')->company()->pluck('companies.subscriber_id');
         $post = Company::whereIn('subscriber_id', $user)->first();
         $subscriber = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
+        // $subscriber = Company::where('email',auth()->user('subscriber')->email, '=', Request::get('email'))->exists();
     $service = Service::all();    
         // $user = Subscriber:: where('email',auth()->user('subscriber'));    
         return view('company_owner.company_owner', compact('post', 'subscriber'));

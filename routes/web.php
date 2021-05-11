@@ -56,8 +56,12 @@ Route::patch('/subscriber/update/{id}', 'Auth\SubscriberController@store')->name
 Route::get('/subscriber/sign_up', 'Auth\SubscriberRegistrationController@index');
 Route::post('/subscriber/create', 'Auth\SubscriberRegistrationController@register')->name('subscriber.registration');
 Route::post('/subscriber/register', 'Auth\SubscriberRegistrationController@store')->name('subscriber.store');
+Route::post('/subscriber_company/register', 'Auth\SubscriberRegistrationController@subscriber_company_register')->name('subscriber.subscriber_company_register');
 Route::get('/subscriber/sign_in', 'Auth\SubscriberLoginController@showLoginForm');
 Route::post('/subscriber/login', 'Auth\SubscriberLoginController@login')->name('subscriber.login');
+Route::get('/subscriber_company/sign_up', function(){
+    return view('company_owner.subscriber_company');
+});
 
 //User Owner
 Route::get('customer', 'Auth\CustomerController@index')->name('customer');
