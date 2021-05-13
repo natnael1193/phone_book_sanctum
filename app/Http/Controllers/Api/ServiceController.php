@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Category;
+use App\Company;
+use App\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class CategoryController extends Controller
+class ServiceController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +18,11 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $post = Category::all()->sortBy('name');
-        return  response()->json($post);
+        $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
+  $post = Service::where('company_id', $company->id)->get();
+//   return response()->json($post);
+        // $post = Service::all()->sortBy('name');
+        return response()->json(["Company Name"=> $company->company_name,"services" => $post]);
     }
 
     /**
@@ -39,12 +44,29 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
-        $post = new Category();
-        $post->name = $request->input('name');
-        $post->save();
-        return  response()->json($post);
-    }
+        $data = Company::query()->where('company_email',auth()->user('subscriber')->company_email)->first();
+        $post = request()->all();
+        //    $data = CompanyCategory::create($post)->id;
+        //    if(count($request->name) > 0){
+        //        foreach($request->name as $item=>$v){
+        //        $post2=array(
+        //            'name' => $request->name[$item],
+        //        );
 
+               $user=['subscriber_id' => auth()->user('subscriber_id')->id];
+               $company = ['company_id' => $data->id];
+
+                     Service::create(array_merge(
+            $post,
+             $user, $company
+        ));
+            // }
+        // }
+
+        return response()->json([$post, $user, $company]);
+
+
+           }
     /**
      * Display the specified resource.
      *
@@ -54,11 +76,6 @@ class CategoryController extends Controller
     public function show($id)
     {
         //
-        $post = Category::findOrFail($id);
-        $category = Category::where('id', $id)->where('category_id', 1)->get();
-        $sub_category = Category::where('category_id', $id)->get();
-
-        return response()->json(["category" => $category, "sub_category" => $sub_category]);
     }
 
     /**
@@ -70,8 +87,6 @@ class CategoryController extends Controller
     public function edit($id)
     {
         //
-        $post = Category::findOrFail($id);
-        return  response()->json($post);
     }
 
     /**
@@ -84,10 +99,6 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $post = Category::findOrFail($id);
-        $post->name = $request->input('name');
-        $post->save();
-        return  response()->json($post);
     }
 
     /**

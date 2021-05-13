@@ -39,7 +39,7 @@ class ReviewController extends Controller
     {
         //
         $post = new Review();
-        $post->user_id = auth()->user()->id;
+        $post->user_id = auth('sanctum')->user()->id;
         $post->blog_id = $request->input('blog_id');
         $post->review = $request->input('review');
 
@@ -86,6 +86,15 @@ class ReviewController extends Controller
     public function update(Request $request, $id)
     {
         //
+          //
+          $post =  Review::findOrFail($id);
+          $post->user_id = auth('sanctum')->user()->id;
+          $post->blog_id = $request->input('blog_id');
+          $post->review = $request->input('review');
+  
+          // dd($post);
+          $post->save();
+          return response($post);
     }
 
     /**

@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\User;
 use App\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+
 class CompanyRequestsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -20,6 +22,9 @@ class CompanyRequestsController extends Controller
     public function index()
     {
         //
+        // $user = User::where('role', 1)->get();
+        $this->authorize('viewAny', Company::class);
+        
         $post = Company::query()->where('verification', NULL)->get();
         return response()->json($post);
     }

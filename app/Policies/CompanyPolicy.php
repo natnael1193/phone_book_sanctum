@@ -23,12 +23,11 @@ class CompanyPolicy
         return in_array($user->email, [
             'natnaelsolomon770@gmail.com',
             'jak@gmail.com',
-            $user->role == 1,
-            $user->status_id == 1,
-            // $user->role == 1,
-            // $user->role == 4,
          
-        ]);
+            $user->role == 1,
+            $user->role == 4,
+        ],         
+        );
     }
 
     /**
@@ -49,7 +48,7 @@ class CompanyPolicy
             $user->id == $company->user_id,
             $user->role == 1,
             $user->status_id == 1,
-            //    
+            $user->role == 4,
      
             // $user
         ]);

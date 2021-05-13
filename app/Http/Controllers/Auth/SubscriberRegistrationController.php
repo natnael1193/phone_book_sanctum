@@ -48,9 +48,6 @@ public function index(){
             // $items = request()
                 $data = $request->all();
                 $check = $this->create($data);
-                // $post = $this->save($data);
-                // dd($check);
-                // $remember_me = $request->has('remember') ? true : false;
                 
                 return redirect('/company/create')->with('alert', 'User registered, please add ccompany profile');
             }

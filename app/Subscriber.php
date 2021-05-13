@@ -10,7 +10,7 @@ class Subscriber extends Authenticatable
     //
     use HasApiTokens, Notifiable;
 // The authentication guard for admin
-    protected $guard = 'subscriber';
+    // protected $guard = 'subscriber';
      /**
       * The attributes that are mass assignable.
       *

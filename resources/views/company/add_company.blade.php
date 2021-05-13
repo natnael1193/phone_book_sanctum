@@ -81,7 +81,7 @@
                                         <div class="form-group">
                                             <label for="my-select">Company Category</label>
                                             <select id="my-select" class="form-control" name="category_id" required>
-                                                <option>Select Category</option>
+                                                <option value="">Select Category</option>
                                                 @foreach($post as $posts)
                                                 <option value="{{ $posts->id }}">{{ $posts->name }}</option>
                                                 @endforeach
@@ -191,7 +191,7 @@
                                         <div class="form-group">
                                             <label for="my-select">Category</label>
                                             <select id="my-select" class="form-control" name="company_category" required>
-                                                <option>Select Category</option>
+                                                <option value="">Select Category</option>
                                                 @foreach($company_category as $company_categories)
                                                 <option value="{{ $company_categories->id }}">{{ $company_categories->name }}</option>
                                                 @endforeach
@@ -202,7 +202,7 @@
                                         <div class="form-group">
                                             <label for="my-select">Company Verification</label>
                                             <select id="my-select" class="form-control" name="verification" required>
-                                                <option>Select Category</option>
+                                                <option value="">Select Category</option>
                                                 <option value="0">Not Verified</option>  
                                                 <option value="1">Verified</option>                                            
                                             </select>

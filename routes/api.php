@@ -24,13 +24,7 @@ use Intervention\Image\Facades\Image;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-// Route::middleware('auth:sanctum')->get('/users', function (Request $request) {
-//     return $request->user();
-// });
-Route::middleware('auth:sanctum')->get('/customer', function (Request $request) {
-    //    $this->validator($request);
-       return $request->user();
-});
+
 
 Route::middleware('auth:sanctum')->get('/subscriber', function (Request $request) {
     //    $this->validator($request);
@@ -99,11 +93,13 @@ Route::middleware('auth:sanctum')->resource('rating', 'Api\RatingController');
 Route::middleware('auth:sanctum')->resource('review', 'Api\ReviewController');
 Route::middleware(['auth:sanctum', 'admin'])->resource('role', 'Api\RoleController');
 Route::middleware('auth:sanctum')->resource('image', 'Api\ImageController');
-Route::middleware('auth:sanctum')->resource('company_requests', 'Api\CompanyRequestsController');
+Route::middleware(['auth:sanctum', 'auth'])->resource('company_requests', 'Api\CompanyRequestsController');
 Route::middleware('auth:sanctum')->resource('company_owner', 'Api\CompanyOwnerController');
 Route::middleware('auth:sanctum')->post('company/register', 'Api\CompanyController@register');
 Route::middleware('auth:sanctum')->resource('activity_log', 'Api\ActivityLogController');
 Route::middleware('auth:sanctum')->resource('bookmark', 'Api\BookmarkController');
+Route::middleware('auth:sanctum')->resource('service', 'Api\ServiceController');
+Route::middleware('auth:sanctum')->resource('working_time', 'Api\WorkingTimeController');
 
 
 
@@ -111,20 +107,21 @@ Route::middleware('auth:sanctum')->resource('bookmark', 'Api\BookmarkController'
 Route::middleware('auth:sanctum')->get('subscriber', 'Api\Auth\SubscriberController@index')->name('subscriber');
 Route::middleware('auth:sanctum')->get('subscriber/edit', 'Api\Auth\SubscriberController@edit')->name('subscriber.edit');
 Route::middleware('auth:sanctum')->get('subscriber/add_company', 'Api\Auth\SubscriberController@new_company')->name('subscriber.new_company');
-Route::middleware('auth:sanctum')->post('/subscriber/store', 'Api\Auth\SubscriberController@create')->name('subscriber.store_company');
+Route::post('/subscriber/store', 'Api\Auth\SubscriberController@create')->name('subscriber.store_company');
 Route::middleware('auth:sanctum')->patch('/subscriber/update/{id}', 'Api\Auth\SubscriberController@store')->name('subscriber.update');
 // Route::middleware('auth:sanctum')->get('/subscriber/sign_up', 'Api\Auth\SubscriberRegistrationController@index');
-Route::middleware('auth:sanctum')->post('/subscriber/create', 'Api\Auth\SubscriberRegistrationController@register')->name('subscriber.registration');
+Route::post('/subscriber/create', 'Api\Auth\SubscriberRegistrationController@register')->name('subscriber.registration');
+Route::middleware('auth:sanctum')->patch('/subscriber/update', 'Api\Auth\SubscriberController@update')->name('subscriber.update');
 Route::middleware('auth:sanctum')->get('/subscriber/sign_in', 'Api\Auth\SubscriberLoginController@showLoginForm');
 // Route::middleware('auth:sanctum')->post('/subscriber/login', 'Api\Auth\SubscriberLoginController@login')->name('subscriber.login');
 
 // //User Owner
 // Route::middleware('auth:sanctum')->get('customer', 'Api\Auth\CustomerController@index')->name('customer');
-Route::middleware('auth:sanctum')->get('customer/edit', 'Api\Auth\CustomerController@edit')->name('customer.edit');
-Route::middleware('auth:sanctum')->patch('/customer/update/{id}', 'Api\Auth\CustomerController@store')->name('customer.update');
-Route::middleware('auth:sanctum')->get('/customer/sign_up', 'Api\Auth\CustomerRegistrationController@index');
-Route::middleware('auth:sanctum')->post('/customer/create', 'Api\Auth\CustomerRegistrationController@register')->name('customer.registration');
-Route::middleware('auth:sanctum')->get('/customer/sign_in', 'Api\Auth\CustomerLoginController@showLoginForm');
+// Route::middleware('auth:sanctum')->get('customer/edit', 'Api\Auth\CustomerController@edit')->name('customer.edit');
+// Route::middleware('auth:sanctum')->patch('/customer/update/{id}', 'Api\Auth\CustomerController@store')->name('customer.update');
+// Route::middleware('auth:sanctum')->get('/customer/sign_up', 'Api\Auth\CustomerRegistrationController@index');
+// Route::post('/customer/create', 'Api\Auth\CustomerRegistrationController@register')->name('customer.registration');
+// Route::middleware('auth:sanctum')->get('/customer/sign_in', 'Api\Auth\CustomerLoginController@showLoginForm');
 // Route::post('/customer/login', 'Api\Auth\CustomerLoginController@login')->name('customer.login');
 // Route::resource('company_owner', 'CompanyOwnerController');
 
@@ -137,3 +134,5 @@ Route::get('companies', 'Api\MainController@company');
 Route::get('company_detail/{id}', 'Api\MainController@company_detail');
 Route::get('blogs', 'Api\MainController@blog');
 Route::get('blog_detail/{id}', 'Api\MainController@blog_detail');
+Route::get('company_category', 'Api\MainController@company_category');
+Route::get('company_category_detail/{id}', 'Api\MainController@company_category_detail');

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Blog;
+use App\User;
+use App\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
@@ -10,6 +12,10 @@ use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +24,9 @@ class BlogController extends Controller
     public function index(Request $request)
     {
         //
+        // $user = User::where('id', auth()->user()->id)->get();
+        $this->authorize('view', Blog::class);
+        
         if ($request->user() != null) {
             if ($request->user()->id == 1) {
                 $post = Blog::all();
@@ -27,7 +36,8 @@ class BlogController extends Controller
                 $user = auth()->user()->blogs()->pluck('blogs.user_id');
                 $post = Blog::whereIn('user_id', $user)->orderBy('created_at', 'desc')->get();
                 $res = $post;
-                return  response()->json($res);
+                $subscriber =  auth('sanctum')->user()->id;
+                return  response()->json([$res, $subscriber]);
             }
         } else {
             return response([
@@ -61,19 +71,19 @@ class BlogController extends Controller
             'image' => '',
         ]);
         $user=['user_id' =>auth()->user()->id];
-        // if(request('image')){
-        //     $imagePath = request('image')->store('uploads','public');
-        //     $image = Image::make(public_path("storage/{$imagePath}"))->resize(300,300);
-        //     $image->save();
-        //     $imageArray=['image' => $imagePath];
-        // }
+        if(request('image')){
+            $imagePath = request('image')->store('uploads','public');
+            $image = Image::make(public_path("storage/{$imagePath}"))->resize(300,300);
+            $image->save();
+            $imageArray=['image' => $imagePath];
+        }
 
         // dd($data,
         // $imageArray, $user);
         Blog::create(array_merge(
             $data,
             $user,
-            // $imageArray ?? [],
+            $imageArray ?? [],
             
         ));
     }
@@ -116,17 +126,17 @@ class BlogController extends Controller
         $data = request()->all();
         $oldData = Blog::findOrFail($id);
         $user=['user_id' => auth()->user()->id];
-        // if(request('image')){
-        //     Storage::delete("/public/{$oldData->image}");
-        //     $imagePath = request('image')->store('uploads','public');
-        //     $image = Image::make(public_path("storage/{$imagePath}"))->resize(300,300);
-        //     $image->save();
-        //     $imageArray=['image' => $imagePath];
-        // }
+        if(request('image')){
+            Storage::delete("/public/{$oldData->image}");
+            $imagePath = request('image')->store('uploads','public');
+            $image = Image::make(public_path("storage/{$imagePath}"))->resize(300,300);
+            $image->save();
+            $imageArray=['image' => $imagePath];
+        }
 
         $oldData->update(array_merge(
             $data,
-            // $imageArray ?? [],
+            $imageArray ?? [],
             $user
         ));
     }

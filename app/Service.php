@@ -3,11 +3,13 @@
 namespace App;
 
 use App\Company;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
 {
     //
+    use HasApiTokens;
     protected $table = "services";
     protected $fillable = ['name', 'user_id', 'company_id'];
     

@@ -20,7 +20,7 @@ class ServiceController extends Controller
     public function index()
     {
         //
-  $post = Company::query()->where('email',auth()->user()->email)->first();  
+        $post = Company::query()->where('company_email',auth()->user('subscriber')->company_email)->first();  
 //   return response()->json($post);
         // $post = Service::all()->sortBy('name');
         return view('service.add_service', compact('post'));
@@ -45,7 +45,7 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         //
-        $data = Company::query()->where('email',auth()->user()->email)->first();  
+        $data = Company::query()->where('company_email',auth()->user('subscriber')->email)->first();   
         $post = request()->all();
         //    $data = CompanyCategory::create($post)->id;
            if(count($request->name) > 0){

@@ -2,11 +2,12 @@
 
 namespace App\Policies;
 
-use App\Blog;
+use App\CompanyRequests;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class BlogPolicy
+
+class CompanyRequestsPolicy
 {
     use HandlesAuthorization;
 
@@ -22,32 +23,26 @@ class BlogPolicy
         return in_array($user->email, [
             'natnaelsolomon770@gmail.com',
             'jak@gmail.com',
-            // $user->status_id == 1,
-            $user->role == 1,
-            $user->role == 5,
          
-        ]);
+            // $user->role == 1,
+            // $user->status_id == 1,
+            // $user->role == 1,
+            $user->role == 4,
+        ],         
+        );
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Blog  $blog
+     * @param  \App\CompanyRequests  $companyRequests
      * @return mixed
      */
-    public function view(User $user, Blog $blog)
+    public function view(User $user, CompanyRequests $companyRequests)
     {
         //
-        return in_array($user->email, [
-            'natnaelsolomon770@gmail.com',
-            'jak@gmail.com',
-            $user->id == $blog->user_id,
-            $user->role == 1,
-            //    
-     
-            // $user
-        ]);
+       return $user->role = 1;
     }
 
     /**
@@ -65,10 +60,10 @@ class BlogPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Blog  $blog
+     * @param  \App\CompanyRequests  $companyRequests
      * @return mixed
      */
-    public function update(User $user, Blog $blog)
+    public function update(User $user, CompanyRequests $companyRequests)
     {
         //
     }
@@ -77,10 +72,10 @@ class BlogPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Blog  $blog
+     * @param  \App\CompanyRequests  $companyRequests
      * @return mixed
      */
-    public function delete(User $user, Blog $blog)
+    public function delete(User $user, CompanyRequests $companyRequests)
     {
         //
     }
@@ -89,10 +84,10 @@ class BlogPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Blog  $blog
+     * @param  \App\CompanyRequests  $companyRequests
      * @return mixed
      */
-    public function restore(User $user, Blog $blog)
+    public function restore(User $user, CompanyRequests $companyRequests)
     {
         //
     }
@@ -101,10 +96,10 @@ class BlogPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Blog  $blog
+     * @param  \App\CompanyRequests  $companyRequests
      * @return mixed
      */
-    public function forceDelete(User $user, Blog $blog)
+    public function forceDelete(User $user, CompanyRequests $companyRequests)
     {
         //
     }

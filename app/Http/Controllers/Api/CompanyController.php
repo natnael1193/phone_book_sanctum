@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\User;
 use App\Company;
 use App\Category;
 use App\CompanyCategory;
@@ -39,6 +40,9 @@ class CompanyController extends Controller
     public function index()
     {
         //
+        // $user = Company::where('user_id', auth()->user()->id)->get();
+        $this->authorize('viewAny', Company::class);
+
         if(Auth::guard('subscriber')->check()) {
             $this->user = Auth::guard('subscriber')->user();
             $this->subscriber = true;    
@@ -52,7 +56,7 @@ elseif(Auth::guard()->check()) {
     $all = Company::all();
    
     
-    return  response()->json($post);
+    return  response()->json($company);
 // return view('company.company', compact('post', 'company', 'all'));
 } else {
     return response([

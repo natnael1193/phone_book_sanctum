@@ -45,7 +45,7 @@ class RatingController extends Controller
     {
         //
         $post = new Rating();
-        $post->user_id = auth()->user()->id;
+        $post->user_id = auth('sanctum')->user()->id;
         $post->blog_id = $request->input('blog_id');
         $post->rating = $request->input('rating');
 
@@ -99,6 +99,14 @@ class RatingController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $post =  Rating::findOrFail($id);
+        $post->user_id = auth('sanctum')->user()->id;
+        $post->blog_id = $request->input('blog_id');
+        $post->rating = $request->input('rating');
+
+        // dd($post);
+        $post->save();
+        return response()->json($post);
     }
 
     /**

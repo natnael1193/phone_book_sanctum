@@ -11,10 +11,10 @@ use Intervention\Image\Facades\Image;
 
 class ImageController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:subscriber');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:subscriber');
+    // }
     /**
      * Display a listing of the resource.
      *

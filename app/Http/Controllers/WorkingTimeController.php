@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Category;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class CategoryController extends Controller
+class WorkingTimeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +14,6 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $post = Category::all()->sortBy('name');
-        return  response()->json($post);
     }
 
     /**
@@ -39,10 +35,6 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
-        $post = new Category();
-        $post->name = $request->input('name');
-        $post->save();
-        return  response()->json($post);
     }
 
     /**
@@ -54,11 +46,6 @@ class CategoryController extends Controller
     public function show($id)
     {
         //
-        $post = Category::findOrFail($id);
-        $category = Category::where('id', $id)->where('category_id', 1)->get();
-        $sub_category = Category::where('category_id', $id)->get();
-
-        return response()->json(["category" => $category, "sub_category" => $sub_category]);
     }
 
     /**
@@ -70,8 +57,6 @@ class CategoryController extends Controller
     public function edit($id)
     {
         //
-        $post = Category::findOrFail($id);
-        return  response()->json($post);
     }
 
     /**
@@ -84,10 +69,6 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $post = Category::findOrFail($id);
-        $post->name = $request->input('name');
-        $post->save();
-        return  response()->json($post);
     }
 
     /**

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Blog;
+use App\Category;
 use App\Company;
 use App\Service;
 use App\Http\Controllers\Controller;
+use App\Images;
 use App\Rating;
 use App\Review;
 
@@ -25,8 +27,9 @@ class MainController extends Controller
     public function company_detail($id){
         $post = Company::findOrFail($id);
         $service = Service::where('company_id',  $id)->get();
+        $image = Images::where('company_id', $id)->get();
         
-        return response()->json(['company' => $post, 'service'=>$service]);
+        return response()->json(['company' => $post, 'service'=>$service, 'image' => $image]);
     }
     
     public function blog_detail($id){
@@ -51,12 +54,31 @@ class MainController extends Controller
     
         return response()->json(['blog'=>$post, 'review'=>$review, 'rating'=>$value]);
     }
-
-
-        // $data =  ($sum/$post) ;
-
-        // $data =  ($sum/$post) ;
     
+    }
+    public function company_category(){
+        $post = Category::all()->sortBy('id');
+        // $service = Service::where('company_id',  $id)->get();
+        
+        return response()->json(['company category' => $post]);
+    }
     
+      public function company_category_detail($id){
+        $post = Category::findOrFail($id);
+        
+        if($post->id == 1)
+         {
+            $sub_category = Category::where('category_id', $id)->get(); 
+            return response()->json(['company category' => $post, 'main category' => $sub_category]);
+         }
+         else{
+             
+        $sub_category = Category::where('category_id', $id)->get(); 
+        return response()->json([' category' => $post, 'sub category' => $sub_category]);
+
+         }
+        // $service = Service::where('company_id',  $id)->get();
+        
+       
     }
 }
