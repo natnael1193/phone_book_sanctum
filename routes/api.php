@@ -75,7 +75,7 @@ Route::post("/subscriber/login", function (Request $request) {
         return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "isCompany" => false,"token" => $subscriber->createToken('my-token')->plainTextToken];
     }
     else{
-        return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email,"companyID" => $subscriber_company->id,"companyName" => $subscriber_company->company_name,  "companyEmail" => $subscriber->company_email, "companyPhone" => $subscriber_company->phone_number,"isCompany" => true,"token" => $subscriber->createToken('my-token')->plainTextToken];
+        return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email,"isCompany" => true, "companyID" => $subscriber_company->id,"companyName" => $subscriber_company->company_name,  "companyEmail" => $subscriber->company_email, "companyPhone" => $subscriber_company->phone_number,"token" => $subscriber->createToken('my-token')->plainTextToken];
     }
 });
 
