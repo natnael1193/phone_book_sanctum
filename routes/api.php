@@ -68,7 +68,7 @@ Route::post("/subscriber/login", function (Request $request) {
             'email' => ['The provided credentials are incorrect.'],
         ], 404);
     }
-    return ["subscriberId" => $subscriber->id, "token" =>$subscriber->createToken('my-token')->plainTextToken];
+    return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name,"subscriberEmail" => $subscriber->email, "token" =>$subscriber->createToken('my-token')->plainTextToken];
 });
 
 Route::post("/customer/login", function (Request $request) {
