@@ -1,7 +1,8 @@
 <?php
 
-use App\Customer;
 use App\User;
+use App\Company;
+use App\Customer;
 use App\Subscriber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,7 +69,14 @@ Route::post("/subscriber/login", function (Request $request) {
             'email' => ['The provided credentials are incorrect.'],
         ], 404);
     }
-    return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name,"subscriberEmail" => $subscriber->email, "token" =>$subscriber->createToken('my-token')->plainTextToken];
+    
+    $subscriber_company = Company::where('company_email', $subscriber ->company_email)->first();
+    if($subscriber_company==null ){
+        return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "isCompany" => false,"token" => $subscriber->createToken('my-token')->plainTextToken];
+    }
+    else{
+        return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email,"companyID" => $subscriber_company->id,"companyName" => $subscriber_company->company_name,  "companyEmail" => $subscriber->company_email, "companyPhone" => $subscriber_company->phone_number,"isCompany" => true,"token" => $subscriber->createToken('my-token')->plainTextToken];
+    }
 });
 
 Route::post("/customer/login", function (Request $request) {
