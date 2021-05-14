@@ -56,7 +56,7 @@ public function index(){
                     'email' => ['The provided credentials are incorrect.'],
                 ], 404);
             }
-            return [$subscriber->createToken('my-token')->plainTextToken, $data];
+            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name,"subscriberEmail" => $subscriber->email, "token"=> $subscriber->createToken('my-token')->plainTextToken];
 
         }
 
