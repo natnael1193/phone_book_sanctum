@@ -15,7 +15,7 @@
         @foreach($post as $posts)
         <tr>
             <td>{{ $posts->company_name }}</td>
-            <td>{{ $posts->email }}</td>
+            <td>{{ $posts->company_email }}</td>
             <td>{{ $posts->phone_number }}</td>
             <td><div class="btn-list d-flex ">
                 <a href="{{ route('company.edit', $posts->id) }}"><button class="btn btn-primary mr-2" >Edit</button></a>

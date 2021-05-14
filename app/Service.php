@@ -11,7 +11,7 @@ class Service extends Model
     //
     use HasApiTokens;
     protected $table = "services";
-    protected $fillable = ['name', 'user_id', 'company_id'];
+    protected $fillable = ['name', 'subscriber_id', 'company_id'];
     
     public function company(){
         return $this->belongsTo(Company::class);

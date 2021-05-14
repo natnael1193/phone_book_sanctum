@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Company;
+use App\WorkingTime;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\WorkingTime;
 
 class WorkingTimeController extends Controller
 {
@@ -37,16 +38,20 @@ class WorkingTimeController extends Controller
     public function store(Request $request)
     {
         //
-        $data = request()->all();
+        
+        $data =  Company::query()->where('company_email',auth()->user('subscriber')->company_email)->first();
+        $post = request()->all();
         $user = ['subscriber_id' => auth('sanctum')->user()->id];
+        $company = ['company_id' => $data->id];
 
         WorkingTime::create(array_merge(
-            $data,
-            $user
+           $post,
+            $user,
+            $company
              
         ));
 
-        return response()->json([$data, $user]);
+        return response()->json([$post, $company, $user]);
     }
 
     /**
@@ -81,15 +86,18 @@ class WorkingTimeController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $data = request()->all();
+        $data = Company::query()->where('company_email',auth()->user('subscriber')->company_email)->first();
+        $post = request()->all();
         $oldData = WorkingTime::findOrFail($id);
         $user = ['subscriber_id' => auth('sanctum')->user()->id];
+        $company = ['company_id' => $data->id];
         
         $oldData->update(array_merge(
-            $data,
-            $user
+            $post,
+            $user,
+            $company
         ));
-        return response()->json([$data, $user]);
+        return response()->json([ $company, $post, $user]);
     }
 
     /**

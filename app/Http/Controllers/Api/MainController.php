@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Images;
 use App\Rating;
 use App\Review;
+use App\WorkingTime;
 
 class MainController extends Controller
 {
@@ -28,8 +29,9 @@ class MainController extends Controller
         $post = Company::findOrFail($id);
         $service = Service::where('company_id',  $id)->get();
         $image = Images::where('company_id', $id)->get();
+        $working_time = WorkingTime::where('company_id', $id)->get();
         
-        return response()->json(['company' => $post, 'service'=>$service, 'image' => $image]);
+        return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time]);
     }
     
     public function blog_detail($id){

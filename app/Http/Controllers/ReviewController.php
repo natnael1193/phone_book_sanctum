@@ -38,7 +38,7 @@ class ReviewController extends Controller
     {
         //
         $post = new Review();
-        $post->user_id = auth()->user()->id;
+        $post->subscriber_id = auth()->user()->id;
         $post->blog_id = $request->input('blog_id');
         $post->review = $request->input('review');
 

@@ -40,7 +40,7 @@ class RatingController extends Controller
     {
         //
         $post = new Rating();
-        $post->user_id = auth()->user()->id;
+        $post->subscriber_id = auth()->user()->id;
         $post->blog_id = $request->input('blog_id');
         $post->rating = $request->input('rating');
 

@@ -55,20 +55,6 @@
                             <form method="POST" action="{{ route('company.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <input hidden value="" name="user_id">
-                                <div class="row">
-                                    <div class="col-xl-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Openig Hour</label>
-                                            <input type="time" class="form-control" placeholder="Name" name="opening_hour" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Closing Hour</label>
-                                            <input type="time" class="form-control" placeholder="Name" name="closing_hour" required>
-                                        </div>
-                                     </div>
-                                </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6">
@@ -179,12 +165,6 @@
                                             <input type="file" class="form-control" placeholder="Location  Image Path" name="">
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Company Image</label>
-                                            <input type="file" class="form-control" placeholder="Location  Image Path" name="image">
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6">
@@ -223,22 +203,6 @@
                                         <div class="form-group">
                                             <label class="form-label">ገለጻ</label>
                                      <textarea class="form-control" id="summary-ckeditor1"  placeholder="Amharic Description" name="description_am"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-12 col-lg-12">
-                                        <div class="form-group">
-                                            <label class="form-label">Services</label>
-                                     <textarea class="form-control" id="summary-ckeditor2"  placeholder="service" name="service"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-12 col-lg-12">
-                                        <div class="form-group">
-                                            <label class="form-label">አገልግሎት</label>
-                                     <textarea class="form-control" id="summary-ckeditor3"  placeholder="service" name="service_am"></textarea>
                                         </div>
                                     </div>
                                 </div>

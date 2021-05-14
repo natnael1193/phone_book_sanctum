@@ -39,7 +39,7 @@ class ReviewController extends Controller
     {
         //
         $post = new Review();
-        $post->user_id = auth('sanctum')->user()->id;
+        $post->subscriber_id = auth('sanctum')->user()->id;
         $post->blog_id = $request->input('blog_id');
         $post->review = $request->input('review');
 
@@ -88,7 +88,7 @@ class ReviewController extends Controller
         //
           //
           $post =  Review::findOrFail($id);
-          $post->user_id = auth('sanctum')->user()->id;
+          $post->subscriber_id = auth('sanctum')->user()->id;
           $post->blog_id = $request->input('blog_id');
           $post->review = $request->input('review');
   

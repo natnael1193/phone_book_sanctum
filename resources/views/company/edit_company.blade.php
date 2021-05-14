@@ -31,20 +31,6 @@
                                 @csrf
                                 @method('PATCH')
                                 <input type="hidden" name="user_id">
-                                <div class="row">
-                                    <div class="col-xl-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Openig Hour</label>
-                                            <input type="time" class="form-control" placeholder="" name="opening_hour" value="{{ $post->opening_hour }}" >
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Closing Hour</label>
-                                            <input type="time" class="form-control" placeholder="" name="closing_hour" value="{{ $post->closing_hour }}"  >
-                                        </div>
-                                     </div>
-                                </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6">
@@ -173,7 +159,7 @@
                                         <div class="form-group">
                                             <label for="my-select">Company Verfication</label>
                                             <select id="my-select" class="form-control" name="verification" value="{{ $post->verfication }}">
-                                                <option value="{{ $post->verification }}">{{ $post->verification }}</option>
+                                                <option value="{{ $post->verification }}">Select Category</option>
                                                 <option value="">Not Verified</option>
                                                 <option value="1">Verified</option>
                                             </select>
@@ -204,22 +190,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-xl-12 col-lg-12">
-                                        <div class="form-group">
-                                            <label class="form-label">Services</label>
-                                     <textarea name="service" id="summary-ckeditor2"  class="form-control" placeholder="service" >{{ $post->service }}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-12 col-lg-12">
-                                        <div class="form-group">
-                                            <label class="form-label">አገልግሎት</label>
-                                     <textarea name="service_am" id="summary-ckeditor3"  class="form-control" placeholder="service" >{{ $post->service_am }}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
+                                {{-- </div> --}}
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </form>
                         </div>

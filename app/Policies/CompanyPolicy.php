@@ -20,14 +20,10 @@ class CompanyPolicy
     {
         //
         
-        return in_array($user->email, [
-            'natnaelsolomon770@gmail.com',
-            'jak@gmail.com',
-         
-            $user->role == 1,
-            $user->role == 4,
-        ],         
-        );
+        return in_array($user->status_id, [
+            '1',      
+        ],  
+     );
     }
 
     /**
@@ -48,7 +44,7 @@ class CompanyPolicy
             $user->id == $company->user_id,
             $user->role == 1,
             $user->status_id == 1,
-            $user->role == 4,
+            // $user->role == 4,
      
             // $user
         ]);
@@ -92,11 +88,14 @@ class CompanyPolicy
     public function delete(User $user, Company $company)
     {
         //
-        return in_array($user->email, [
+        return in_array($user->role, [
             'natnaelsolomon770@gmail.com',
             'jak@gmail.com',
+            '1',
+            '4',
             $user->id == $company->user_id,
-            $user->status_id == 1,
+            $user->role == 1,
+        
             //    
      
             // $user

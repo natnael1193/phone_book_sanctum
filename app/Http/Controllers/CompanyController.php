@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Rating;
 use App\Company;
 use App\Category;
+use Carbon\Carbon;
 use App\CompanyCategory;
-use App\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -222,4 +223,19 @@ return redirect()->back();
    return redirect()->back();
     }    
 }
+
+public function automatic_update($id, Request $request)
+{
+    $post = Company::findOrFail($id);
+
+    $post->verification = 1;
+    $post->save();
+    
+    abort_if($post->created_at < Carbon::now()->subHours(24), 
+        422, "Updating is no longer available.");
+
+    // proceed as ussual (validate, save, fire events, etc)
+}
+
+
 }
