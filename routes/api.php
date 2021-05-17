@@ -23,6 +23,10 @@ use Intervention\Image\Facades\Image;
 */
 
 
+
+
+
+
 Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     Route::post('/subscriber/create', 'Api\Auth\SubscriberRegistrationController@register')->name('subscriber.registration');
@@ -52,7 +56,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         return ["user" => $user->id, "token" => $user->createToken('api-application')->accessToken];
     });
 
-
     Route::post("/subscriber/login", function (Request $request) {
         $data = $request->validate([
             'email' => 'required',
@@ -64,7 +67,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
                 'email' => ['The provided credentials are incorrect.'],
             ], 404);
         }
-
         $subscriber_company = Company::where('company_email', $subscriber->company_email)->first();
         if ($subscriber_company == null) {
             return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "isCompany" => false, "token" => $subscriber->createToken('api-application')->accessToken];
@@ -105,14 +107,15 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:subscriber']], fun
     // //Company Owner 
     Route::get('subscriber', 'Api\Auth\SubscriberController@index')->name('subscriber');
     Route::get('subscriber/edit', 'Api\Auth\SubscriberController@edit')->name('subscriber.edit');
-    Route::get('subscriber/add_company', 'Api\Auth\SubscriberController@new_company')->name('subscriber.new_company');
+    Route::post('subscriber/add_company', 'Api\Auth\SubscriberController@new_company')->name('subscriber.new_company');
     Route::post('/subscriber/store', 'Api\Auth\SubscriberController@create')->name('subscriber.store_company');
-    Route::patch('/subscriber/update/{id}', 'Api\Auth\SubscriberController@store')->name('subscriber.update');
+    // Route::patch('/subscriber/update/{id}', 'Api\Auth\SubscriberController@store')->name('subscriber.update');
     // Route::get('/subscriber/sign_up', 'Api\Auth\SubscriberRegistrationController@index');
-
-    Route::patch('/subscriber/update', 'Api\Auth\SubscriberController@update')->name('subscriber.update');
+    Route::get('subscriber/company', 'Api\Auth\SubscriberController@subscriber_company');
+    Route::patch('/subscriber/update', 'Api\Auth\SubscriberController@update');
+    Route::patch('/subscriber/update_company', 'Api\Auth\SubscriberController@subscriber_company_update');
     Route::get('/subscriber/sign_in', 'Api\Auth\SubscriberLoginController@showLoginForm');
-    Route::middleware('auth:api')->post('/subscriber/login', 'Api\Auth\SubscriberLoginController@login')->name('subscriber.login');
+    
 
     Route::resource('rating', 'Api\RatingController');
     Route::resource('review', 'Api\ReviewController');

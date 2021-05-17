@@ -189,8 +189,9 @@ elseif(Auth::guard()->check()) {
           
         $data = request()->validate([
             'subscriber_id' => 'unique:companies',        
+            
         ]);
-   $subscriber=['subscriber_id' => auth('sanctum')->user()->id];
+   $subscriber=['subscriber_id' => auth('subscriber')->user()->id];
    Company::create(array_merge(
        $data,  $subscriber      
    ));

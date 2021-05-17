@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 
 class SubscriberController extends Controller
@@ -47,7 +48,7 @@ class SubscriberController extends Controller
     public function save(array $data)
     {
 
-        $user = Subscriber::query()->where('id', auth('subscriber')->user()->id)->first();
+        $user = Subscriber::query()->where('id', auth()->user('subscriber')->id)->first();
 
                 $user->update([
                     'name' => $data['name'],
@@ -91,24 +92,69 @@ return response()->json($data);
     }
 
 
-public function new_company(){
-    // $post = Company::query()->where('email',auth()->user('subscriber')->email)->first();
-    // $user = Subscriber:: where('email',auth()->user('subscriber'));
-    $post = Category::all()->sortBy('name');
-    return response()->json($post);
+public function new_company(Request $request){
+    $data = request()->validate([
+        'subscriber_id' => 'unique:companies',        
+        'company_email' => 'unique:companies',    
+        "company_name" => 'required',
+        "phone_number" => "required"
+            ]);
+               $oldData =  Subscriber::where('id', auth()->user('subscriber')->id)->first();
+            
+$subscriber=['subscriber_id' => auth('subscriber')->user()->id];
+Company::create(array_merge(
+   $data,  $subscriber      
+));
 
+$oldData->update(array_merge(
+    $data
+));
+
+return response()->json([$data, $subscriber]);   
 }
 
+
 public function create(){
-
-
-    $data = request()->all();
+   $data = request()->all();
 //    $user=['user_id' => auth()->user()->id];
 //    dd( $data, $user);
    Company::create(array_merge(
        $data
    ));
    return response()->json($data);
+}
+
+public function subscriber_company(){
+
+    $company = Company::where('company_email', auth()->user('subscriber')->company_email)->first();
+    
+    return response()->json($company);
+    
+}
+
+public function subscriber_company_update(){
+    // $company = Company::where('company_email', auth()->user('subscriber')->company_email)->first();
+    $data = request()->validate([
+        'subscriber_id' => 'unique:companies',        
+        'company_email' => 'unique:companies',    
+        "company_name" => 'required',
+        "phone_number" => "required"
+            ]);
+               $oldData =  Subscriber::where('id', auth()->user('subscriber')->id)->first();
+               $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
+            
+// $subscriber=['subscriber_id' => auth('subscriber')->user()->id];
+// $               $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
+$company->update(array_merge(
+   $data,  
+));
+
+$oldData->update(array_merge(
+    $data
+));
+
+$data =request()->all();
+return response()->json(["company" =>$data]);   
 
 }
 

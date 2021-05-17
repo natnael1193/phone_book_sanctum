@@ -20,7 +20,7 @@ Route::get('/callback', 'Auth\LoginController@handleProviderCallback');
 
 Route::get('/', function () {
 
-    Storage::disk('google')->put('hello.text', "Hello laravelbackup");
+    // Storage::disk('google')->put('hello.text', "Hello laravelbackup");
     
     $existingUser = User::where('email', auth()->user()->email)->first();
     return view('welcome', compact('existingUser'));
