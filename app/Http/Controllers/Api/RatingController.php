@@ -45,7 +45,7 @@ class RatingController extends Controller
     {
         //
         $post = new Rating();
-        $post->subscriber_id = auth('sanctum')->user()->id;
+        $post->subscriber_id = auth('subscriber')->user()->id;
         $post->blog_id = $request->input('blog_id');
         $post->rating = $request->input('rating');
 
@@ -100,7 +100,7 @@ class RatingController extends Controller
     {
         //
         $post =  Rating::findOrFail($id);
-        $post->subscriber_id = auth('sanctum')->user()->id;
+        $post->subscriber_id = auth('subscriber')->user()->id;
         $post->blog_id = $request->input('blog_id');
         $post->rating = $request->input('rating');
 

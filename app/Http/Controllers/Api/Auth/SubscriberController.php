@@ -47,7 +47,7 @@ class SubscriberController extends Controller
     public function save(array $data)
     {
 
-        $user = Subscriber::query()->where('id', auth('sanctum')->user()->id)->first();
+        $user = Subscriber::query()->where('id', auth('subscriber')->user()->id)->first();
 
                 $user->update([
                     'name' => $data['name'],

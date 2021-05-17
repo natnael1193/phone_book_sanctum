@@ -41,7 +41,7 @@ class WorkingTimeController extends Controller
         
         $data =  Company::query()->where('company_email',auth()->user('subscriber')->company_email)->first();
         $post = request()->all();
-        $user = ['subscriber_id' => auth('sanctum')->user()->id];
+        $user = ['subscriber_id' => auth('subscriber')->user()->id];
         $company = ['company_id' => $data->id];
 
         WorkingTime::create(array_merge(
@@ -89,7 +89,7 @@ class WorkingTimeController extends Controller
         $data = Company::query()->where('company_email',auth()->user('subscriber')->company_email)->first();
         $post = request()->all();
         $oldData = WorkingTime::findOrFail($id);
-        $user = ['subscriber_id' => auth('sanctum')->user()->id];
+        $user = ['subscriber_id' => auth('subscriber')->user()->id];
         $company = ['company_id' => $data->id];
         
         $oldData->update(array_merge(

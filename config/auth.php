@@ -50,16 +50,16 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'passport',
             'provider' => 'users',
-            'hash' => false,
+            // 'hash' => false,
         ],
         'subscriber' => [
-            'driver' => 'session',
+            'driver' => 'passport',
             'provider' => 'subscribers',
         ],
         'customer' => [
-            'driver' => 'session',
+            'driver' => 'passport',
             'provider' => 'customers',
         ],
     ],

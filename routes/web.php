@@ -1,7 +1,9 @@
 <?php
 
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,11 +15,19 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/redirect', 'Auth\LoginController@redirectToProvider');
+Route::get('/callback', 'Auth\LoginController@handleProviderCallback');
+
 Route::get('/', function () {
-    return view('welcome');
+
+    Storage::disk('google')->put('hello.text', "Hello laravelbackup");
+    
+    $existingUser = User::where('email', auth()->user()->email)->first();
+    return view('welcome', compact('existingUser'));
 });
 Route::get('/dashboard', function () {
-    return view('index');
+    $existingUser = User::where('email', auth()->user()->email)->first();
+    return view('index', compact('existingUser'));
 });
 
 Auth::routes();

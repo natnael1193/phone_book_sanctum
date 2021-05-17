@@ -62,9 +62,12 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
+
+                              
                             </div>
                         </div>
                     </form>
+                    <a href="/redirect"><button class="btn btn-success">Continue with google</button></a>
                 </div>
             </div>
         </div>

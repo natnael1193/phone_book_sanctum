@@ -53,7 +53,7 @@ class ServiceController extends Controller
         //            'name' => $request->name[$item],
         //        );
 
-        $user = ['subscriber_id' => auth('sanctum')->user()->id];
+        $user = ['subscriber_id' => auth('subscriber')->user()->id];
         $company = ['company_id' => $data->id];
 
         Service::create(array_merge(
@@ -101,7 +101,7 @@ class ServiceController extends Controller
         $data = Company::query()->where('company_email', auth()->user('subscriber')->company_email)->first();
         $post = request()->all();
         $oldData = Service::findOrFail($id);
-        $user = ['subscriber_id' => auth('sanctum')->user()->id];
+        $user = ['subscriber_id' => auth('subscriber')->user()->id];
         $company = ['company_id' => $data->id];
 
         $oldData->update(array_merge(

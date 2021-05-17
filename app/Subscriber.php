@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -10,7 +10,7 @@ class Subscriber extends Authenticatable
     //
     use HasApiTokens, Notifiable;
 // The authentication guard for admin
-    // protected $guard = 'subscriber';
+    protected $guard = 'subscriber';
      /**
       * The attributes that are mass assignable.
       *
@@ -25,6 +25,7 @@ class Subscriber extends Authenticatable
       protected $hidden = [
         'password', 'remember_token',
     ];
+    
     public function company(){
         return $this->hasOne(Company::class);
     }
