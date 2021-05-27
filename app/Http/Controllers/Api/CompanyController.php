@@ -56,7 +56,7 @@ elseif(Auth::guard()->check()) {
     $all = Company::all();
    
     
-    return  response()->json($company);
+    return  response()->json($all);
 // return view('company.company', compact('post', 'company', 'all'));
 } else {
     return response([

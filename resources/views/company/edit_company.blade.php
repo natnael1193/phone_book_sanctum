@@ -27,7 +27,7 @@
                         </div>
                         
                         <div class="card-body">
-                            <form method="POST" action="{{ route('company.update', $post->id) }}">
+                            <form method="POST" action="{{ route('company.update', $post->id) }}" enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
                                 <input type="hidden" name="user_id">
@@ -36,14 +36,14 @@
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
                                             <label class="form-label">Image</label>
-                                            <input type="file" class="form-control" placeholder="Email" name="company_logo_path" value="{{ $post->company_logo_path }}">
+                                            <input type="file" class="form-control" placeholder="Image" name="company_logo_path" value="{{ $post->company_logo_path }}">
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
                                             <label for="my-select">Category</label>
                                             <select id="my-select" class="form-control" name="categroy_id" value="{{ $post->categroy_id }}">
-                                                <option>Select Category</option>
+                                                <option value="NULL">Select Category</option>
                                                 @foreach($category as $categories)
                                                 <option value="{{ $categories->id }}">{{ $categories->name }}</option>
                                                 @endforeach
@@ -129,20 +129,6 @@
                                 </div>
                             </div>
                         </div>
-                                <div class="row">
-                                    <div class="col-xl-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Location  Image Path</label>
-                                            <input type="file" class="form-control" placeholder="Location  Image Path" name="location_image_path" value="{{ $post->loaction_value_path }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Company  Image </label>
-                                            <input type="file" class="form-control" placeholder="Location  Image Path" name="imgae" value="{{ $post->image }}">
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">

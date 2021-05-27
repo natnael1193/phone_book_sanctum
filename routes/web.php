@@ -22,8 +22,8 @@ Route::get('/', function () {
 
     // Storage::disk('google')->put('hello.text', "Hello laravelbackup");
     
-    $existingUser = User::where('email', auth()->user()->email)->first();
-    return view('welcome', compact('existingUser'));
+    // $existingUser = User::where('email', auth()->user()->email)->first();
+    return view('welcome');
 });
 Route::get('/dashboard', function () {
     $existingUser = User::where('email', auth()->user()->email)->first();
@@ -44,7 +44,9 @@ Route::post('/user/register', 'AdminController@register')->name('user.register')
 Route::resource('admin', 'AdminController')->middleware('admin');
 Route::get('/admin/register', 'AdminController@register')->name('admin.register')->middleware('admin');
 Route::resource('role', 'RoleController')->middleware('admin');
-Route::resource('blog', 'blogController');
+Route::resource('blog', 'BlogController');
+Route::resource('vacancy', 'VacancyController');
+Route::resource('tinder', 'TinderController');
 Route::resource('company', 'CompanyController');
 Route::resource('category', 'CategoryController');
 Route::resource('company_category', 'CompanyCategoryController');
@@ -53,7 +55,7 @@ Route::resource('review', 'ReviewController');
 Route::resource('image', 'ImageController');
 Route::resource('service', 'ServiceController');
 Route::resource('company_requests', 'CompanyRequestsController');
-Route::patch('/company/verified/{id}', 'CompanyController@verified')->name('company.verfied');
+Route::post('/company/verified/{id}', 'CompanyController@verified')->name('company.verified');
 Route::post('company/register', 'CompanyController@register')->name('company.register');
 Route::resource('activity_log', 'ActivityLogController');
 Route::resource('bookmark', 'BookmarkController');

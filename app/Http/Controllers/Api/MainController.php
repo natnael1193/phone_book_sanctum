@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Blog;
-use App\Category;
-use App\Company;
-use App\Service;
-use App\Http\Controllers\Controller;
 use App\Images;
 use App\Rating;
 use App\Review;
+use App\Tinder;
+use App\Company;
+use App\Service;
+use App\Vacancy;
+use App\Category;
 use App\WorkingTime;
+use App\Http\Controllers\Controller;
 
 class MainController extends Controller
 {
@@ -67,20 +69,62 @@ class MainController extends Controller
     
       public function company_category_detail($id){
         $post = Category::findOrFail($id);
+        $company = Company::where('category_id', $id)->get();
         
         if($post->id == 1)
          {
-            $sub_category = Category::where('category_id', $id)->get(); 
-            return response()->json(['company category' => $post, 'main category' => $sub_category]);
+return [];
          }
          else{
              
-        $sub_category = Category::where('category_id', $id)->get(); 
-        return response()->json([' category' => $post, 'sub category' => $sub_category]);
+        // $sub_category = Category::where('category_id', $id)->get(); 
+        return response()->json([' category' => $post, 'company' => $company]);
 
          }
         // $service = Service::where('company_id',  $id)->get();
-        
-       
+               
     }
+
+public function company_search(){
+
+    // App::setLocale($lang);
+    $data=request()->all();
+    $keyword=$data['company_name'];
+    $post=Company::query();
+
+    if ($keyword!=null){
+
+        $post= $post->where('company_name','LIKE','%'.$keyword.'%');
+    }
+    $post=$post->get();
+//        dd($post);
+    return response()->json($post);
+
+}
+
+public function blog_search(){
+
+    // App::setLocale($lang);
+    $data=request()->all();
+    $keyword=$data['title'];
+    $post=Blog::query();
+
+    if ($keyword!=null){
+
+        $post= $post->where('title','LIKE','%'.$keyword.'%');
+    }
+    $post=$post->get();
+//        dd($post);
+    return response()->json($post);
+
+}
+
+public function vacancy(){
+    $post = Vacancy::all();
+    return response()->json($post);
+}
+public function tinder(){
+    $post = Tinder::all();
+    return response()->json($post);
+}
 }

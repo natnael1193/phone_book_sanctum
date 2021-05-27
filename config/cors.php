@@ -16,19 +16,12 @@ return [
     */
 
     'paths' => ['api/*', "sanctum/csrf-cookie", "passport/csrf-cookie","subscriber/login", "login","api/login", "api/register", "register", 'api/subscriber/create', 'create', 'api/subscriber/login', 'subscriber/login', '/subscriber_company/register'],
-
-    'allowed_methods' => ['*'],
-
-    'allowed_origins' => ['*'],
-
-    'allowed_origins_patterns' => [],
-
-    'allowed_headers' => ['*'],
-
-    'exposed_headers' => [],
-
-    'max_age' => 0,
-
-    'supports_credentials' => true,
+    'supportsCredentials' => true,
+    'allowedOrigins' => ['*'],
+    'allowedOriginsPatterns' => [],
+    'allowedHeaders' => ['*'],
+    'allowedMethods' => ['*'],
+    'exposedHeaders' => [],
+    'maxAge' => 0,
 
 ];

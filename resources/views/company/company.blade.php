@@ -78,9 +78,11 @@
     </div>
     @endif
     @endforeach
-    @endcan
+   
 </div>
-  
+{{ $all->links() }}
+</div>
+@endcan
 
                 <div class="row">
                     @if(Auth::user()->role != 1 && Auth::user()->status_id != 1) 
@@ -140,7 +142,11 @@
                     </div>
                     @endif
         @endforeach
-        @endif
     </div>
+    {{ $post->links() }}
 </div>
+        @endif
+
+   
 @endsection
+

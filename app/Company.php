@@ -18,26 +18,24 @@ class Company extends Model
     protected static $logAttributes = [
         'company_category', 'company_name', 'company_name_am', 'phone_number',
         'company_email', 'phone_number_2', 'description', 'description_am', 'fax', 'website', 'company_logo_path',
-        'location_image_id', 'lang',  'link_id', 'tin_number', 'category_id', 'user_id', 'subscriber_id', 'verification', 'service', 'service_am',
-        'image', 'opening_hour', 'closing_hour', 'facebook', 'telegram', 'twitter'
+        'location_image_id',  'tin_number', 'category_id', 'user_id', 'subscriber_id', 'verification', 'opening_hour', 'closing_hour', 'facebook', 'telegram', 'twitter'
     ];
 
     protected $fillable = [
         'company_category', 'company_name', 'company_name_am', 'phone_number',
         'company_email', 'phone_number_2', 'description', 'description_am', 'fax', 'website', 'company_logo_path',
-        'location_image_id', 'lang',  'link_id', 'encoder', 'category_id', 'user_id', 'subscriber_id', 'verification', 'service', 'service_am',
-        'image', 'opening_hour', 'closing_hour', 'facebook', 'telegram', 'twitter'
+        'location_image_id',  'tin_number', 'category_id', 'user_id', 'subscriber_id', 'verification', 'opening_hour', 'closing_hour', 'facebook', 'telegram', 'twitter'
     ];
 
-    public static function boot()
-    {
-        parent::boot();
+    // public static function boot()
+    // {
+    //     parent::boot();
 
-        self::updating(function ($model) {
-            return $model->created_at !== null &&
-                $model->created_at >= Carbon::now()->subHours(24);
-        });
-    }
+    //     self::updating(function ($model) {
+    //         return $model->created_at !== null &&
+    //             $model->created_at >= Carbon::now()->subHours(24);
+    //     });
+    // }
 
 
 

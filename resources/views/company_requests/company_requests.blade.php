@@ -19,16 +19,32 @@
             <td>{{ $posts->phone_number }}</td>
             <td><div class="btn-list d-flex ">
                 <a href="{{ route('company.edit', $posts->id) }}"><button class="btn btn-primary mr-2" >Edit</button></a>
-                <form method="POST" action="{{ route('company.verfied', $posts->id) }}">
+                <form method="POST" action="{{ route('company.verified', $posts->id) }}">
                     @csrf
-                    @method('PATCH')
-                @if($posts->verification == null || $posts->verification == 0)
-                <input type="hidden" value="1" name="verification">
+                    {{-- @method('PATCH') --}}
+                {{-- @if($posts->verification == NULL || $posts->verification == 0) --}}
+                <input type="hidden" value="{{ $posts->company_category }}" name="company_category">
+                <input type="hidden" value="{{ $posts->category_id }}" name="category_id">
+                <input type="hidden" value="{{ $posts->subscriber_id }}" name="subscriber_id">
+                <input type="hidden" value="{{ $posts->company_name }}" name="company_name">
+                <input type="hidden" value="{{ $posts->company_name_am }}" name="company_name_am">
+                <input type="hidden" value="{{ $posts->phone_number }}" name="phone_number">
+                <input type="hidden" value="{{ $posts->phone_number_2 }}" name="phone_number_2">
+                <input type="hidden" value="{{ $posts->company_email }}" name="company_email">
+                <input type="hidden" value="{{ $posts->description }}" name="description">
+                <input type="hidden" value="{{ $posts->description_am }}" name="description_am">
+                <input type="hidden" value="{{ $posts->fax }}" name="fax">
+                <input type="hidden" value="{{ $posts->website }}" name="website">
+                <input type="hidden" value="{{ $posts->company_logo_path }}" name="company_logo_path">
+                <input type="hidden" value="{{ $posts->location_image_id }}" name="location_image_id">
+                <input type="hidden" value="{{ $posts->tin_number }}" name="tin_number">
+                <input type="hidden" value="{{ $posts->facebook }}" name="facebook">
+                <input type="hidden" value="{{ $posts->telegram }}" name="telegram">
+                <input type="hidden" value="{{ $posts->twitter }}" name="twitter">
+                <input type="hidden" name="user_id" >
+                <input type="hidden" name="verification" >
                 <button class="btn btn-info mr-2 "  type="submit">Verify</button>
-                @else
-                <input type="hidden" value="null" name="verification">
-                <button class="btn btn-warning mr-2"  type="submit">Cancel verification</button>
-                @endif
+                {{-- @endif --}}
                 </form>
                 <form method="POST" action="{{ route('company.destroy', $posts->id) }}">
                 @csrf

@@ -42,7 +42,7 @@
                             </div>
                             <br>
                             @if($companies->user_id != null)
-                            <h4 style="color: black">Posted By: {{ App\User::findOrFail($companies->user_id)->name }}</h4>
+                            <p style="color: black">Posted By: {{ App\User::findOrFail($companies->user_id)->name }}</p>
                             @endif
                         </div>
                     {{-- </div> --}}

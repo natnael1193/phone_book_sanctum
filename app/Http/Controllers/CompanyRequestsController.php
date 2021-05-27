@@ -20,7 +20,7 @@ class CompanyRequestsController extends Controller
     public function index()
     {
         //
-        $post = Company::query()->where('verification', NULL)->get();
+        $post = Company::query()->where('user_id', NULL)->orWhere('verification', NULL)->get();
         return view('company_requests.company_requests', compact('post'));
     }
 
@@ -32,8 +32,8 @@ class CompanyRequestsController extends Controller
     public function create()
     {
         //
-        $post = Company::query()->where('description', NULL)->where('verification', NULL)->get();
-        return view('company_requests.company_requests', compact('post'));
+        $post = Company::query()->where('description', NULL)->orWhere('company_logo_path')->get();
+        return view('company.data_incompelete_companies', compact('post'));
     }
 
     /**

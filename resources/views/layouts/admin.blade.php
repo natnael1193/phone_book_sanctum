@@ -22,7 +22,7 @@
 		<nav id="sidebar" class="sidebar">
 			<div class="sidebar-content js-simplebar">
 				<a class="sidebar-brand" href="index.html">
-          <span class="align-middle">AdminKit</span>
+          <span class="align-middle">Hulum</span>
         </a>
 
 				<ul class="sidebar-nav">
@@ -71,6 +71,11 @@
               <i class="align-middle" data-feather="bell"></i> <span class="align-middle">Company Requests</span>
             </a>
 					</li>
+					<li class="sidebar-item active">
+						<a class="sidebar-link" href="{{ route('company_requests.create') }}">
+              <i class="align-middle" data-feather="bell"></i> <span class="align-middle">InComplete Companies</span>
+            </a>
+					</li>
 					@endif
 
 
@@ -83,24 +88,42 @@
               <i class="align-middle" data-feather="book"></i> <span class="align-middle">Blog</span>
             </a>
 						<ul id="forms2" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog.index') }}">All Blogs</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog.create') }}">Add New Blog</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog.index') }}">All Vacancies</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog.create') }}">Add New Vacancy</a></li>
 						</ul>
 					</li>
 			
 			@endif
-			
+<hr>
+			<li class="sidebar-item">
+				<a href="#vacancy" data-toggle="collapse" class="sidebar-link collapsed">
+	  <i class="align-middle" data-feather="book"></i> <span class="align-middle">Vacancy</span>
+	</a>
+				<ul id="vacancy" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+					<li class="sidebar-item"><a class="sidebar-link" href="{{ route('vacancy.index') }}">All Vacancies</a></li>
+					<li class="sidebar-item"><a class="sidebar-link" href="{{ route('vacancy.create') }}">Add New Vacancy</a></li>
+				</ul>
+			</li>
+			<li class="sidebar-item">
+				<a href="#tinder" data-toggle="collapse" class="sidebar-link collapsed">
+	  <i class="align-middle" data-feather="book"></i> <span class="align-middle">Tinder</span>
+	</a>
+				<ul id="tinder" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+					<li class="sidebar-item"><a class="sidebar-link" href="{{ route('tinder.index') }}">All Tinders</a></li>
+					<li class="sidebar-item"><a class="sidebar-link" href="{{ route('tinder.create') }}">Add New Tinder</a></li>
+				</ul>
+			</li>
 				</ul>
 
-				{{-- <div class="sidebar-cta">
+				<div class="sidebar-cta">
 					<div class="sidebar-cta-content">
-						<strong class="d-inline-block mb-2">Upgrade to Pro</strong>
+						<strong class="d-inline-block mb-2"></strong>
 						<div class="mb-3 text-sm">
-							Are you looking for more components? Check out our premium version.
+							{{-- Are you looking for more components? Check out our premium version. --}}
 						</div>
-						<a href="https://adminkit.io/pricing" target="_blank" class="btn btn-primary btn-block">Upgrade to Pro</a>
+						{{-- <a href="" target="_blank" class="btn btn-primary btn-block"></a> --}}
 					</div>
-				</div> --}}
+				</div>
 			</div>
 		</nav>
 

@@ -183,7 +183,7 @@
                                             <label for="my-select">Company Verification</label>
                                             <select id="my-select" class="form-control" name="verification" required>
                                                 <option value="">Select Category</option>
-                                                <option value="0">Not Verified</option>  
+                                                <option value=NULL>Not Verified</option>  
                                                 <option value="1">Verified</option>                                            
                                             </select>
                                         </div>

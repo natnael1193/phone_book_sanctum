@@ -24,7 +24,7 @@ use Intervention\Image\Facades\Image;
 
 
 
-
+// Route::post('/login', 'AccesTokenController::class@issueToken')->middleware(['api-login', 'throttle']);
 
 
 Route::group(['middleware' => ['cors', 'json.response']], function () {
@@ -94,8 +94,12 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('company_detail/{id}', 'Api\MainController@company_detail');
     Route::get('blogs', 'Api\MainController@blog');
     Route::get('blog_detail/{id}', 'Api\MainController@blog_detail');
-    Route::get('company_category', 'Api\MainController@company_category');
-    Route::get('company_category_detail/{id}', 'Api\MainController@company_category_detail');
+    Route::get('company_categories', 'Api\MainController@company_category');
+    Route::get('company_categories/{id}', 'Api\MainController@company_category_detail');
+    Route::post('company_search', 'Api\MainController@company_search');
+    Route::post('blog_search', 'Api\MainController@blog_search');
+    Route::get('vacancies', 'Api\MainController@vacancy');
+    Route::get('tinders', 'Api\MainController@tinder');
 });
 
 
