@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Rating;
 use App\Company;
 use App\Category;
+use App\Location;
 use Carbon\Carbon;
 use App\CompanyCategory;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Collection;
 
 class CompanyController extends Controller
 {
@@ -52,8 +54,9 @@ class CompanyController extends Controller
             $user = auth()->user()->companies()->pluck('companies.user_id');
             $post = Company::whereIn( 'user_id',$user)->orderBy('created_at', 'desc')->paginate(15);
             $all = Company::orderBy('created_at', 'desc')->paginate(15);
+            $location = Location::all();
 
-            return view('company.company', compact('post', 'company', 'all'));
+            return view('company.company', compact('post', 'company', 'all', 'location'));
         } else {
             return redirect('/login');
         }
@@ -70,7 +73,8 @@ class CompanyController extends Controller
         if (Auth::guard()->check()) {
             $post = Category::all()->sortBy('name');
             $company_category = CompanyCategory::all()->sortBy('name');
-            return view('company.add_company', compact('post', 'company_category'));
+            $location = Location::all()->sortBy('name');
+            return view('company.add_company', compact('post', 'company_category', 'location'));
         } else {
             return redirect('/login');
         }
@@ -131,8 +135,9 @@ class CompanyController extends Controller
         $post = $company;
         $category = Category::all();
         $company_category = CompanyCategory::all()->sortBy('name');
-
-        return view('company.edit_company', compact('post', 'category', 'company_category'));
+        $location = Location::all()->sortBy('name');
+        
+        return view('company.edit_company', compact('post', 'category', 'company_category', 'location'));
     }
 
     /**
@@ -223,19 +228,42 @@ class CompanyController extends Controller
         }
     }
 
-    public function automatic_update($id, Request $request)
+    public function call_update(Request $request, $id)
     {
-        $post = Company::findOrFail($id);
+        $data = request()->all();
 
-        $post->verification = 1;
-        $post->save();
+        // $oldData = $job;\
+        $oldData = Company::findOrFail($id);
+        $user = ['user_id' => auth()->user()->id];
+        $call = ['called' => 1];
+        // dd($data,   $user,
+        // $verification
+        // );
+        $oldData->update(array_merge(
+            $data,
+            $user,
+            $call
+        ));
 
-        abort_if(
-            $post->created_at < Carbon::now()->subHours(24),
-            422,
-            "Updating is no longer available."
-        );
+        return redirect()->back();
 
         // proceed as ussual (validate, save, fire events, etc)
+    }
+
+    public function search_location(){
+        
+        $data = request()->all();
+        $location = $data['location'];
+        $post = Company::query();
+
+  
+        if ($location != -1) {
+            $post = $post->where('location_id', $location);
+        }
+
+     $post = $post->get();
+      return response()->json($post );
+
+        return view('company.search', compact('post'));
     }
 }

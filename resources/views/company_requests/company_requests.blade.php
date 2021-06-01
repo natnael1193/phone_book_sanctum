@@ -18,6 +18,7 @@
             <td>{{ $posts->company_email }}</td>
             <td>{{ $posts->phone_number }}</td>
             <td><div class="btn-list d-flex ">
+
                 <a href="{{ route('company.edit', $posts->id) }}"><button class="btn btn-primary mr-2" >Edit</button></a>
                 <form method="POST" action="{{ route('company.verified', $posts->id) }}">
                     @csrf

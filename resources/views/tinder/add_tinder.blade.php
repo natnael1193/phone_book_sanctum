@@ -3,13 +3,13 @@
 	<main class="content">
         <div class="container-fluid p-0">
 
-            <h1 class="h3 mb-3">Add New Tinder</h1>
+            <h1 class="h3 mb-3">Add New Tender</h1>
 
             <div class="row">
                 <div class="col-12 col-xl-10 col-lg-10 col-md-10">
                     <div class="card">
                         <div class="card-body">
-                            <form method="POST" action="{{ route('tinder.store') }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('tender.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <input hidden  name="user_id">
                                 <div class="row">

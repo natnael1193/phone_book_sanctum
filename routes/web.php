@@ -46,7 +46,8 @@ Route::get('/admin/register', 'AdminController@register')->name('admin.register'
 Route::resource('role', 'RoleController')->middleware('admin');
 Route::resource('blog', 'BlogController');
 Route::resource('vacancy', 'VacancyController');
-Route::resource('tinder', 'TinderController');
+Route::resource('tender', 'TinderController');
+Route::resource('location', 'LocationController');
 Route::resource('company', 'CompanyController');
 Route::resource('category', 'CategoryController');
 Route::resource('company_category', 'CompanyCategoryController');
@@ -56,7 +57,9 @@ Route::resource('image', 'ImageController');
 Route::resource('service', 'ServiceController');
 Route::resource('company_requests', 'CompanyRequestsController');
 Route::post('/company/verified/{id}', 'CompanyController@verified')->name('company.verified');
+Route::post('/company/called/{id}', 'CompanyController@call_update')->name('company.called');
 Route::post('company/register', 'CompanyController@register')->name('company.register');
+Route::post('company/search', 'CompanyController@search_location')->name('company.search');
 Route::resource('activity_log', 'ActivityLogController');
 Route::resource('bookmark', 'BookmarkController');
 //Company Owner 

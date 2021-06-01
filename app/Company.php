@@ -16,15 +16,15 @@ class Company extends Model
     use  LogsActivity;
     //
     protected static $logAttributes = [
-        'company_category', 'company_name', 'company_name_am', 'phone_number',
+        'company_category', 'company_name', 'company_name_am', 'phone_number', 'location_id',
         'company_email', 'phone_number_2', 'description', 'description_am', 'fax', 'website', 'company_logo_path',
-        'location_image_id',  'tin_number', 'category_id', 'user_id', 'subscriber_id', 'verification', 'opening_hour', 'closing_hour', 'facebook', 'telegram', 'twitter'
+        'location_image_id',  'tin_number', 'category_id', 'user_id', 'subscriber_id', 'verification', 'called','opening_hour', 'closing_hour', 'facebook', 'telegram', 'twitter'
     ];
 
     protected $fillable = [
-        'company_category', 'company_name', 'company_name_am', 'phone_number',
+        'company_category', 'company_name', 'company_name_am', 'phone_number','location_id',
         'company_email', 'phone_number_2', 'description', 'description_am', 'fax', 'website', 'company_logo_path',
-        'location_image_id',  'tin_number', 'category_id', 'user_id', 'subscriber_id', 'verification', 'opening_hour', 'closing_hour', 'facebook', 'telegram', 'twitter'
+        'location_image_id',  'tin_number', 'category_id', 'user_id', 'subscriber_id', 'verification', 'called','opening_hour', 'closing_hour', 'facebook', 'telegram', 'twitter'
     ];
 
     // public static function boot()

@@ -18,6 +18,19 @@
             <td>{{ $posts->company_email }}</td>
             <td>{{ $posts->phone_number }}</td>
             <td><div class="btn-list d-flex ">
+                <form method="POST" action="{{ route('company.called', $posts->id) }}">
+                    @csrf
+                    @if( $posts->called == NULL)
+                    <input type="hidden" name="user_id" >
+                    <input type="hidden" name="verification" >
+                    <button class="btn btn-info mr-2" type="submit">Never Called</button>
+                       @else
+                       <input type="hidden" name="user_id" >
+                       <input type="hidden" name="verification" >
+                      <button class="btn btn-warning mr-2" type="submit">Called</button>
+     @endif
+                     </form>
+
                 <a href="{{ route('company.edit', $posts->id) }}"><button class="btn btn-primary mr-2" >Edit</button></a>
                 {{-- <form method="POST" action="">
                     @csrf
@@ -30,6 +43,8 @@
                 <button class="btn btn-warning mr-2"  type="submit">Cancel verification</button>
                 @endif
                 </form> --}}
+        
+     
                 <form method="POST" action="{{ route('company.destroy', $posts->id) }}">
                 @csrf
                 @method('DELETE')

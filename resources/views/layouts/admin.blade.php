@@ -106,13 +106,18 @@
 			</li>
 			<li class="sidebar-item">
 				<a href="#tinder" data-toggle="collapse" class="sidebar-link collapsed">
-	  <i class="align-middle" data-feather="book"></i> <span class="align-middle">Tinder</span>
+	  <i class="align-middle" data-feather="book"></i> <span class="align-middle">Tender</span>
 	</a>
 				<ul id="tinder" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-					<li class="sidebar-item"><a class="sidebar-link" href="{{ route('tinder.index') }}">All Tinders</a></li>
-					<li class="sidebar-item"><a class="sidebar-link" href="{{ route('tinder.create') }}">Add New Tinder</a></li>
+					<li class="sidebar-item"><a class="sidebar-link" href="{{ route('tender.index') }}">All Tenders</a></li>
+					<li class="sidebar-item"><a class="sidebar-link" href="{{ route('tender.create') }}">Add New Tender</a></li>
 				</ul>
 			</li>
+			<li class="sidebar-header">
+			Category And Location
+			</li>
+			<li class="sidebar-item"><a class="sidebar-link" href="{{ route('category.index') }}">Category</a></li>
+			<li class="sidebar-item"><a class="sidebar-link" href="{{ route('location.index') }}">Location</a></li>
 				</ul>
 
 				<div class="sidebar-cta">

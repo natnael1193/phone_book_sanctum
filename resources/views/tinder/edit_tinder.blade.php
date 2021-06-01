@@ -9,7 +9,7 @@
                 <div class="col-12 col-xl-10 col-lg-10 col-md-10">
                     <div class="card">
                         <div class="card-body">
-                            <form method="POST" action="{{ route('tinder.update', $post->id) }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('tender.update', $post->id) }}" enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
                                 <input hidden value="{{ $post->user_id }}"name="user_id">

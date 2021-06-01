@@ -21,7 +21,7 @@
 
     <hr>
             <div class="btn-list">
-                <a href="{{ route('tinder.edit', $posts->id) }}" > <button class="btn btn-primary" type="button">Edit</button></a>
+                <a href="{{ route('tender.edit', $posts->id) }}" > <button class="btn btn-primary" type="button">Edit</button></a>
                   <button class="btn btn-danger" type="button">Delete</button>
               </div>
               <br>
@@ -43,7 +43,7 @@
                 <p>{!! Illuminate\Support\Str::of($posts->description)->words(9) !!}</p>        
                            
                             <div class="btn-list">
-                                <a href="{{ route('tinder.edit', $posts->id) }}" > <button class="btn btn-primary" type="button">Edit</button></a>
+                                <a href="{{ route('tender.edit', $posts->id) }}" > <button class="btn btn-primary" type="button">Edit</button></a>
                                   <button class="btn btn-danger" type="button">Delete</button>
                               </div>
                                </div>

@@ -39,6 +39,8 @@
                                             <input type="file" class="form-control" placeholder="Image" name="company_logo_path" value="{{ $post->company_logo_path }}">
                                         </div>
                                     </div>
+                                </div>
+                                    <div class="row">
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
                                             <label for="my-select">Category</label>
@@ -46,6 +48,17 @@
                                                 <option value="NULL">Select Category</option>
                                                 @foreach($category as $categories)
                                                 <option value="{{ $categories->id }}">{{ $categories->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="my-select">Location</label>
+                                            <select id="my-select" class="form-control" name="location_id" value="{{ $post->location_id }}">
+                                                <option value="NULL">Select Location</option>
+                                                @foreach($location as $locations)
+                                                <option value="{{ $locations->id }}">{{ $locations->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

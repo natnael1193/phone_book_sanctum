@@ -4,11 +4,39 @@
 {{-- @can('viewAny', App\Company::class) --}}
 <div class="container">
             <div class="row">
-            <div class="col-auto d-none d-sm-block">
-                <h3><strong>Companies</strong> </h3>
-                <a href="{{ route('company.create') }}"><button class="btn btn-success">Add New Company</button></a>
-            </div>
-            <br>
+                <div class="col-xl-3 col-lg-3 col-md-3">
+                    <div class="col-auto d-none d-sm-block">
+                        <h3><strong>Companies</strong> </h3>
+                        <a href="{{ route('company.create') }}"><button class="btn btn-success">Add New Company</button></a>
+                    </div>
+                    <br>
+                </div>
+                <div class="col-xl-9 col-lg-9 col-md-9">
+                    <form action="{{route('company.search')}}" method="POST">
+                        @csrf
+                    <div class="row col-xl-12 col-lg-12 col-md-12">
+                      
+                            <h4>Search Company </h4>
+                            <div class="col-xl-6 col-lg-6 col-md-6 mr-2">
+                                {{-- <input type="text" class="form-control  mr-2"> --}}
+                                <select name='location' class="form-control">
+                                    <option value="-1">Location</option>
+                                    @foreach($location as $locations)
+                                        <option value="{{$locations->id}}">{{$locations->name}}</option>
+                                    @endforeach
+                                </select>
+                                <br>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6" style="display: flex; justify-content: center; align-items: center">
+                                <button class="btn btn-info">Search</button>
+                            </div>                  
+                        <br>      
+                                
+                    </div>
+                </form>  
+                    </div>  
+                    
+    
             </div>
 
             <div class="row" style="margin-top: 3%">
@@ -52,7 +80,7 @@
                             <p>{!! Illuminate\Support\Str::of($companies->description)->words(9) !!}</p>
                             <hr>
                             <div class="row">
-                                <div class="col-xl-12 col-lg-12"><p>Email: {{ $companies->email }}</p></div>
+                                <div class="col-xl-12 col-lg-12"><p>Email: {{ $companies->company_email }}</p></div>
                                 <div class="col-xl-12 col-lg-12"><p>Phone: {{ $companies->phone_number }}</p></div>
                                 <div class="col-xl-12 col-lg-12"><p>Location: </h4></div>                           
                             </div>
