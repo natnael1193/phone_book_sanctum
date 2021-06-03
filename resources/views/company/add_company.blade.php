@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 @section('content')
+
+
 	<main class="content">
         <div class="container-fluid p-0">
             <div class="row">
@@ -219,6 +221,115 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <h4>Available Hours</h4>
+                                    <div class="row" style="marigin-top: 5%">
+                                        <hr>                    
+                                                     
+                                        <div class="col-xl-2 col-lg-2 col-md-2">
+                                            <label class="form-label w-100">Days</label>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            <label>Opening Hour</label>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            <label>Closing Hour</label>
+                                        </div>
+                                 <br>
+                                        <div class="col-xl-2 col-lg-2 col-md-2">
+                                            <label class="form-label w-100">Monday</label>
+                                           <input type="hidden" name="day" value="Monday">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Opening Hour</label> --}}
+                                          <input class="form-control" type="time" name="monday_open">
+                                          <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Closing Hour</label> --}}
+                                           <input class="form-control" type="time" name="monday_closed">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2">
+                                            <label class="form-label w-100">Tuesday</label>
+                                           <input type="hidden" name="day" value="Tuesday">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Opening Hour</label> --}}
+                                          <input class="form-control" type="time" name="tuesday_open">
+                                          <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Closing Hour</label> --}}
+                                           <input class="form-control" type="time" name="tuesday_closed">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2">
+                                            <label class="form-label w-100">Wednesday</label>
+                                           <input type="hidden" name="day" value="Wednesday">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Opening Hour</label> --}}
+                                          <input class="form-control" type="time" name="wednesday_open">
+                                          <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Closing Hour</label> --}}
+                                           <input class="form-control" type="time" name="wednesday_closed">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2">
+                                            <label class="form-label w-100">Thursday</label>
+                                           <input type="hidden" name="day" value="Thursday">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Opening Hour</label> --}}
+                                          <input class="form-control" type="time" name="thursday_open">
+                                          <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Closing Hour</label> --}}
+                                           <input class="form-control" type="time" name="thursday_closed">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2">
+                                            <label class="form-label w-100">Friday</label>
+                                           <input type="hidden" name="day" value="Friday">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Opening Hour</label> --}}
+                                          <input class="form-control" type="time" name="friday_open">
+                                          <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Closing Hour</label> --}}
+                                           <input class="form-control" type="time" name="friday_closed">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2">
+                                            <label class="form-label w-100">Saturday</label>
+                                           <input type="hidden" name="day" value="Saturday">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Opening Hour</label> --}}
+                                          <input class="form-control" type="time" name="saturday_open">
+                                          <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Closing Hour</label> --}}
+                                           <input class="form-control" type="time" name="saturday_closed">
+                                           <br>
+                                        </div>
+                                    </div>
+                                    <br>
+                                <hr>
+                                </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>
@@ -310,4 +421,7 @@
 </div>
 </div>
 </div>
+
+
+
     @endsection

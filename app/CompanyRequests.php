@@ -10,4 +10,6 @@ class CompanyRequests extends Model
 {
     //
     use  LogsActivity;
+
+
 }

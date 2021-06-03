@@ -72,7 +72,7 @@
                 <div class="top-right links">
 
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="/dashboard">Home</a>
                     @else
                         <a href="{{ route('login') }}">Admin Login</a>
 

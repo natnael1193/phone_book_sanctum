@@ -32,7 +32,14 @@ class CompanyRequestsController extends Controller
     public function create()
     {
         //
-        $post = Company::query()->where('description', NULL)->orWhere('company_logo_path')->get();
+        
+        // $post = Company::where('user_id', '=', !NULL)->where('description', '=', NULL)->orWhere('company_logo_path', '=', NULL)->get();
+     
+        $post = Company::where(function ($query) {
+            $user = auth()->user()->companies()->pluck('companies.user_id');
+            $query->where('user_id', '=', $user )
+                  ->where('description', '=', Null)->where('company_logo_path', '=', Null);
+        })->get();
         return view('company.data_incompelete_companies', compact('post'));
     }
 

@@ -26,7 +26,8 @@ class TinderController extends Controller
         // $user = auth()->user()->tinders()->pluck('tinders.user_id');
         // $post = Tinder::whereIn('user_id', $user)->orderBy('created_at', 'desc')->paginate(5);
         $post = Tinder::orderBy('created_at', 'desc')->paginate(5);
-        return response()->json($post);
+        // return response()->json($post);
+        return view('tinder.tinder', compact('post'));
     }
 
     /**
@@ -71,7 +72,7 @@ class TinderController extends Controller
             
         ));
     //    dd($data);
-return redirect('/tinder');
+return redirect('/tender');
     }
 
     /**
@@ -97,7 +98,9 @@ return redirect('/tinder');
         $tinder=Tinder::find($id);
         // $this->authorize('view', $tinder);
         $post = $tinder;
-        return response()->json($post);
+        // return response()->json($post);
+        return view('tinder.edit_tinder', compact('post'));
+        
     }
 
     /**
@@ -126,7 +129,7 @@ return redirect('/tinder');
             $imageArray ?? [],
             $user
         ));
-        return redirect('/tinder');
+        return redirect('/tender');
     }
 
     /**
@@ -139,6 +142,7 @@ return redirect('/tinder');
     {
         //
        $post = Tinder::findOrFail($id)->delete();
-        return response()->json($post);
+        // return response()->json($post);
+        return redirect()->back();
     }
 }

@@ -7,13 +7,15 @@ use App\Company;
 use App\Category;
 use App\Location;
 use Carbon\Carbon;
+use App\WorkingTime;
 use App\CompanyCategory;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Collection;
 
 class CompanyController extends Controller
 {
@@ -50,10 +52,10 @@ class CompanyController extends Controller
         } elseif (Auth::guard()->check()) {
             $this->user = Auth::guard()->user();
             $this->subscriber = false;
-            $company = Company::all();
+            $company = Company::query()->orderBy('created_at', 'desc')->paginate(15);;
             $user = auth()->user()->companies()->pluck('companies.user_id');
-            $post = Company::whereIn( 'user_id',$user)->orderBy('created_at', 'desc')->paginate(15);
-            $all = Company::orderBy('created_at', 'desc')->paginate(15);
+            $post = Company::query()->whereIn( 'user_id',$user)->where('verification', !NULL)->orderBy('created_at', 'desc')->paginate(15);
+            $all = Company::query()->orderBy('created_at', 'desc')->paginate(15);
             $location = Location::all();
 
             return view('company.company', compact('post', 'company', 'all', 'location'));
@@ -90,9 +92,18 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         //
+
+        $data = $request->all();
+        // dd($data);
+           $check = $this->save($data);
+        
+        return redirect('/company');
+    }
+
+    public function save(array $data){
         $data = request()->all();
         $user = ['user_id' => auth()->user()->id];
-        if (request('company_logo_path')) {
+      if (request('company_logo_path')) {
             $imagePath = request('company_logo_path')->store('uploads', 'public');
             $image = Image::make(public_path("storage/{$imagePath}"))->resize(300, 300);
             $image->save();
@@ -100,12 +111,39 @@ class CompanyController extends Controller
         }
         //    $subscriber =['user_id' => auth()->user('subscriber')->id];
         //    dd( $data, $user, $imageArray);
-        Company::create(array_merge(
+     $company = Company::create(array_merge(
             $data,
             $user,
-            $imageArray
-        ));
-        return redirect('/company');
+            $imageArray ?? []
+     ));
+
+
+ 
+        // $company_id = ['company_id' => $company->id];
+        // $user =  auth()->user('subscriber')->id;
+        
+
+            
+        WorkingTime::create([
+            'user_id' => auth()->user()->id,
+            'company_id' => $company->id,
+            'monday_open' => $data['monday_open'],
+            'tuesday_open' => $data['tuesday_open'],
+            'wednesday_open' => $data['wednesday_open'],
+            'thursday_open' => $data['thursday_open'],
+            'friday_open' => $data['friday_open'],
+            'saturday_open' => $data['saturday_open'],
+           
+            
+            'monday_closed' => $data['monday_closed'],
+            'tuesday_closed' => $data['tuesday_closed'],
+            'wednesday_closed' => $data['wednesday_closed'],
+            'thursday_closed' => $data['thursday_closed'],
+            'friday_closed' => $data['friday_closed'],
+            'saturday_closed' => $data['saturday_closed'],
+            
+        
+        ]);
     }
 
     /**
@@ -130,14 +168,15 @@ class CompanyController extends Controller
     {
         //
 
-        $company = Company::find($id);
+        $company = Company::findOrFail($id);
         $this->authorize('view', $company);
         $post = $company;
         $category = Category::all();
         $company_category = CompanyCategory::all()->sortBy('name');
         $location = Location::all()->sortBy('name');
+        $available_hour = WorkingTime::where('company_id', $id)->first();
         
-        return view('company.edit_company', compact('post', 'category', 'company_category', 'location'));
+        return view('company.edit_company', compact('post', 'category', 'company_category', 'location', 'available_hour'));
     }
 
     /**
@@ -155,6 +194,7 @@ class CompanyController extends Controller
 
         // $oldData = $job;\
         $oldData = Company::findOrFail($id);
+        $available_hour = WorkingTime::where('company_id', $id)->first();
         $user = ['user_id' => auth()->user()->id];
         if(request('company_logo_path')){
             Storage::delete("/public/{$oldData->company_logo_path}");
@@ -170,6 +210,24 @@ class CompanyController extends Controller
             $imageArray ?? [],
         ));
 
+        
+        $company_id = ['company_id' => $oldData->id];
+$check_company  = WorkingTime::where('company_id', '=', \Request::get($oldData->id))->first();
+        
+if($check_company === true){
+    WorkingTime::create(array_merge(
+        $data,
+        $user,
+        $company_id
+    ));
+    }
+    else{
+        $available_hour->update(array_merge(
+            $data,
+            $user,
+            $company_id
+        ));
+    }
         return redirect('/company');
     }
 
@@ -235,14 +293,14 @@ class CompanyController extends Controller
         // $oldData = $job;\
         $oldData = Company::findOrFail($id);
         $user = ['user_id' => auth()->user()->id];
-        $call = ['called' => 1];
+        // $call = ['called' => 1];
         // dd($data,   $user,
         // $verification
         // );
         $oldData->update(array_merge(
             $data,
             $user,
-            $call
+            // $call
         ));
 
         return redirect()->back();
@@ -250,20 +308,38 @@ class CompanyController extends Controller
         // proceed as ussual (validate, save, fire events, etc)
     }
 
+
     public function search_location(){
         
         $data = request()->all();
         $location = $data['location'];
         $post = Company::query();
 
-  
         if ($location != -1) {
             $post = $post->where('location_id', $location);
         }
-
      $post = $post->get();
       return response()->json($post );
 
         return view('company.search', compact('post'));
     }
+    
+    public function search_company(){
+        
+    $data = request()->all();
+    $keyword = $data['keyword'];
+    $location = $data['location'];
+    $post = Company::query();
+
+    if ($location != -1) {
+        $post = $post->where('location_id', $location);
+    }
+    if ($keyword != null) {
+        $post = $post->where('company_name', 'LIKE', '%' . $keyword . '%');
+    }
+ $post = $post->get();
+  return response()->json($post );
+
+    return view('company.search', compact('post'));
+}
 }

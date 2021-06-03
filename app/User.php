@@ -43,6 +43,7 @@ class User extends Authenticatable
     public function companies(){
         return $this->hasMany(Company::class);
     }
+  
     public function blogs(){
         return $this->hasMany(Blog::class);
     }

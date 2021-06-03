@@ -11,7 +11,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-xl-10 col-lg-10 col-md-10">
-                                    <h1 style="">{{ $post->company_name }}</h1>
+                                    <h1 style="">{{ $post->company_name }} ({{ $post->id }})</h1>
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-2">
                                     @if($post->verification == 1)
@@ -45,7 +45,7 @@
                                         <div class="form-group">
                                             <label for="my-select">Category</label>
                                             <select id="my-select" class="form-control" name="categroy_id" value="{{ $post->categroy_id }}">
-                                                <option value="NULL">Select Category</option>
+                                                <option value="{{ $post->categroy_id }}">Select Category</option>
                                                 @foreach($category as $categories)
                                                 <option value="{{ $categories->id }}">{{ $categories->name }}</option>
                                                 @endforeach
@@ -56,7 +56,7 @@
                                         <div class="form-group">
                                             <label for="my-select">Location</label>
                                             <select id="my-select" class="form-control" name="location_id" value="{{ $post->location_id }}">
-                                                <option value="NULL">Select Location</option>
+                                                <option value="{{ $post->location_id }}">Select Location</option>
                                                 @foreach($location as $locations)
                                                 <option value="{{ $locations->id }}">{{ $locations->name }}</option>
                                                 @endforeach
@@ -189,6 +189,112 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <h4>Available Hours</h4>
+                                    <div class="row" style="marigin-top: 5%">
+                                        <hr>                    
+                                                     
+                                        <div class="col-xl-2 col-lg-2 col-md-2">
+                                            <label class="form-label w-100">Days</label>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            <label>Opening Hour</label>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            <label>Closing Hour</label>
+                                        </div>
+                                 <br>
+                                        <div class="col-xl-2 col-lg-2 col-md-2">
+                                            <label class="form-label w-100">Monday</label>
+                                           <input type="hidden"  value="Monday">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Opening Hour</label> --}}
+                                        <input class="form-control" type="time" name="monday_open" @if($available_hour != NULL) value="{{$available_hour->monday_open}}" @else value="" @endif>
+                                          <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Closing Hour</label> --}}
+                                           <input class="form-control" type="time" name="monday_closed" @if($available_hour != NULL) value="{{$available_hour->monday_closed}}" @else value="" @endif >
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2">
+                                            <label class="form-label w-100">Tuesday</label>
+                                           <input type="hidden"  value="Tuesday">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Opening Hour</label> --}}
+                                          <input class="form-control" type="time" name="tuesday_open" @if($available_hour != NULL)value="{{$available_hour->tuesday_open}}" @else value="" @endif>
+                                          <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Closing Hour</label> --}}
+                                           <input class="form-control" type="time" name="tuesday_closed" @if($available_hour != NULL)value="{{$available_hour->tuesday_closed}}" @else value="" @endif>
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2">
+                                            <label class="form-label w-100">Wednesday</label>
+                                           <input type="hidden"  value="Wednesday" >
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Opening Hour</label> --}}
+                                          <input class="form-control" type="time" name="wednesday_open" @if($available_hour != NULL)value="{{$available_hour->wednesday_open}}" @else value="" @endif>
+                                          <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Closing Hour</label> --}}
+                                           <input class="form-control" type="time" name="wednesday_closed" @if($available_hour != NULL)value="{{$available_hour->wednesday_closed}}" @else value="" @endif>
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2">
+                                            <label class="form-label w-100">Thursday</label>
+                                           <input type="hidden"  value="Thursday" >
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Opening Hour</label> --}}
+                                          <input class="form-control" type="time" name="thursday_open" @if($available_hour != NULL)value="{{$available_hour->thursday_open}}" @else value="" @endif>
+                                          <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Closing Hour</label> --}}
+                                           <input class="form-control" type="time" name="thursday_closed" @if($available_hour != NULL)value="{{$available_hour->thursday_closed}}" @else value="" @endif>
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2">
+                                            <label class="form-label w-100">Friday</label>
+                                           <input type="hidden"  value="Friday">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Opening Hour</label> --}}
+                                          <input class="form-control" type="time" name="friday_open" @if($available_hour != NULL)value="{{$available_hour->friday_open}}" @else value="" @endif>
+                                          <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Closing Hour</label> --}}
+                                           <input class="form-control" type="time" name="friday_closed" @if($available_hour != NULL)value="{{$available_hour->friday_closed}}" @else value="" @endif>
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2">
+                                            <label class="form-label w-100">Saturday</label>
+                                           <input type="hidden"  value="Saturday">
+                                           <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Opening Hour</label> --}}
+                                          <input class="form-control" type="time" name="saturday_open" @if($available_hour != NULL)value="{{$available_hour->saturday_open}}" @else value="" @endif>
+                                          <br>
+                                        </div>
+                                        <div class="col-xl-5 col-lg-5 col-md-5">
+                                            {{-- <label>Closing Hour</label> --}}
+                                           <input class="form-control" type="time" name="saturday_closed" @if($available_hour != NULL)value="{{$available_hour->saturday_closed}}" @else value="" @endif>
+                                           <br>
+                                        </div>
+                                    </div>
                                 {{-- </div> --}}
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </form>

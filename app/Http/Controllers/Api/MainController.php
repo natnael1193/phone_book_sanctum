@@ -123,8 +123,28 @@ public function vacancy(){
     $post = Vacancy::all();
     return response()->json($post);
 }
-public function tinder(){
+public function tender(){
     $post = Tinder::all();
     return response()->json($post);
 }
+
+public function search_company(){
+        
+    $data = request()->all();
+    $keyword = $data['keyword'];
+    $location = $data['location'];
+    $post = Company::query();
+
+    if ($location != -1) {
+        $post = $post->where('location_id', $location);
+    }
+    if ($keyword != null) {
+        $post = $post->where('company_name', 'LIKE', '%' . $keyword . '%');
+    }
+ $post = $post->get();
+  return response()->json($post );
+
+    return view('company.search', compact('post'));
+}
+
 }

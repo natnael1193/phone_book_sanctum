@@ -99,7 +99,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('company_search', 'Api\MainController@company_search');
     Route::post('blog_search', 'Api\MainController@blog_search');
     Route::get('vacancies', 'Api\MainController@vacancy');
-    Route::get('tinders', 'Api\MainController@tinder');
+    Route::get('tenders', 'Api\MainController@tender');
+    Route::post('company_search', 'Api\MainController@search_company')->name('company.search');
 });
 
 

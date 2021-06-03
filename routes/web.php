@@ -59,7 +59,9 @@ Route::resource('company_requests', 'CompanyRequestsController');
 Route::post('/company/verified/{id}', 'CompanyController@verified')->name('company.verified');
 Route::post('/company/called/{id}', 'CompanyController@call_update')->name('company.called');
 Route::post('company/register', 'CompanyController@register')->name('company.register');
-Route::post('company/search', 'CompanyController@search_location')->name('company.search');
+Route::post('company/search_location', 'CompanyController@search_location')->name('company.search_location');
+Route::post('company_search', 'CompanyController@search_company')->name('company.search');
+
 Route::resource('activity_log', 'ActivityLogController');
 Route::resource('bookmark', 'BookmarkController');
 //Company Owner 
