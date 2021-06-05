@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Company;
 use App\Service;
+use App\Vacancy;
 use App\Category;
 use App\Subscriber;
 use App\WorkingTime;
@@ -144,7 +145,28 @@ class SubscriberController extends Controller
             'subscriber_id' => 'unique:companies',
             'company_email' => 'unique:companies',
             "company_name" => 'required',
-            "phone_number" => "required"
+            "phone_number" => "required",
+
+            "company_category" => "",
+            "category_id"=> "",
+            "location_id" => "",
+            "company_name"=> "",
+            "company_name_am"=> "",
+            "phone_number"=> "",
+            "phone_number_2"=> "",
+            "company_email"=> "",
+            "description"=> "",
+            "description_am"=> "",
+            "fax"=> "",
+            "website"=> "",
+            "company_logo_path"=> "",
+            "location_image_id"=> "",
+            "tin_number"=> "",
+            "verification"=> "",
+            "called"=> "",
+            "facebook"=> "",
+            "twitter"=> "",
+            "telegram"=> "",
         ]);
         $oldData =  Subscriber::where('id', auth()->user('subscriber')->id)->first();
         $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
@@ -161,5 +183,30 @@ class SubscriberController extends Controller
 
         $data = request()->all();
         return response()->json(["company" => $data]);
+    }
+
+    public function add_vacancy(Request $request)
+    {
+        $data = request()->all();
+        $subscriber = ['subscriber_id' => auth()->user('subscriber')->id];
+        $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
+        $company_id =['company_id' => $company->id];
+        
+        Vacancy::create(array_merge(
+            $data,
+            $subscriber,
+            $company_id
+        ));
+
+        return response()->json([$data, $subscriber, $company_id]);
+    }
+
+    public function vacancy(Request $request)
+    {
+        $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
+        $company_id =['company_id' => $company->id];
+        $vacancy =   Vacancy::where('company_id',  $company_id)->get();
+        
+        return response()->json([$vacancy]);
     }
 }

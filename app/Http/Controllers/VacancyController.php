@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Vacancy;
 use App\Category;
 use Illuminate\Http\Request;
@@ -10,15 +11,20 @@ use Illuminate\Support\Facades\Storage;
 
 class VacancyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
         //
-        $post = Vacancy::query()->paginate(10);
+      return  $post = Vacancy::query()->paginate(10);
         return view('vacancy.vacancy', compact('post'));
     }
 
@@ -30,8 +36,10 @@ class VacancyController extends Controller
     public function create()
     {
         //
-        $category = Category::all();
-        return view('vacancy.add_vacancy', compact('category'));
+        
+        $company = Company::all()->sortBy('name');
+        $category = Category::all()->sortBy('name');
+        return view('vacancy.add_vacancy', compact('company', 'category'));
     }
 
     /**
@@ -56,7 +64,7 @@ class VacancyController extends Controller
         Vacancy::create(array_merge(
             $data,
             $user,
-            $imageArray
+            $imageArray ?? []
         ));
     }
 

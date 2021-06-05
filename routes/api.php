@@ -121,7 +121,10 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:subscriber']], fun
     Route::patch('/subscriber/update_company', 'Api\Auth\SubscriberController@subscriber_company_update');
     Route::get('/subscriber/sign_in', 'Api\Auth\SubscriberLoginController@showLoginForm');
     
-
+    //vacancy
+    Route::post('subscriber/add_vacancy', 'Api\Auth\SubscriberController@add_vacancy')->name('subscriber.add_vacancy');
+    Route::get('subscriber/vacancy', 'Api\Auth\SubscriberController@vacancy')->name('subscriber.vacancy');
+    
     Route::resource('rating', 'Api\RatingController');
     Route::resource('review', 'Api\ReviewController');
     Route::middleware(['auth:subscriber', 'admin'])->resource('role', 'Api\RoleController');

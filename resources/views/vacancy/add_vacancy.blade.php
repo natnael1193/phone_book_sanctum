@@ -13,15 +13,29 @@
                                 @csrf
                                 <input hidden  name="user_id">
                                 <div class="row">
-                                    <div class="form-group">
-                                        <label for="my-select">Category</label>
-                                        <select id="my-select" class="form-control" name="category_id" required>
-                                            <option>Select Category</option>
-                                            @foreach($category as $categories)
-                                            <option value="{{ $categories->id }}">{{ $categories->name }}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sl-12">
+                                        <div class="form-group">
+                                            <label for="my-select">Company</label>
+                                            <select id="my-select" class="form-control" name="company_id" required>
+                                                <option>Select Company</option>
+                                                @foreach($company as $companies)
+                                                <option value="{{ $companies->id }}">{{ $companies->company_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sl-12">
+                                        <div class="form-group">
+                                            <label for="my-select">Category</label>
+                                            <select id="my-select" class="form-control" name="category_id" required>
+                                                <option>Select Category</option>
+                                                @foreach($category as $categories)
+                                                <option value="{{ $categories->id }}">{{ $categories->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                            
                                 </div>
                                 <div class="row">
                                         <div class="form-group">
