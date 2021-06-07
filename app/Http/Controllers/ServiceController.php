@@ -10,7 +10,7 @@ class ServiceController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:subscriber');
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -103,6 +103,15 @@ return redirect()->back();
     public function update(Request $request, $id)
     {
         //
+        $data = request()->all();
+        $oldData = Service::findOrFail($id);
+        $user=['user_id' => auth()->user()->id];
+
+        $oldData->update(array_merge(
+            $data,
+            $user
+        ));
+        return redirect()->back();
     }
 
     /**

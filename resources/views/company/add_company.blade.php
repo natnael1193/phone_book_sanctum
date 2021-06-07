@@ -93,8 +93,14 @@
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label">Name</label>
+                                            <label class="form-label">Company Name</label>
                                             <input type="text" class="form-control" placeholder="Name" name="company_name" required>
+                                            {{-- <select id="my-select" class="form-control" name="company_name" required>
+                                                <option value="">Select Company</option>
+                                                @foreach($all as $items)
+                                                <option value="{{$items->id}}">{{$items->company_name}}</option>
+                                                @endforeach
+                                            </select> --}}
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6">

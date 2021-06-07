@@ -12,6 +12,9 @@ use App\Service;
 use App\Vacancy;
 use App\Category;
 use App\WorkingTime;
+use App\CompanyRating;
+use App\CompanyReview;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 
 class MainController extends Controller
@@ -32,8 +35,31 @@ class MainController extends Controller
         $service = Service::where('company_id',  $id)->get();
         $image = Images::where('company_id', $id)->get();
         $working_time = WorkingTime::where('company_id', $id)->get();
+
+        $review = CompanyReview::where('company_id',  $id)->get();        
+        // $rating = Rating::query()->where('company_id', $id)->get();
         
-        return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time]);
+        $sum =  CompanyRating::query()->where('company_id', $id)->sum('rating');
+        $rate = CompanyRating::query()->where('company_id', $id)->first();
+
+        if($rate != null){
+        $blog = CompanyRating::query()->where('company_id', $id)->count();
+        $data =  $sum/$blog;
+        $value = $data;
+    
+        // return response()->json(['blog'=>$post, 'review'=>$review, 'rating'=>$value]);
+        return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time, 'review'=>$review, 'rating'=>$value]);
+    }
+    else{
+        $blog = CompanyRating::query()->where('company_id', $id)->get();
+        $data = [];
+        $value = $data; 
+    
+        // return response()->json(['blog'=>$post, 'review'=>$review, 'rating'=>$value]);
+        return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time, 'review'=>$review, 'rating'=>$value]);
+    }
+        
+        // return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time]);
     }
     
     public function blog_detail($id){
@@ -123,8 +149,19 @@ public function vacancy(){
     $post = Vacancy::all();
     return response()->json($post);
 }
+public function vacancy_detail($id){
+    $post = Vacancy::findOrFail($id);
+    return response()->json($post);
+}
+
+
 public function tender(){
     $post = Tinder::all();
+    return response()->json($post);
+}
+
+public function tender_detail($id){
+    $post = Tinder::findOrFail($id);
     return response()->json($post);
 }
 
@@ -147,4 +184,5 @@ public function search_company(){
     return view('company.search', compact('post'));
 }
 
+  
 }

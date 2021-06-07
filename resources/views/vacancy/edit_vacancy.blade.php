@@ -3,7 +3,7 @@
 	<main class="content">
         <div class="container-fluid p-0">
 
-            <h1 class="h3 mb-3">Add New  Company</h1>
+            <h1 class="h3 mb-3">Edit Vacancy</h1>
 
             <div class="row">
                 <div class="col-12 col-xl-10 col-lg-10 col-md-10">

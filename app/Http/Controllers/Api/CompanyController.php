@@ -115,6 +115,7 @@ elseif(Auth::guard()->check()) {
     public function edit($id)
     {
         //
+        
         $company=Company::find($id);
         $this->authorize('view', $company);
         $post = $company;

@@ -99,6 +99,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('company_search', 'Api\MainController@company_search');
     Route::post('blog_search', 'Api\MainController@blog_search');
     Route::get('vacancies', 'Api\MainController@vacancy');
+    Route::get('vacancy_detail/{id}', 'Api\MainController@vacancy_detail');
+    Route::get('tender_detail/{id}', 'Api\MainController@tender_detail');
     Route::get('tenders', 'Api\MainController@tender');
     Route::post('company_search', 'Api\MainController@search_company')->name('company.search');
 });
@@ -124,6 +126,29 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:subscriber']], fun
     //vacancy
     Route::post('subscriber/add_vacancy', 'Api\Auth\SubscriberController@add_vacancy')->name('subscriber.add_vacancy');
     Route::get('subscriber/vacancy', 'Api\Auth\SubscriberController@vacancy')->name('subscriber.vacancy');
+    Route::get('subscriber/{id}/edit_vacancy', 'Api\Auth\SubscriberController@edit_vacancy')->name('subscriber.edit_vacancy');
+    Route::patch('subscriber/{id}/update_vacancy', 'Api\Auth\SubscriberController@update_vacancy')->name('subscriber.update_vacancy');
+    Route::delete('subscriber/{id}/delete_vacancy', 'Api\Auth\SubscriberController@delete_vacancy')->name('subscriber.delete_vacancy');
+
+        //service
+    Route::get('subscriber/service', 'Api\Auth\SubscriberController@service')->name('subscriber.service');
+    Route::post('subscriber/add_service', 'Api\Auth\SubscriberController@add_service')->name('subscriber.add_service');
+    Route::get('subscriber/{id}/edit_service', 'Api\Auth\SubscriberController@edit_service')->name('subscriber.edit_service');
+    Route::patch('subscriber/{id}/update_service', 'Api\Auth\SubscriberController@update_service')->name('subscriber.update_service');
+    Route::delete('subscriber/{id}/delete_service', 'Api\Auth\SubscriberController@delete_service')->name('subscriber.delete_service');
+
+    //Working Time
+    Route::get('subscriber/working_time', 'Api\Auth\SubscriberController@working_time')->name('subscriber.working_time');
+    Route::post('subscriber/add_working_time', 'Api\Auth\SubscriberController@add_working_time')->name('subscriber.add_working_time');
+    Route::get('subscriber/{id}/edit_working_time', 'Api\Auth\SubscriberController@edit_working_time')->name('subscriber.edit_working_time');
+    Route::patch('subscriber/{id}/update_working_time', 'Api\Auth\SubscriberController@update_working_time')->name('subscriber.update_working_time');
+    // Route::delete('subscriber/{id}/delete_service', 'Api\Auth\SubscriberController@delete_service')->name('subscriber.delete_service');
+
+    //Company Rating
+    Route::post('subscriber/add_company_rating', 'Api\Auth\SubscriberController@add_company_rating')->name('subscriber.add_company_rating');
+    
+    //Company Review
+    Route::post('subscriber/add_company_review', 'Api\Auth\SubscriberController@add_company_review')->name('subscriber.add_company_review');
     
     Route::resource('rating', 'Api\RatingController');
     Route::resource('review', 'Api\ReviewController');
@@ -131,7 +156,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:subscriber']], fun
     Route::resource('image', 'Api\ImageController');
     Route::resource('company_owner', 'Api\CompanyOwnerController');
     Route::resource('bookmark', 'Api\BookmarkController');
-    Route::resource('service', 'Api\ServiceController');
+    // Route::resource('service', 'Api\ServiceController');
     Route::resource('working_time', 'Api\WorkingTimeController');
 });
 

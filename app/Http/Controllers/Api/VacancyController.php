@@ -19,7 +19,8 @@ class VacancyController extends Controller
     {
         //
         $post = Vacancy::query()->paginate(10);
-        return response()->json($post);
+        // return response()->json($post);
+        return view('vacancy.vacancy', compact('post'));
     }
 
     /**
@@ -83,7 +84,8 @@ class VacancyController extends Controller
         $post = Vacancy::findOrFail($id);
         $category = Category::all();
 
-        return response()->json($post);
+        // return response()->json($post);
+        return view('vacancy.edit_vacancy', compact('post', 'category'));
     }
 
     /**

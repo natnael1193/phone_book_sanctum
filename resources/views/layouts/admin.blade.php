@@ -12,7 +12,7 @@
 
 	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
-	<title>AdminKit Demo - Web UI Kit &amp; Dashboard Template</title>
+	<title>Hulum &amp; Dashboard </title>
 
 	<link href="/admins/css/app.css" rel="stylesheet">
 </head>
@@ -45,6 +45,11 @@
 					<li class="sidebar-item active">
 						<a class="sidebar-link" href="{{ route('role.index') }}">
               <i class="align-middle" data-feather="user-check"></i> <span class="align-middle">User Roles</span>
+            </a>
+					</li>
+					<li class="sidebar-item active">
+						<a class="sidebar-link" href="{{ route('activity_log.index') }}">
+              <i class="align-middle" data-feather="user-check"></i> <span class="align-middle">Activity Logs</span>
             </a>
 					</li>
 					@endif
@@ -139,24 +144,24 @@
         </a>
 
 				<form class="form-inline d-none d-sm-inline-block">
-					<div class="input-group input-group-navbar">
+					{{-- <div class="input-group input-group-navbar">
 						<input type="text" class="form-control" placeholder="Search…" aria-label="Search">
 						<div class="input-group-append">
 							<button class="btn" type="button">
                 <i class="align-middle" data-feather="search"></i>
               </button>
 						</div>
-					</div>
+					</div> --}}
 				</form>
 
 				<div class="navbar-collapse collapse">
 					<ul class="navbar-nav navbar-align">
 						<li class="nav-item dropdown">
 							<a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-toggle="dropdown">
-								<div class="position-relative">
+								{{-- <div class="position-relative">
 									<i class="align-middle" data-feather="bell"></i>
 									<span class="indicator">4</span>
-								</div>
+								</div> --}}
 							</a>
 							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0" aria-labelledby="alertsDropdown">
 								<div class="dropdown-menu-header">
@@ -218,15 +223,15 @@
 						</li>
 						<li class="nav-item dropdown">
 							<a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-toggle="dropdown">
-								<div class="position-relative">
+								{{-- <div class="position-relative">
 									<i class="align-middle" data-feather="message-square"></i>
-								</div>
+								</div> --}}
 							</a>
 							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0" aria-labelledby="messagesDropdown">
 								<div class="dropdown-menu-header">
-									<div class="position-relative">
+									{{-- <div class="position-relative">
 										4 New Messages
-									</div>
+									</div> --}}
 								</div>
 								<div class="list-group">
 									<a href="#" class="list-group-item">
@@ -292,12 +297,12 @@
                 <span class="text-dark">{{ Auth::user()->name }}</span>
               </a>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="pages-profile.html"><i class="align-middle mr-1" data-feather="user"></i> Profile</a>
+								{{-- <a class="dropdown-item" href="pages-profile.html"><i class="align-middle mr-1" data-feather="user"></i> Profile</a>
 								<a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="pie-chart"></i> Analytics</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="pages-settings.html"><i class="align-middle mr-1" data-feather="settings"></i> Settings & Privacy</a>
 								<a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="help-circle"></i> Help Center</a>
-								<div class="dropdown-divider"></div>
+								<div class="dropdown-divider"></div> --}}
 								<a class="dropdown-item" href="{{ route('logout') }}"
 								onclick="event.preventDefault();
 											  document.getElementById('logout-form').submit();">
@@ -328,7 +333,7 @@
 					<div class="row text-muted">
 						<div class="col-6 text-left">
 							<p class="mb-0">
-								<a href="index.html" class="text-muted"><strong>AdminKit Demo</strong></a> &copy;
+								<a href="index.html" class="text-muted"><strong>Hulum</strong></a> &copy;
 							</p>
 						</div>
 						<div class="col-6 text-right">

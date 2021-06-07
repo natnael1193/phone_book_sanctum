@@ -38,28 +38,23 @@ class CompanyCategoryController extends Controller
     public function store(Request $request)
     {
         //
-       $post = request()->all();
-    //    $data = CompanyCategory::create($post)->id;
-       if(count($request->name) > 0){
-           foreach($request->name as $item=>$v){
-           $post2=array(
-               'name' => $request->name[$item],
-           );
+    //    $post = request()->all();
+    //    if(count($request->name) > 0){
+    //        foreach($request->name as $item=>$v){
+    //        $post2=array(
+    //            'name' => $request->name[$item],
+    //        );
            
-        //    CompanyCategory::insert($post2);
-        CompanyCategory::create(array_merge(
-            $post,
-            $post2
-            
-        ));
-       }}
-        // foreach($request->brandName as $key=>$brandName){
-        //     $post = new CompanyCategory();
-        //     $post->brand = $brandName;
-        //     $post->name = $request->name[$key];
-        //     $post->save();
-        // }
-        return redirect()->back();
+    //     CompanyCategory::create(array_merge(
+    //         $post,
+    //         $post2 
+    //     ));
+    //    }}
+    
+    // $post = new CompanyCategory();
+    // $post->name = $request->input('name');
+    // $post->save();
+    //     return redirect()->back();
     }
     
     /**

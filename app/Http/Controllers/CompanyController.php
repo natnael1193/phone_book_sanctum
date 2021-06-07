@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Rating;
 use App\Company;
+use App\Service;
 use App\Category;
 use App\Location;
 use Carbon\Carbon;
 use App\WorkingTime;
-use App\CompanyCategory;
 
+use App\CompanyCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -76,7 +77,8 @@ class CompanyController extends Controller
             $post = Category::all()->sortBy('name');
             $company_category = CompanyCategory::all()->sortBy('name');
             $location = Location::all()->sortBy('name');
-            return view('company.add_company', compact('post', 'company_category', 'location'));
+            $all = Company::all()->sortBy('name');
+            return view('company.add_company', compact('post', 'company_category', 'location', 'all'));
         } else {
             return redirect('/login');
         }
@@ -175,8 +177,10 @@ class CompanyController extends Controller
         $company_category = CompanyCategory::all()->sortBy('name');
         $location = Location::all()->sortBy('name');
         $available_hour = WorkingTime::where('company_id', $id)->first();
+        $service = Service::where('company_id', $id)->get();
+        $all = Company::all()->sortBy('name');
         
-        return view('company.edit_company', compact('post', 'category', 'company_category', 'location', 'available_hour'));
+        return view('company.edit_company', compact('post', 'category', 'company_category', 'location', 'available_hour', 'service', 'all'));
     }
 
     /**
