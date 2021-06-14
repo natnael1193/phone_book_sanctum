@@ -1,9 +1,31 @@
 @extends('layouts.admin')
 @section('content')
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
 	<main class="content">
         <div class="container-fluid p-0">
+            <div class="row mb-2 mb-xl-3">
+                <div class="row col-xl-8 col-lg-8 col-md-8 col-sm-12" role="alert">
+                    @if(Session::has('message'))
+                    <p class="alert alert-info">{{ Session::get('message') }}</p>
+                    @endif
+                 
+                    </div>
+
+                <div class="col-auto ml-auto text-right mt-n1">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
+                            <li class="breadcrumb-item"><a href="{{route('company.index')}}">Company</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="{{route('company.create')}}">Add Company</a></li>
+                            {{-- <li class="breadcrumb-item active" aria-current="page">Analytics</li> --}}
+                        </ol>
+                    </nav>
+                </div>
+            </div>
             <div class="row">
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#defaultModalPrimary">
                 Add Company Owner
@@ -40,8 +62,7 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                                </div>
-                                           
+                                                </div>                                       
              @endif
              <br/>
             </div>
@@ -63,6 +84,17 @@
                                         <div class="form-group">
                                             <label class="form-label">Image</label>
                                             <input type="file" class="form-control" placeholder="Email" name="company_logo_path" imageOnly>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6"> 
+                                        <div class="form-group">
+                                            <label for="my-select">Add Company Owner</label>
+                                            <select id="my-select" class="form-control" name="subscriber_id">
+                                                <option value=NULL>Select Company Owner</option>
+                                                @foreach(App\Subscriber::all()->sortBy('name') as $subscribers)
+                                                <option value="{{$subscribers->id}}">{{$subscribers->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -204,7 +236,7 @@
                                             <label for="my-select">Company Verification</label>
                                             <select id="my-select" class="form-control" name="verification" required>
                                                 <option value="">Select Category</option>
-                                                <option value=NULL>Not Verified</option>  
+                                                <option value="">Not Verified</option>  
                                                 <option value="1">Verified</option>                                            
                                             </select>
                                         </div>
@@ -244,7 +276,7 @@
                                  <br>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
                                             <label class="form-label w-100">Monday</label>
-                                           <input type="hidden" name="day" value="Monday">
+                                           {{-- <input type="hidden" name="day" value="Monday"> --}}
                                            <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
@@ -259,7 +291,7 @@
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
                                             <label class="form-label w-100">Tuesday</label>
-                                           <input type="hidden" name="day" value="Tuesday">
+                                           {{-- <input type="hidden" name="day" value="Tuesday"> --}}
                                            <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
@@ -274,7 +306,7 @@
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
                                             <label class="form-label w-100">Wednesday</label>
-                                           <input type="hidden" name="day" value="Wednesday">
+                                           {{-- <input type="hidden" name="day" value="Wednesday"> --}}
                                            <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
@@ -289,7 +321,7 @@
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
                                             <label class="form-label w-100">Thursday</label>
-                                           <input type="hidden" name="day" value="Thursday">
+                                           {{-- <input type="hidden" name="day" value="Thursday"> --}}
                                            <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
@@ -304,7 +336,7 @@
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
                                             <label class="form-label w-100">Friday</label>
-                                           <input type="hidden" name="day" value="Friday">
+                             
                                            <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
@@ -319,7 +351,7 @@
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
                                             <label class="form-label w-100">Saturday</label>
-                                           <input type="hidden" name="day" value="Saturday">
+                                           {{-- <input type="hidden" name="day" value="Saturday"> --}}
                                            <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
@@ -335,6 +367,32 @@
                                     </div>
                                     <br>
                                 <hr>
+                                <div class="row col-xl-12 col-lg-12 col-md-12">
+                                    <div class="form-group row col-xl-12 col-lg-12 col-md-12">                        
+                                      <table class="table">
+                                      <thead>
+                                        <tr>
+                                          <th>Services</th>                          
+                                          <th><a href="javascritp:;" class="btn btn-info addRow" >Add + </a></th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td><input type="text" name="name[ ]" id="name" class="form-control"></td>
+                                          <td><a href="javascritp:;" class="btn btn-danger deleteRow" >Delete - </a></td>
+                                      </tr>
+                                  
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  </div>
+                                  <hr>
+                                  <div class="form-group col-lg-8 col-md-8">
+                                    <label for="my-input">Images</label>
+                                    <input id="image" class="form-control-file" type="file" name="image[]" multiple>
+                                    <input id="user_id" class="form-control-file" type="hidden" name="user_id[]" value="{{auth()->user()->id}}">
+                                    <input type="hidden" name="company_id[]" id="company_id" class="form-control" >
+                                </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
@@ -429,5 +487,52 @@
 </div>
 
 
+
+
+<script>
+    const image = document.querySelector('input[id="image"]');
+
+    FilePond.registerPlugin(
+        FilePondPluginImagePreview,
+        FilePondPluginImageResize,
+        FilePondPluginImageEdit,
+        FilePondPluginImageExifOrientation,
+        FilePondPluginImageCrop,
+        FilePondPluginImageTransform,
+    );
+    const pond1 = FilePond.create(
+        document.querySelector('input[id="image"]'),
+        {
+            imagePreviewHeight: 200,
+            imageResizeTargetWidth: 800,
+            imageResizeTargetHeight: 500,
+        }
+    );
+
+    FilePond.setOptions({
+        server: {
+            url: '/upload/images',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        }
+    });
+</script>
+
+
+<script>
+    $('thead').on('click', '.addRow', function(){
+        var tr = '<tr>' + 
+            '<td><input type="text" name="name[ ]" id="name" class="form-control"></td>'+ 
+            '<td><input type="file" name="image[]" id="image" class="form-control"></td>'+
+            '<td><input type="hidden" name="user_id[]" id="user_id" class="form-control"></td>'+
+            '<td><input type="hidden" name="company_id[]" id="company_id" class="form-control"></td>'+
+  '<td><a href="javascritp:;" class="btn btn-danger deleteRow" >Delete - </a></td>'+ 
+    '</tr>';
+$('tbody').append(tr);
+
+    });
+
+</script>
 
     @endsection

@@ -36,6 +36,7 @@
                                     <a href="#"><i class="align-middle" data-feather="edit-2"></i></a>
                                     <a href="#"><i class="align-middle" data-feather="trash"></i></a>
                                 </td> --}}
+                                <td><a href="{{url('edit_user', $users->id)}}"><button class="btn btn-primary">Edit</button></a></td>
                             </tr>
   @endforeach
                         </tbody>

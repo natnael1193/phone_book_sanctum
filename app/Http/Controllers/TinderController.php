@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Tinder;
+use App\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
@@ -38,7 +39,8 @@ class TinderController extends Controller
     public function create()
     {
         //
-        return view('tinder.add_tinder');
+        $company = Company::all()->sortBy('name');
+        return view('tinder.add_tinder', compact('company'));
     }
 
     /**
@@ -52,8 +54,13 @@ class TinderController extends Controller
         //
         $data = request()->validate([
             'title' => 'required',
-            'description' => 'required',
+            'description' => '',
             'image' => '',
+            'price' => 'required',
+            'bond' => '',
+            'opening_date' => 'required',
+            'closing_date' => 'required',
+            'company_id' => ''
         ]);
         $user=['user_id' => auth()->user()->id];
         if(request('image')){
@@ -72,7 +79,7 @@ class TinderController extends Controller
             
         ));
     //    dd($data);
-return redirect('/tender');
+return redirect()->back()->with('message', 'Tender Added Successfully');
     }
 
     /**
@@ -99,7 +106,8 @@ return redirect('/tender');
         // $this->authorize('view', $tinder);
         $post = $tinder;
         // return response()->json($post);
-        return view('tinder.edit_tinder', compact('post'));
+        $company = Company::all()->sortBy('name');
+        return view('tinder.edit_tinder', compact('post', 'company'));
         
     }
 
@@ -129,7 +137,7 @@ return redirect('/tender');
             $imageArray ?? [],
             $user
         ));
-        return redirect('/tender');
+        return redirect('/tender')->with('message', 'Tender Updated Successfully');;
     }
 
     /**
@@ -143,6 +151,6 @@ return redirect('/tender');
         //
        $post = Tinder::findOrFail($id)->delete();
         // return response()->json($post);
-        return redirect()->back();
+        return redirect()->back()->with('message1', 'Tender Deleted Successfully');
     }
 }

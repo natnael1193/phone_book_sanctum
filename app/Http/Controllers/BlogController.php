@@ -137,5 +137,7 @@ return redirect('/blog');
     public function destroy($id)
     {
         //
+        Blog::findOrFail($id)->delete();
+        return redirect()->back();
     }
 }

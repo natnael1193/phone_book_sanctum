@@ -11,6 +11,7 @@ use App\Company;
 use App\Service;
 use App\Vacancy;
 use App\Category;
+use App\Location;
 use App\WorkingTime;
 use App\CompanyRating;
 use App\CompanyReview;
@@ -32,9 +33,11 @@ class MainController extends Controller
 
     public function company_detail($id){
         $post = Company::findOrFail($id);
+        $location = Location::where('id', $post->location_id)->get();
         $service = Service::where('company_id',  $id)->get();
         $image = Images::where('company_id', $id)->get();
         $working_time = WorkingTime::where('company_id', $id)->get();
+        // $company_location = Company::whereIn('location_id' ,  $location)->first();
 
         $review = CompanyReview::where('company_id',  $id)->get();        
         // $rating = Rating::query()->where('company_id', $id)->get();
@@ -48,7 +51,7 @@ class MainController extends Controller
         $value = $data;
     
         // return response()->json(['blog'=>$post, 'review'=>$review, 'rating'=>$value]);
-        return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time, 'review'=>$review, 'rating'=>$value]);
+        return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time, 'review'=>$review, 'rating'=>$value, 'location' => $location]);
     }
     else{
         $blog = CompanyRating::query()->where('company_id', $id)->get();
@@ -56,7 +59,7 @@ class MainController extends Controller
         $value = $data; 
     
         // return response()->json(['blog'=>$post, 'review'=>$review, 'rating'=>$value]);
-        return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time, 'review'=>$review, 'rating'=>$value]);
+        return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time, 'review'=>$review, 'rating'=>$value, 'location' => $location]);
     }
         
         // return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time]);

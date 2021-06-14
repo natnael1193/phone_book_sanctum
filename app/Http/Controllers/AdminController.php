@@ -130,4 +130,31 @@ class AdminController extends Controller
     {
         //
     }
+
+    public function edit_user($id){
+        
+        $user = User::query()->where('id', auth()->user()->id)->first();
+        return view('user.update_user', compact('user'));
+    }
+    public function update_user(Request $request)
+    {
+        $data = request()->all();
+        $check = $this->save($data);
+
+        return response()->json([$data]);
+    }
+
+    public function save(array $data)
+    {
+
+        $user = User::query()->where('id', auth()->user()->id)->first();
+
+        $user->update([
+            'name' => $data['name'],
+            //            'lastName' => $data['lastName'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+
+        ]);
+    }
 }

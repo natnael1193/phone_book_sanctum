@@ -24,7 +24,7 @@ class VacancyController extends Controller
     public function index()
     {
         //
-      return  $post = Vacancy::query()->paginate(10);
+        $post = Vacancy::query()->paginate(10);
         return view('vacancy.vacancy', compact('post'));
     }
 
@@ -66,6 +66,7 @@ class VacancyController extends Controller
             $user,
             $imageArray ?? []
         ));
+        return redirect()->back()->with('message', 'Vacancy Added Successfully');
     }
 
     /**
@@ -121,7 +122,7 @@ class VacancyController extends Controller
             $user
         ));
 
-        return redirect('/vacancy');
+        return redirect('/vacancy')->with('message', 'Vacancy Updated Successfully');
     }
 
     /**
@@ -133,7 +134,7 @@ class VacancyController extends Controller
     public function destroy($id)
     {
         //
-        Vacancy::findOrFail($id);
-        return redirect()->back();
+        Vacancy::findOrFail($id)->delete();
+        return redirect()->back()->with('message1', 'Vacancy Deleted Successfully');
     }
 }

@@ -2,6 +2,16 @@
 @extends('layouts.admin')
 @section('content')
 {{-- @can('viewAny', App\Company::class) --}}
+<div class="row col-xl-12 col-lg-12 col-md-12 col-sm-12" role="alert">
+    @if(Session::has('message'))
+    <p class="alert alert-info">{{ Session::get('message') }}</p>
+    @endif
+    </div>
+    <div class="row col-xl-12 col-lg-12 col-md-12 col-sm-12" role="alert">
+        @if(Session::has('message1'))
+        <p class="alert alert-danger">{{ Session::get('message1') }}</p>
+        @endif
+        </div>
 <div class="container">
             <div class="row">
                 <div class="col-xl-3 col-lg-3 col-md-3">

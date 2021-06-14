@@ -2,8 +2,24 @@
 @section('content')
 	<main class="content">
         <div class="container-fluid p-0">
-
-            <h1 class="h3 mb-3">Add New  Blog</h1>
+            <div class="row mb-2 mb-xl-3">
+                <div class="row col-xl-8 col-lg-8 col-md-8 col-sm-12" role="alert">
+                    @if(Session::has('message'))
+                    <p class="alert alert-info">{{ Session::get('message') }}</p>
+                    @endif
+                 
+                    </div>
+                <div class="col-auto ml-auto text-right mt-n1">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
+                            <li class="breadcrumb-item"><a href="{{route('vacancy.index')}}">Vacancy</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Add Vacancy</li>
+                            {{-- <li class="breadcrumb-item active" aria-current="page">Edit Blog</li> --}}
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <h1 class="h3 mb-3">Add New  Vacancy</h1>
 
             <div class="row">
                 <div class="col-12 col-xl-10 col-lg-10 col-md-10">
@@ -12,6 +28,14 @@
                             <form method="POST" action="{{ route('vacancy.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <input hidden  name="user_id">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sl-12">
+                                        <div class="form-group">
+                                            <label for="my-select">Due Date</label>
+                                            <input type="date" name="due_date" placeholder="Due Date" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6 col-md-12 col-sl-12">
                                         <div class="form-group">
@@ -31,6 +55,32 @@
                                                 <option>Select Category</option>
                                                 @foreach($category as $categories)
                                                 <option value="{{ $categories->id }}">{{ $categories->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>                          
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sl-12">
+                                        <div class="form-group">
+                                            <label for="my-select">Job Type</label>
+                                            <select id="my-select" class="form-control" name="job_type" required>
+                                                <option>Select Job Type</option>
+                                                {{-- @foreach($company as $companies) --}}
+                                                <option value="1">Full Time</option>
+                                                <option value="2">Part Time</option>
+                                                <option value="3">Contractual</option>
+                                                {{-- @endforeach --}}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sl-12">
+                                        <div class="form-group">
+                                            <label for="my-select">Location</label>
+                                            <select id="my-select" class="form-control" name="location" required>
+                                                <option>Select Location</option>
+                                                @foreach(App\Location::all() as $locations)
+                                                <option value="{{ $locations->id }}">{{ $locations->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

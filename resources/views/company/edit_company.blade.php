@@ -1,7 +1,23 @@
+
 @extends('layouts.admin')
 @section('content')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
 	<main class="content">
         <div class="container-fluid p-0">
+            <div class="row mb-2 mb-xl-3">
+                <div class="col-auto ml-auto text-right mt-n1">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
+                            <li class="breadcrumb-item"><a href="{{route('company.index')}}">Company</a></li>
+                            {{-- <li class="breadcrumb-item"><a href="{{route('company.create')}}">Add Company</a></li> --}}
+                            <li class="breadcrumb-item active" aria-current="page">Edit Company</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
 <div class="row">
     <div class="col-xl-6 col-lg-6 col-md-12 col-xm-12">
         <h1 class="h3 mb-3">Edit  Company</h1>
@@ -15,7 +31,7 @@
 
 
             <div class="row">
-                <div class="col-12 col-xl-10 col-lg-10 col-md-10">
+                <div class="col-12 col-xl-12 col-lg-12 col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
@@ -46,6 +62,17 @@
                                         <div class="form-group">
                                             <label class="form-label">Image</label>
                                             <input type="file" class="form-control" placeholder="Image" name="company_logo_path" value="{{ $post->company_logo_path }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6"> 
+                                        <div class="form-group">
+                                            <label for="my-select">Add Company Owner</label>
+                                            <select id="my-select" class="form-control" name="subscriber_id">
+                                                <option value="{{$post->subscriber_id}}">Select Company Owner</option>
+                                                @foreach(App\Subscriber::all()->sortBy('name') as $subscribers)
+                                                <option value="{{$subscribers->id}}">{{$subscribers->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -381,5 +408,105 @@
     </div>
     </div>
     @endforeach
+
+    <div class="container-fluid">
+        <br />
+      <h3 align="center">Image Upload in Laravel using Dropzone</h3>
+      <br />
+          
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Select Image</h3>
+          </div>
+          <div class="panel-body">
+            <form id="dropzoneForm" class="dropzone" action="{{ route('dropzone.upload') }}" method="POST">
+              @csrf
+              <input type="hidden" name="image[ ]" id="name" class="form-control" >
+           
+              <input type="hidden" name="company_id[ ]" id="company" class="form-control" value="{{$post->id}}">
+              {{-- <button type="button" class="btn btn-link remove_image" id="'.$image->getFilename().'">Remove</button> --}}
+            </form>
+            <div align="center">
+                <br>
+              <button type="button" class="btn btn-info" id="submit-all">Upload</button>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Uploaded Image</h3>
+          </div>
+          <div class="panel-body" id="uploaded_image">
+            
+          </div>
+        </div>
+      </div>
+
+      <script type="text/javascript">
     
-    @endsection
+        Dropzone.options.dropzoneForm = {
+          autoProcessQueue : false,
+          acceptedFiles : ".png,.jpg,.gif,.bmp,.jpeg",
+          addRemoveLinks: true,
+         
+        
+          init:function(){
+            var submitButton = document.querySelector("#submit-all");
+            myDropzone = this;
+            var tr = '<tr>' + 
+                '<td><input type="text" name="image[ ]" id="name" class="form-control"></td>'+ 
+                '<td><input type="hidden" name="company_id[ ]" id="company" class="form-control" value="{{$post->id}}"></td>' +
+        '</tr>';
+    // $('tbody').append(tr);
+    
+            submitButton.addEventListener('click', function(){
+              myDropzone.processQueue();
+            });
+        
+            this.on("complete", function(){
+              if(this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0)
+              {
+                var _this = this;
+                _this.removeAllFiles();
+              }
+              load_images();
+            });
+        
+          }
+        
+        };
+        
+        load_images();
+        
+        function load_images()
+        {
+          $.ajax({
+            url:"{{ route('dropzone.fetch', $company->id) }}",
+            success:function(data)
+            {
+              $('#uploaded_image').html(data);
+            }
+          })
+        }
+        
+        $(document).on('click', '.remove_image', function(){
+          var name = $(this).attr('id');
+          $.ajax({
+            url:"{{ route('dropzone.delete', $company->id) }}",
+            data:{name : name},
+            success:function(data){
+              load_images();
+            }
+          })
+        });
+    //     $('tbody').on('click', '.deleteRow', function(){
+    //     $(this).parent().parent().remove();
+    // })
+        </script>
+      @endsection
+      
+   
+
+    
+  

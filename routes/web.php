@@ -27,7 +27,7 @@ Route::get('/', function () {
 });
 Route::get('/dashboard', function () {
     $existingUser = User::where('email', auth()->user()->email)->first();
-    return view('index', compact('existingUser'));
+    return view('index', compact('existingUser'))->name('dashboard');
 });
 
 Auth::routes();
@@ -40,6 +40,8 @@ Route::get('/encoder', 'EncoderController@index')->name('encoder')->middleware('
 Route::get('/bloger', 'BlogController@index')->name('bloger')->middleware('bloger');
 Route::get('/company_owner', 'CompanyOwnerController@index')->middleware('company_owner');
 Route::post('/user/register', 'AdminController@register')->name('user.register')->middleware('admin');
+Route::get('/edit_user/{id}', 'AdminController@edit_user')->name('user.edit_user');
+Route::post('/update_user', 'AdminController@update_user')->name('user.update_user');
 
 Route::resource('admin', 'AdminController')->middleware('admin');
 Route::get('/admin/register', 'AdminController@register')->name('admin.register')->middleware('admin');
@@ -61,6 +63,9 @@ Route::post('/company/called/{id}', 'CompanyController@call_update')->name('comp
 Route::post('company/register', 'CompanyController@register')->name('company.register');
 Route::post('company/search_location', 'CompanyController@search_location')->name('company.search_location');
 Route::post('company_search', 'CompanyController@search_company')->name('company.search');
+Route::get('dropzone/delete/{id}', 'CompanyController@delete')->name('dropzone.delete');
+Route::get('dropzone/fetch/{id}', 'CompanyController@fetch')->name('dropzone.fetch');
+Route::post('/upload/images', 'CompanyController@upload')->name('dropzone.upload');
 
 Route::resource('activity_log', 'ActivityLogController');
 Route::resource('bookmark', 'BookmarkController');

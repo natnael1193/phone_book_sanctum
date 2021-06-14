@@ -7,9 +7,18 @@
            <a href="/vacancy/create"><button class="btn btn-success">Add New Vacancy</button></a>     
             </div>
             </div> --}}
-
+            <div class="row col-xl-12 col-lg-12 col-md-12 col-sm-12" role="alert">
+                @if(Session::has('message'))
+                <p class="alert alert-info">{{ Session::get('message') }}</p>
+                @endif
+                </div>
+                <div class="row col-xl-12 col-lg-12 col-md-12 col-sm-12" role="alert">
+                    @if(Session::has('message1'))
+                    <p class="alert alert-danger">{{ Session::get('message1') }}</p>
+                    @endif
+                    </div>
     <div class="row">
-        <a href="/tender/create"><button class="btn btn-success">Add New Tender</button></a>
+        <a href="{{route('tender.create')}}"><button class="btn btn-success">Add New Tender</button></a>
     </div>
     <div class="row col-xl-12 col-lg-12 col-md-12">
         @if (Auth::user()->role == 1)

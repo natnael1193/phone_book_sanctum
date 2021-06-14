@@ -1,7 +1,12 @@
 @extends('layouts.admin')
 @section('content')
 
-
+<div class="row col-xl-8 col-lg-8 col-md-8 col-sm-12" role="alert">
+    @if(Session::has('message'))
+    <p class="alert alert-info">{{ Session::get('message') }}</p>
+    @endif
+ 
+    </div>
 <table class="table table-light">
     <thead class="thead-light">
         <tr>

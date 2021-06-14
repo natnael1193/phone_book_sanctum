@@ -36,9 +36,13 @@
                                 <div class="col-xl-12 col-lg-12"><p>Phone: {{ $companies->phone_number }}</p></div>
                                 <div class="col-xl-12 col-lg-12"><p>Location: </h4></div>                           
                             </div>
-                            <div class="btn-list">
-                              <a href="{{ route('blog.edit', $companies->id) }}" > <button class="btn btn-primary" type="button">Edit</button></a>
-                                <button class="btn btn-danger" type="button">Delete</button>
+                            <div class="row btn-list">
+                              <a href="{{ route('blog.edit', $companies->id) }}" > <button class="btn btn-primary mr-2" type="button">Edit</button></a>
+                              <form method="POST" action="{{ route('blog.destroy', $companies->id) }}">
+                                @csrf
+                                @method('delete')
+                              <button class="btn btn-danger" type="submit">Delete</button>
+                              </form>
                             </div>
                             <br>
                             @if($companies->user_id != null)
@@ -82,9 +86,13 @@
                                 
                                 
                             </div>
-                            <div class="btn-list">
-                              <a href="{{ route('blog.edit', $posts->id) }}" > <button class="btn btn-primary" type="button">Edit</button></a>
-                                <button class="btn btn-danger" type="button">Delete</button>
+                            <div class="row btn-list">
+                              <a href="{{ route('blog.edit', $posts->id) }}" > <button class="btn btn-primary mr-2" type="button">Edit</button></a>
+                              <form method="POST" action="{{ route('blog.destroy', $posts->id) }}">
+                                @csrf
+                                @method('delete')
+                              <button class="btn btn-danger" type="button">Delete</button>
+                              </form>
                             </div>
                             <br>
                             {{-- <h4 style="color: black">Posted By: {{ App\User::findOrFail($posts->user_id)->name }}</h4> --}}
