@@ -21,7 +21,7 @@ Route::get('/callback', 'Auth\LoginController@handleProviderCallback');
 Route::get('/', function () {
 
     // Storage::disk('google')->put('hello.text', "Hello laravelbackup");
-    
+
     // $existingUser = User::where('email', auth()->user()->email)->first();
     return view('welcome');
 });
@@ -69,7 +69,7 @@ Route::post('/upload/images', 'CompanyController@upload')->name('dropzone.upload
 
 Route::resource('activity_log', 'ActivityLogController');
 Route::resource('bookmark', 'BookmarkController');
-//Company Owner 
+//Company Owner
 Route::get('subscriber', 'Auth\SubscriberController@index')->name('subscriber');
 Route::get('subscriber/edit', 'Auth\SubscriberController@edit')->name('subscriber.edit');
 Route::get('subscriber/add_company', 'Auth\SubscriberController@new_company')->name('subscriber.new_company');

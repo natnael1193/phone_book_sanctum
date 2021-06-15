@@ -13,7 +13,7 @@
                     @if(Session::has('message'))
                     <p class="alert alert-info">{{ Session::get('message') }}</p>
                     @endif
-                 
+
                     </div>
 
                 <div class="col-auto ml-auto text-right mt-n1">
@@ -36,7 +36,7 @@
              <div class="alert alert-success alert-dismissible" role="alert">
                                                      <strong>Great!  </strong>{{ Session::get('alert') }}
                                                  </div>
-                                                 @else     
+                                                 @else
                                                  <div class="alert alert-danger alert-dismissible" role="alert">
                                                     {{-- <strong>User not registerd</strong> --}}
                                                     @error('name')
@@ -45,7 +45,7 @@
                                                     </span>
                                                 @enderror
                                                 @error('email')
-                                                <input type="hidden" class="form-control @error('email') is-invalid @enderror"  placeholder="email"  name="email" autocomplete="email">                                
+                                                <input type="hidden" class="form-control @error('email') is-invalid @enderror"  placeholder="email"  name="email" autocomplete="email">
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -62,14 +62,14 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                                </div>                                       
+                                                </div>
              @endif
              <br/>
             </div>
 
             <br><br>
             <h1 class="h3 mb-3">Add New  Company</h1>
-         
+
 
             <div class="row">
                 <div class="col-12 col-xl-10 col-lg-10 col-md-10">
@@ -78,6 +78,7 @@
                             <form method="POST" action="{{ route('company.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <input hidden value="" name="user_id">
+
                                 <hr>
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6">
@@ -86,11 +87,11 @@
                                             <input type="file" class="form-control" placeholder="Email" name="company_logo_path" imageOnly>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6"> 
+                                    <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
                                             <label for="my-select">Add Company Owner</label>
                                             <select id="my-select" class="form-control" name="subscriber_id">
-                                                <option value=NULL>Select Company Owner</option>
+                                                <option value=''>Select Company Owner</option>
                                                 @foreach(App\Subscriber::all()->sortBy('name') as $subscribers)
                                                 <option value="{{$subscribers->id}}">{{$subscribers->name}}</option>
                                                 @endforeach
@@ -236,8 +237,8 @@
                                             <label for="my-select">Company Verification</label>
                                             <select id="my-select" class="form-control" name="verification" required>
                                                 <option value="">Select Category</option>
-                                                <option value="">Not Verified</option>  
-                                                <option value="1">Verified</option>                                            
+                                                <option value="">Not Verified</option>
+                                                <option value="1">Verified</option>
                                             </select>
                                         </div>
                                     </div>
@@ -262,8 +263,8 @@
                                 <div class="row">
                                     <h4>Available Hours</h4>
                                     <div class="row" style="marigin-top: 5%">
-                                        <hr>                    
-                                                     
+                                        <hr>
+
                                         <div class="col-xl-2 col-lg-2 col-md-2">
                                             <label class="form-label w-100">Days</label>
                                         </div>
@@ -281,12 +282,12 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
-                                          <input class="form-control" type="time" name="monday_open">
+                                          <input class="form-control" type="time" name="monday_open" value="08:00 AM">
                                           <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="monday_closed">
+                                           <input class="form-control" type="time" name="monday_closed" value="05:00 PM">
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -296,12 +297,12 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
-                                          <input class="form-control" type="time" name="tuesday_open">
+                                          <input class="form-control" type="time" name="tuesday_open" value="08:00 AM">
                                           <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="tuesday_closed">
+                                           <input class="form-control" type="time" name="tuesday_closed" value="05:00 PM">
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -311,12 +312,12 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
-                                          <input class="form-control" type="time" name="wednesday_open">
+                                          <input class="form-control" type="time" name="wednesday_open" value="08:00 AM">
                                           <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="wednesday_closed">
+                                           <input class="form-control" type="time" name="wednesday_closed" value="05:00 PM">
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -326,27 +327,27 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
-                                          <input class="form-control" type="time" name="thursday_open">
+                                          <input class="form-control" type="time" name="thursday_open" value="08:00 AM">
                                           <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="thursday_closed">
+                                           <input class="form-control" type="time" name="thursday_closed" value="05:00 PM">
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
                                             <label class="form-label w-100">Friday</label>
-                             
+
                                            <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
-                                          <input class="form-control" type="time" name="friday_open">
+                                          <input class="form-control" type="time" name="friday_open" value="08:00 AM">
                                           <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="friday_closed">
+                                           <input class="form-control" type="time" name="friday_closed" value="05:00 PM">
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -356,32 +357,31 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
-                                          <input class="form-control" type="time" name="saturday_open">
+                                          <input class="form-control" type="time" name="saturday_open" value="08:00 AM">
                                           <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="saturday_closed">
+                                           <input class="form-control" type="time" name="saturday_closed" value="05:00 PM">
                                            <br>
                                         </div>
                                     </div>
                                     <br>
                                 <hr>
-                                <div class="row col-xl-12 col-lg-12 col-md-12">
-                                    <div class="form-group row col-xl-12 col-lg-12 col-md-12">                        
-                                      <table class="table">
+                                <div class="row  col-xl-12 col-lg-12 col-md-12">
+                                    <div class="form-group  col-xl-12 col-lg-12 col-md-12">
+                                      <table class="table" style="width: 100%">
                                       <thead>
                                         <tr>
-                                          <th>Services</th>                          
+                                          <th>Services</th>
                                           <th><a href="javascritp:;" class="btn btn-info addRow" >Add + </a></th>
                                         </tr>
                                       </thead>
                                       <tbody>
                                         <tr>
-                                          <td><input type="text" name="name[ ]" id="name" class="form-control"></td>
-                                          <td><a href="javascritp:;" class="btn btn-danger deleteRow" >Delete - </a></td>
+
                                       </tr>
-                                  
+
                                       </tbody>
                                     </table>
                                   </div>
@@ -405,10 +405,10 @@
 
 
     <div class="card">
-    
-        
+
+
         <!-- BEGIN primary modal -->
-    
+
         <div class="modal fade" id="defaultModalPrimary" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -419,7 +419,7 @@
 </button>
                     </div>
                     <div class="modal-body m-3">
-                        
+
                 <form method="POST" action="{{ route('subscriber.store') }}">
                             @csrf
                         <div class="row">
@@ -431,7 +431,7 @@
                             <div class="form-group col-xl-12">
                                 <label>Name</label>
                                 <input type="text" class="form-control" name="name" placeholder="name">
-                                
+
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -442,7 +442,7 @@
                         <div class="row">
                             <div class="form-group col-xl-12">
                                 <label>Email</label>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror"  placeholder="email"  name="email" autocomplete="email">                                
+                                <input type="email" class="form-control @error('email') is-invalid @enderror"  placeholder="email"  name="email" autocomplete="email">
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -475,7 +475,7 @@
                         <div class="row">
                             <div class="form-group col-xl-12">
                                 <label>Password Confirmation</label>
-                                <input id="password-confirm" type="password" class="form-control" placeholder="********" name="password_confirmation" required autocomplete="new-password">    
+                                <input id="password-confirm" type="password" class="form-control" placeholder="********" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-success">Submit</button>
@@ -522,16 +522,19 @@
 
 <script>
     $('thead').on('click', '.addRow', function(){
-        var tr = '<tr>' + 
-            '<td><input type="text" name="name[ ]" id="name" class="form-control"></td>'+ 
-            '<td><input type="file" name="image[]" id="image" class="form-control"></td>'+
+        var tr = '<tr>' +
+            '<td><input type="text" name="name[ ]" id="name" class="form-control"></td>'+
+            '<input type="file" name="image[]" id="image" class="form-control">'+
             '<td><input type="hidden" name="user_id[]" id="user_id" class="form-control"></td>'+
             '<td><input type="hidden" name="company_id[]" id="company_id" class="form-control"></td>'+
-  '<td><a href="javascritp:;" class="btn btn-danger deleteRow" >Delete - </a></td>'+ 
+  '<td><a href="javascritp:;" class="btn btn-danger deleteRow" >Delete - </a></td>'+
     '</tr>';
 $('tbody').append(tr);
 
     });
+ $('tbody').on('click', '.deleteRow', function(){
+        $(this).parent().parent().remove();
+    })
 
 </script>
 

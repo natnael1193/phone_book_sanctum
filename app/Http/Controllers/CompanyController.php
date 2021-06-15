@@ -42,6 +42,7 @@ class CompanyController extends Controller
             ], 401);
         }
     }
+
     public function index()
     {
         //
@@ -55,7 +56,7 @@ class CompanyController extends Controller
             $company = Company::query()->orderBy('created_at', 'desc')->paginate(15);;
             $user = auth()->user()->companies()->pluck('companies.user_id');
             // $post = Company::query()->whereIn( 'user_id',$user)->where('verification', !NULL)->orderBy('created_at', 'desc')->paginate(15);
-            $post = Company::query()->whereIn( 'user_id',$user)->orderBy('created_at', 'desc')->paginate(15);
+            $post = Company::query()->whereIn('user_id', $user)->orderBy('created_at', 'desc')->paginate(15);
             $all = Company::query()->orderBy('created_at', 'desc')->paginate(15);
             $location = Location::all();
 
@@ -88,7 +89,7 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -96,7 +97,7 @@ class CompanyController extends Controller
         //
         $data = request()->all();
         $user = ['user_id' => auth()->user()->id];
-      if (request('company_logo_path')) {
+        if (request('company_logo_path')) {
             $imagePath = request('company_logo_path')->store('uploads', 'public');
             $image = Image::make(public_path("storage/{$imagePath}"))->resize(300, 300);
             $image->save();
@@ -104,36 +105,38 @@ class CompanyController extends Controller
         }
         //    $subscriber =['user_id' => auth()->user('subscriber')->id];
         //    dd( $data, $user, $imageArray);
-     $company = Company::create(array_merge(
+        $company = Company::create(array_merge(
             $data,
             $user,
             $imageArray ?? []
-     ));
-
-     $company_id = [ 'company_id' => $company->id];
-
-     
-        WorkingTime::create(array_merge(
-$data,
-$company_id 
         ));
 
-     
-        if(count($request->name) > 0){
-            foreach($request->name as $item=>$v){
-            $post2=array(
-                'name' =>   $request->name[$item],
-            );
-         Service::create(array_merge(
-             // $post,
-             $post2,
-             $user,
-             // $imagePath,
-             $company_id                           
-         ));
-        }}
-        
-        if (count($request->image) > 0) {
+        $company_id = ['company_id' => $company->id];
+
+
+        WorkingTime::create(array_merge(
+            $data,
+            $company_id
+        ));
+
+
+        if ($request->name != null) {
+            foreach ($request->name as $item => $v) {
+                $post2 = array(
+                    'name' => $request->name[$item],
+                    'user_id' => auth()->user()->id,
+                    'company_id' => $company->id,
+                );
+                Service::create(array_merge(
+                    $data,
+                    $post2
+
+                ));
+            }
+        }
+
+
+        if (!empty($request->image)) {
             foreach ($request->image as $item => $v) {
                 $post2 = array(
                     'image' => $request->image[$item],
@@ -143,15 +146,18 @@ $company_id
 
                 Images::create(array_merge(
                     $data,
-                    $post2,
-                    
+                    $post2
+
                 ));
             }
         }
+
+
         return redirect()->back()->with('message', 'Company added successfully');
 
     }
-   public function upload(Request $request)
+
+    public function upload(Request $request)
     {
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $file) {
@@ -167,12 +173,12 @@ $company_id
         return '';
 
     }
-    
+
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -184,7 +190,7 @@ $company_id
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -201,17 +207,17 @@ $company_id
         $service = Service::where('company_id', $id)->get();
         $all = Company::all()->sortBy('name');
         $images = Images::where('company_id', $company->id)->get();
-     
-     
-           return view('company.edit_company', compact('post', 'category', 'company_category', 'location', 'available_hour', 'service', 'all', 'company', 'images'));
-     
+
+
+        return view('company.edit_company', compact('post', 'category', 'company_category', 'location', 'available_hour', 'service', 'all', 'company', 'images'));
+
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -224,7 +230,7 @@ $company_id
         $oldData = Company::findOrFail($id);
         $available_hour = WorkingTime::where('company_id', $id)->first();
         $user = ['user_id' => auth()->user()->id];
-        if(request('company_logo_path')){
+        if (request('company_logo_path')) {
             Storage::delete("/public/{$oldData->company_logo_path}");
             $imagePath = request('company_logo_path')->store('uploads', 'public');
             $image = Image::make(public_path("storage/{$imagePath}"))->resize(300, 300);
@@ -235,27 +241,62 @@ $company_id
         $oldData->update(array_merge(
             $data,
             $user,
-            $imageArray ?? [],
+            $imageArray ?? []
         ));
 
-        
+
         $company_id = ['company_id' => $oldData->id];
-$check_company  = WorkingTime::where('company_id', '=', \Request::get($oldData->id))->first();
-        
-if($check_company != true){
-    WorkingTime::create(array_merge(
-        $data,
-        $user,
-        $company_id
-    ));
-    }
-    else{
-        $available_hour->update(array_merge(
-            $data,
-            $user,
-            $company_id
-        ));
-    }
+        $check_company = WorkingTime::where('company_id', '=', \Request::get($oldData->id))->first();
+
+        if ($check_company != true) {
+            WorkingTime::create(array_merge(
+                $data,
+                $user,
+                $company_id
+            ));
+        } else {
+            $available_hour->update(array_merge(
+                $data,
+                $user,
+                $company_id
+            ));
+        }
+
+        if ($request->name != null) {
+            foreach ($request->name as $item => $v) {
+                $post2 = array(
+                    'name' => $request->name[$item],
+                    'user_id' => auth()->user()->id,
+                    'company_id' => $oldData->id,
+                );
+                Service::create(array_merge(
+                    $data,
+                    $post2
+
+                ));
+            }
+        }
+
+
+        if (!empty($request->image)) {
+            foreach ($request->image as $item => $v) {
+                $post2 = array(
+                    'image' => $request->image[$item],
+                    'user_id' => auth()->user()->id,
+                    'company_id' => $oldData->id,
+                );
+
+                Images::create(array_merge(
+                    $data,
+                    $post2
+
+                ));
+            }
+        }
+
+
+
+
         return redirect('/company')->with('message', 'Company Updated Successfully');
     }
 
@@ -283,7 +324,7 @@ if($check_company != true){
     //     $post = request()->all();
     //     $user = ['user_id' => auth()->user()->id];
     //     $imagePath = ['name' => $imageName];
-        
+
     //        if(count($request->name) > 0){
     //            foreach($request->name as $item=>$v){
     //            $post2=array(
@@ -295,10 +336,10 @@ if($check_company != true){
     //             $user,
     //             $imagePath,
     //             $company_id
-                
-                
+
+
     //         ));
-   
+
     //        }}
 
     //     return redirect()->back();
@@ -307,7 +348,7 @@ if($check_company != true){
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -351,7 +392,7 @@ if($check_company != true){
         $oldData->update(array_merge(
             $data,
             $user,
-            // $call
+        // $call
         ));
 
         return redirect()->back();
@@ -360,8 +401,9 @@ if($check_company != true){
     }
 
 
-    public function search_location(){
-        
+    public function search_location()
+    {
+
         $data = request()->all();
         $location = $data['location'];
         $post = Company::query();
@@ -369,60 +411,60 @@ if($check_company != true){
         if ($location != -1) {
             $post = $post->where('location_id', $location);
         }
-     $post = $post->get();
-      return response()->json($post );
+        $post = $post->get();
+        return response()->json($post);
 
         return view('company.search', compact('post'));
     }
-    
-    public function search_company(){
-        
-    $data = request()->all();
-    $keyword = $data['keyword'];
-    $location = $data['location'];
-    $post = Company::query();
 
-    if ($location != -1) {
-        $post = $post->where('location_id', $location);
+    public function search_company()
+    {
+
+        $data = request()->all();
+        $keyword = $data['keyword'];
+        $location = $data['location'];
+        $post = Company::query();
+
+        if ($location != -1) {
+            $post = $post->where('location_id', $location);
+        }
+        if ($keyword != null) {
+            $post = $post->where('company_name', 'LIKE', '%' . $keyword . '%');
+        }
+        $post = $post->get();
+        return response()->json($post);
+
+        return view('company.search', compact('post'));
     }
-    if ($keyword != null) {
-        $post = $post->where('company_name', 'LIKE', '%' . $keyword . '%');
+
+    function delete($id)
+    {
+//        $company = Company::findOrFail($id);
+         Images::findOrFail($id)->delete();
     }
- $post = $post->get();
-  return response()->json($post );
 
-    return view('company.search', compact('post'));
-}
-
-function delete(Request $request, $id)
-{
-    $company = Company::findOrFail($id);
-        $images = Images::where('company_id', $company->id)->delete();
-}
-
-   function fetch($id)
+    function fetch($id)
     {
         $company = Company::findOrFail($id);
-        
-        $images = Images::where('id', $id)->orWhere('company_id', $company->id)->get();
+
+        $images = Images::where('company_id', $company->id)->get();
         // $pic = Images::whereIn('id', $images)->get();
         //    $pic = \File::allFiles(public_path('images'))->whereIn(getFilename(), $images->image)->get();
-           $output = '<div class="row">';
-        
-           foreach($images as $image)
-           {
-           
+        $output = '<div class="row">';
+
+        foreach ($images as $image) {
+
             $output .= '
             <div class="col-md-2" style="margin-bottom:16px;" align="center">
-            <h4>'.$image->id.'</h4>
-                      <img src="'.asset('storage/' . $image->image).'" class="img-thumbnail" width="175" height="175" style="height:175px;" />
-                   <button type="button" class="btn btn-link remove_image" id="'.$image->id.'">Remove</button>
+            <h4>' . $image->id . '</h4>
+                      <img src="' . asset('storage/' . $image->image) . '" class="img-thumbnail" width="175" height="175" style="height:175px;" />
+                   <button type="button" class="btn btn-link remove_image" id="' . $image->id . '">Remove</button>
                   </div>
             ';
-           }
-           $output .= '</div>';
-           echo $output;
-    
-
         }
+        $output .= '</div>';
+        echo $output;
+
+
+    }
 }
