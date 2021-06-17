@@ -58,14 +58,17 @@ Route::resource('review', 'ReviewController');
 Route::resource('image', 'ImageController');
 Route::resource('service', 'ServiceController');
 Route::resource('company_requests', 'CompanyRequestsController');
+Route::get('verified_company', 'CompanyRequestsController@verified_company')->name('verified_company');
 Route::post('/company/verified/{id}', 'CompanyController@verified')->name('company.verified');
 Route::post('/company/called/{id}', 'CompanyController@call_update')->name('company.called');
 Route::post('company/register', 'CompanyController@register')->name('company.register');
 Route::post('company/search_location', 'CompanyController@search_location')->name('company.search_location');
 Route::post('company_search', 'CompanyController@search_company')->name('company.search');
-Route::get('dropzone/delete/{id}', 'CompanyController@delete')->name('dropzone.delete');
+Route::delete('dropzone/delete/{id}', 'CompanyController@delete')->name('dropzone.delete');
 Route::get('dropzone/fetch/{id}', 'CompanyController@fetch')->name('dropzone.fetch');
 Route::post('/upload/images', 'CompanyController@upload')->name('dropzone.upload');
+
+
 
 Route::resource('activity_log', 'ActivityLogController');
 Route::resource('bookmark', 'BookmarkController');
@@ -100,3 +103,9 @@ Route::post('/customer/login', 'Auth\CustomerLoginController@login')->name('cust
 Route::get('/layouts', function(){
     return view('layouts.admin');
 });
+
+
+
+
+
+

@@ -20,7 +20,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
                             <li class="breadcrumb-item"><a href="{{route('company.index')}}">Company</a></li>
-                            <li class="breadcrumb-item active" aria-current="page"><a href="{{route('company.create')}}">Add Company</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Add Company</li>
                             {{-- <li class="breadcrumb-item active" aria-current="page">Analytics</li> --}}
                         </ol>
                     </nav>
@@ -28,7 +28,7 @@
             </div>
             <div class="row">
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#defaultModalPrimary">
-                Add Company Owner
+                Add New Company Owner
              </button>
              @if(Session::has('alert'))
              <div class="row">
@@ -83,7 +83,7 @@
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-label">Image</label>
+                                            <label class="form-label">Company Logo</label>
                                             <input type="file" class="form-control" placeholder="Email" name="company_logo_path" imageOnly>
                                         </div>
                                     </div>
@@ -113,7 +113,7 @@
                                     </div>
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
-                                            <label for="my-select">Loation</label>
+                                            <label for="my-select">Location</label>
                                             <select id="my-select" class="form-control" name="location_id" required>
                                                 <option value="">Select Location</option>
                                                 @foreach($location as $locations)
@@ -123,6 +123,30 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="my-select">Company Status</label>
+                                            <select id="my-select" class="form-control" name="company_category" required>
+                                                <option value="">Select Category</option>
+                                                @foreach($company_category as $company_categories)
+                                                    <option value="{{ $company_categories->id }}">{{ $company_categories->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="my-select">Company Verification</label>
+                                            <select id="my-select" class="form-control" name="verification" required>
+                                                <option value="">Select Category</option>
+                                                <option value="">Not Verified</option>
+                                                <option value="1">Verified</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
@@ -220,29 +244,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-xl-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label for="my-select">Category</label>
-                                            <select id="my-select" class="form-control" name="company_category" required>
-                                                <option value="">Select Category</option>
-                                                @foreach($company_category as $company_categories)
-                                                <option value="{{ $company_categories->id }}">{{ $company_categories->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label for="my-select">Company Verification</label>
-                                            <select id="my-select" class="form-control" name="verification" required>
-                                                <option value="">Select Category</option>
-                                                <option value="">Not Verified</option>
-                                                <option value="1">Verified</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <hr style="color: blue">
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12">

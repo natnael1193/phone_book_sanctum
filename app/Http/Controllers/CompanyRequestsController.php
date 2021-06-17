@@ -32,15 +32,23 @@ class CompanyRequestsController extends Controller
     public function create()
     {
         //
-        
+
         // $post = Company::where('user_id', '=', !NULL)->where('description', '=', NULL)->orWhere('company_logo_path', '=', NULL)->get();
-     
+
         $post = Company::where(function ($query) {
             $user = auth()->user()->companies()->pluck('companies.user_id');
             $query->where('user_id', '=', $user )
-                  ->where('description', '=', Null)->where('company_logo_path', '=', Null);
+                  ->where('description', '=', Null)->where('company_logo_path', '=', Null)->orWhere('company_name_am', '=', Null)->orWhere('description_am', '=', Null)->orWhere('location_id', '=', Null)
+                ->orWhere('category_id', '=', Null)->orWhere('company_email', '=', Null)->orWhere('tin_number', '=', Null)->orWhere('facebook', '=', Null)->orWhere('telegram', '=', Null)->orWhere('twitter', '=', Null);
+        })->paginate(25);
+
+        $count = Company::where(function ($query) {
+            $user = auth()->user()->companies()->pluck('companies.user_id');
+            $query->where('user_id', '=', $user )
+                ->where('description', '=', Null)->where('company_logo_path', '=', Null)->orWhere('company_name_am', '=', Null)->orWhere('description_am', '=', Null)->orWhere('location_id', '=', Null)
+                ->orWhere('category_id', '=', Null)->orWhere('company_email', '=', Null)->orWhere('tin_number', '=', Null)->orWhere('facebook', '=', Null)->orWhere('telegram', '=', Null)->orWhere('twitter', '=', Null);
         })->get();
-        return view('company.data_incompelete_companies', compact('post'));
+        return view('company.data_incompelete_companies', compact('post', 'count'));
     }
 
     /**
@@ -52,7 +60,7 @@ class CompanyRequestsController extends Controller
     public function store(Request $request)
     {
         //
-        
+
     }
 
     /**
@@ -88,15 +96,15 @@ class CompanyRequestsController extends Controller
     {
         //
         $post = Company::findOrFail($id);
-        
+
         $today = Carbon::today();
 
         if($post->created_at != $today){
-            
+
             $post->verfication = 1;
 
             $post->save();
-            
+
         }
     }
 
@@ -109,5 +117,11 @@ class CompanyRequestsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function verified_company(){
+        $post = Company::where('verification', 1)->paginate(25);
+        $count = Company::where('verification', 1)->get();
+        return view('company.verified_companies', compact('post', 'count'));
     }
 }

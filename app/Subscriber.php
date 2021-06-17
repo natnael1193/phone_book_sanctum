@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-use Laravel\Passport\HasApiTokens;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -25,7 +25,7 @@ class Subscriber extends Authenticatable
       protected $hidden = [
         'password', 'remember_token',
     ];
-    
+
     public function company(){
         return $this->hasOne(Company::class);
     }

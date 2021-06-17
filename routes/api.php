@@ -69,9 +69,9 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         }
         $subscriber_company = Company::where('company_email', $subscriber->company_email)->first();
         if ($subscriber_company == null) {
-            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "isCompany" => false, "token" => $subscriber->createToken('api-application')->accessToken];
+            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "isCompany" => false, "token" => $subscriber->createToken('API Token')->plainTextToken];
         } else {
-            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "isCompany" => true, "companyID" => $subscriber_company->id, "companyName" => $subscriber_company->company_name,  "companyEmail" => $subscriber->company_email, "companyPhone" => $subscriber_company->phone_number, "token" => $subscriber->createToken('api-application')->accessToken];
+            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "isCompany" => true, "companyID" => $subscriber_company->id, "companyName" => $subscriber_company->company_name,  "companyEmail" => $subscriber->company_email, "companyPhone" => $subscriber_company->phone_number, "token" => $subscriber->createToken('API Token')->plainTextToken];
         }
     });
 
@@ -89,7 +89,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         return $customer->createToken('my-token')->plainTextToken;
     });
 
-    //MainController 
+    //MainController
     Route::get('companies', 'Api\MainController@company');
     Route::get('company_detail/{id}', 'Api\MainController@company_detail');
     Route::get('blogs', 'Api\MainController@blog');
@@ -110,8 +110,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
 
 //A Middleware For Subscriber Controller
-Route::group(['middleware' => ['cors', 'json.response', 'auth:subscriber']], function () {
-    // //Company Owner 
+Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], function () {
+    // //Company Owner
     Route::get('subscriber', 'Api\Auth\SubscriberController@index')->name('subscriber');
     Route::get('subscriber/edit', 'Api\Auth\SubscriberController@edit')->name('subscriber.edit');
     Route::post('subscriber/add_company', 'Api\Auth\SubscriberController@new_company')->name('subscriber.new_company');
@@ -122,7 +122,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:subscriber']], fun
     Route::patch('/subscriber/update', 'Api\Auth\SubscriberController@update');
     Route::patch('/subscriber/update_company', 'Api\Auth\SubscriberController@subscriber_company_update');
     Route::get('/subscriber/sign_in', 'Api\Auth\SubscriberLoginController@showLoginForm');
-    
+
     //vacancy
     Route::post('subscriber/add_vacancy', 'Api\Auth\SubscriberController@add_vacancy')->name('subscriber.add_vacancy');
     Route::get('subscriber/vacancy', 'Api\Auth\SubscriberController@vacancy')->name('subscriber.vacancy');
@@ -146,10 +146,10 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:subscriber']], fun
 
     //Company Rating
     Route::post('subscriber/add_company_rating', 'Api\Auth\SubscriberController@add_company_rating')->name('subscriber.add_company_rating');
-    
+
     //Company Review
     Route::post('subscriber/add_company_review', 'Api\Auth\SubscriberController@add_company_review')->name('subscriber.add_company_review');
-    
+
     Route::resource('rating', 'Api\RatingController');
     Route::resource('review', 'Api\ReviewController');
     Route::middleware(['auth:subscriber', 'admin'])->resource('role', 'Api\RoleController');

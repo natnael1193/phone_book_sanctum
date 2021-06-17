@@ -26,8 +26,8 @@ class SubscriberController extends Controller
 
     public function __construct()
     {
-        if (Auth::guard('subscriber')->check()) {
-            $this->user = Auth::guard('subscriber')->user();
+        if (Auth::guard('sanctum')->check()) {
+            $this->user = Auth::guard('sanctum')->user();
             $this->subscriber = true;
         } elseif (Auth::guard()->check()) {
             $this->user = Auth::guard()->user();
@@ -52,7 +52,7 @@ class SubscriberController extends Controller
     public function save(array $data)
     {
 
-        $user = Subscriber::query()->where('id', auth()->user('subscriber')->id)->first();
+        $user = Subscriber::query()->where('id', auth()->user('sanctum')->id)->first();
 
         $user->update([
             'name' => $data['name'],
@@ -66,17 +66,17 @@ class SubscriberController extends Controller
 
     public function index()
     {
-        $post =  Company::query()->where('subscriber_id', auth()->user('subscriber')->id)->first();
-        $user = Subscriber::query()->where('email', auth()->user('subscriber')->email)->first();
-        $service = Service::query()->where('subscriber_id', auth()->user('subscriber')->id)->get();
-        $working_time = WorkingTime::query()->where('subscriber_id', auth()->user('subscriber')->id)->get();
+        $post =  Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $user = Subscriber::query()->where('email', auth()->user('sanctum')->email)->first();
+        $service = Service::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
+        $working_time = WorkingTime::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
 
         return response()->json(["subscriber" => $user, "company" => $post, "company services" => $service, "working time" => $working_time]);
     }
     public function edit()
     {
 
-        $post =  Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
+        $post =  Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
 
         return response()->json($post);
     }
@@ -84,7 +84,7 @@ class SubscriberController extends Controller
     {
 
         $data = request()->all();
-        $oldData =  Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
+        $oldData =  Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
 
         // $company_category=['company_category' =>$request->company_category];
         // $category_id=['category_id' =>$request->category_id];
@@ -105,7 +105,7 @@ class SubscriberController extends Controller
             "company_name" => 'required',
             "phone_number" => "required|unique:companies"
         ]);
-        $oldData =  Subscriber::where('id', auth()->user('subscriber')->id)->first();
+        $oldData =  Subscriber::where('id', auth()->user('sanctum')->id)->first();
         $subscriber = ['subscriber_id' => auth('subscriber')->user()->id];
 
         Company::create(array_merge(
@@ -135,14 +135,14 @@ class SubscriberController extends Controller
     public function subscriber_company()
     {
 
-        $company = Company::where('company_email', auth()->user('subscriber')->company_email)->first();
+        $company = Company::where('company_email', auth()->user('sanctum')->company_email)->first();
 
         return response()->json($company);
     }
 
     public function subscriber_company_update()
     {
-        // $company = Company::where('company_email', auth()->user('subscriber')->company_email)->first();
+        // $company = Company::where('company_email', auth()->user('sanctum')->company_email)->first();
         $data = request()->validate([
             'subscriber_id' => 'unique:companies',
             'company_email' => 'unique:companies',
@@ -170,11 +170,11 @@ class SubscriberController extends Controller
             "twitter"=> "",
             "telegram"=> "",
         ]);
-        $oldData =  Subscriber::where('id', auth()->user('subscriber')->id)->first();
-        $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
+        $oldData =  Subscriber::where('id', auth()->user('sanctum')->id)->first();
+        $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
 
         // $subscriber=['subscriber_id' => auth('subscriber')->user()->id];
-        // $               $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
+        // $               $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
         $company->update(array_merge(
             $data,
         ));
@@ -190,19 +190,19 @@ class SubscriberController extends Controller
     //Vacancy
     public function vacancy(Request $request)
     {
-        $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
+        $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
         $company_id =['company_id' => $company->id];
         $vacancy =   Vacancy::where('company_id',  $company_id)->get();
-        
+
         return response()->json([$vacancy]);
     }
     public function add_vacancy(Request $request)
     {
         $data = request()->all();
-        $subscriber = ['subscriber_id' => auth()->user('subscriber')->id];
-        $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
+        $subscriber = ['subscriber_id' => auth()->user('sanctum')->id];
+        $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
         $company_id =['company_id' => $company->id];
-        
+
         Vacancy::create(array_merge(
             $data,
             $subscriber,
@@ -215,51 +215,51 @@ class SubscriberController extends Controller
     public function edit_vacancy($id){
 
         $vacancy = Vacancy::findOrFail($id);
-             $this->authorize('view', $vacancy);
+        $this->authorize('view', $vacancy);
         return response()->json([ $vacancy]);
     }
 
-public function update_vacancy(Request $request, $id){
-    
-//   $data = Company::query()->where('company_email', auth()->user('subscriber')->company_email)->first();
+    public function update_vacancy(Request $request, $id){
+
+//   $data = Company::query()->where('company_email', auth()->user('sanctum')->company_email)->first();
         $post = request()->all();
         $oldData = Vacancy::findOrFail($id);
-             $this->authorize('view', $oldData);
+        $this->authorize('view', $oldData);
         $user = ['subscriber_id' => auth('subscriber')->user()->id];
         // $company = ['company_id' => $data->id];
 
         $oldData->update(array_merge(
             $post,
             $user,
-            // $company
+        // $company
         ));
         return response()->json([$user, $post]);
-}
+    }
 
-public function delete_vacancy($id){
+    public function delete_vacancy($id){
 
-    $service = Vacancy::findOrFail($id)->delete();
-    $this->authorize('delete', $service);
-    return response()->json([ $service]);
-    
-}
+        $service = Vacancy::findOrFail($id)->delete();
+        $this->authorize('delete', $service);
+        return response()->json([ $service]);
+
+    }
     //Service
     public function service()
     {
-        $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
+        $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
         $company_id =['company_id' => $company->id];
         $service  = Service::where('company_id',  $company_id)->get();
-        
+
         return response()->json([$service]);
     }
 
     public function add_service(Request $request)
     {
         $data = request()->all();
-        $subscriber = ['subscriber_id' => auth()->user('subscriber')->id];
-        $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
+        $subscriber = ['subscriber_id' => auth()->user('sanctum')->id];
+        $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
         $company_id =['company_id' => $company->id];
-        
+
         Service::create(array_merge(
             $data,
             $subscriber,
@@ -270,117 +270,117 @@ public function delete_vacancy($id){
     }
 
     public function edit_service($id){
-        
+
         $service = Service::findOrFail($id);
-             $this->authorize('view', $service);
+        $this->authorize('view', $service);
         return response()->json([ $service]);
-        
+
     }
 
-public function update_service(Request $request, $id){
-    
-//   $data = Company::query()->where('company_email', auth()->user('subscriber')->company_email)->first();
+    public function update_service(Request $request, $id){
+
+//   $data = Company::query()->where('company_email', auth()->user('sanctum')->company_email)->first();
         $post = request()->all();
         $oldData = Service::findOrFail($id);
-             $this->authorize('view', $oldData);
+        $this->authorize('view', $oldData);
         $user = ['subscriber_id' => auth('subscriber')->user()->id];
         // $company = ['company_id' => $data->id];
 
         $oldData->update(array_merge(
             $post,
             $user,
-            // $company
+        // $company
         ));
         return response()->json([$user, $post]);
-}
-    
-public function delete_service($id){
+    }
 
-    $service = Service::findOrFail($id)->delete();
-    $this->authorize('delete', $service);
-    return response()->json([ $service]);
-    
-}
+    public function delete_service($id){
+
+        $service = Service::findOrFail($id)->delete();
+        $this->authorize('delete', $service);
+        return response()->json([ $service]);
+
+    }
 
 //Working Time
-public function working_time()
-{
-    // $company = WorkingTime::where('subscriber_id', auth()->user('subscriber')->id)->first();
-    // $company_id =['company_id' => $company->id];
-    $working_time  = WorkingTime::where('subscriber_id', auth()->user('subscriber')->id)->first();
-    
-    return response()->json(["working time" => $working_time]);
-}
+    public function working_time()
+    {
+        // $company = WorkingTime::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        // $company_id =['company_id' => $company->id];
+        $working_time  = WorkingTime::where('subscriber_id', auth()->user('sanctum')->id)->first();
 
-public function add_working_time(Request $request)
-{
-    $data = request()->all();
-    $subscriber = ['subscriber_id' => auth()->user('subscriber')->id];
-    $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
-    $company_id =['company_id' => $company->id];
-    
-    WorkingTime::create(array_merge(
-        $data,
-        $subscriber,
-        $company_id
-    ));
+        return response()->json(["working time" => $working_time]);
+    }
 
-    return response()->json([$data, $subscriber, $company_id]);
-}
-public function edit_working_time($id){
-        
-    $working_time = WorkingTime::findOrFail($id);
+    public function add_working_time(Request $request)
+    {
+        $data = request()->all();
+        $subscriber = ['subscriber_id' => auth()->user('sanctum')->id];
+        $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $company_id =['company_id' => $company->id];
+
+        WorkingTime::create(array_merge(
+            $data,
+            $subscriber,
+            $company_id
+        ));
+
+        return response()->json([$data, $subscriber, $company_id]);
+    }
+    public function edit_working_time($id){
+
+        $working_time = WorkingTime::findOrFail($id);
         //  $this->authorize('view', $service);
-    return response()->json([ $working_time]);
-    
-}
+        return response()->json([ $working_time]);
 
-public function update_working_time(Request $request, $id){
-    
-      $data = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
-            $post = request()->all();
-            $oldData = WorkingTime::findOrFail($id);
-                //  $this->authorize('view', $oldData);
-            $user = ['subscriber_id' => auth('subscriber')->user()->id];
-            $company = ['company_id' => $data->id];
-    
-            $oldData->update(array_merge(
-                $post,
-                $user,
-                $company
-            ));
-            return response()->json([$user, $post]);
+    }
+
+    public function update_working_time(Request $request, $id){
+
+        $data = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $post = request()->all();
+        $oldData = WorkingTime::findOrFail($id);
+        //  $this->authorize('view', $oldData);
+        $user = ['subscriber_id' => auth('subscriber')->user()->id];
+        $company = ['company_id' => $data->id];
+
+        $oldData->update(array_merge(
+            $post,
+            $user,
+            $company
+        ));
+        return response()->json([$user, $post]);
     }
 
     public function add_company_rating(Request $request)
-{
-    $data = request()->all();
-    $subscriber = ['subscriber_id' => auth()->user('subscriber')->id];
-    $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
-    $company_id =['company_id' => $company->id];
-    
-    CompanyRating::create(array_merge(
-        $data,
-        $subscriber,
-        $company_id
-    ));
+    {
+        $data = request()->all();
+        $subscriber = ['subscriber_id' => auth()->user('sanctum')->id];
+        $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $company_id =['company_id' => $company->id];
 
-    return response()->json([$data, $subscriber, $company_id]);
-}
-   
-public function add_company_review(Request $request)
-{
-    $data = request()->all();
-    $subscriber = ['subscriber_id' => auth()->user('subscriber')->id];
-    $company = Company::where('subscriber_id', auth()->user('subscriber')->id)->first();
-    $company_id =['company_id' => $company->id];
-    
-    CompanyReview::create(array_merge(
-        $data,
-        $subscriber,
-        $company_id
-    ));
+        CompanyRating::create(array_merge(
+            $data,
+            $subscriber,
+            $company_id
+        ));
 
-    return response()->json([$data, $subscriber, $company_id]);
-}
+        return response()->json([$data, $subscriber, $company_id]);
+    }
+
+    public function add_company_review(Request $request)
+    {
+        $data = request()->all();
+        $subscriber = ['subscriber_id' => auth()->user('sanctum')->id];
+        $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $company_id =['company_id' => $company->id];
+
+        CompanyReview::create(array_merge(
+            $data,
+            $subscriber,
+            $company_id
+        ));
+
+        return response()->json([$data, $subscriber, $company_id]);
+    }
 }

@@ -45,7 +45,7 @@
 					</li>
 
 					<li class="sidebar-item active">
-						
+
 						<a class="sidebar-link" href="@if(Auth::user()->role == 1) /admin @elseif(Auth::user()->role == 4) /encoder @elseif(Auth::user()->role == 5)  /blogger @endif">
               <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
             </a>
@@ -95,6 +95,12 @@
               <i class="align-middle" data-feather="bell"></i> <span class="align-middle">InComplete Companies</span>
             </a>
 					</li>
+
+                        <li class="sidebar-item active">
+                            <a class="sidebar-link" href="{{ route('verified_company') }}">
+                                <i class="align-middle" data-feather="move"></i> <span class="align-middle">Verfied Companies</span>
+                            </a>
+                        </li>
 					@endif
 
 
@@ -111,7 +117,7 @@
 							<li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog.create') }}">Add New Vacancy</a></li>
 						</ul>
 					</li>
-			
+
 			@endif
 <hr>
 			<li class="sidebar-item">
@@ -336,7 +342,7 @@
 				<div class="container-fluid p-0">
 
 					<div class="row mb-2 mb-xl-3">
-				
+
 
 		@yield('content')
 				</div>
@@ -378,7 +384,7 @@
 	<script>
 	CKEDITOR.replace( 'summary-ckeditor' );
 	</script>
-	
+
     <script>
         CKEDITOR.replace( 'summary-ckeditor1' );
         </script>

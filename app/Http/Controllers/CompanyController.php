@@ -294,9 +294,7 @@ class CompanyController extends Controller
             }
         }
 
-
-
-
+//        return redirect()->back();
         return redirect('/company')->with('message', 'Company Updated Successfully');
     }
 
@@ -320,30 +318,7 @@ class CompanyController extends Controller
         ));
         return redirect()->back()->with('message', "Company Verfied Successfully");
     }
-    //     public function upload(){
-    //     $post = request()->all();
-    //     $user = ['user_id' => auth()->user()->id];
-    //     $imagePath = ['name' => $imageName];
 
-    //        if(count($request->name) > 0){
-    //            foreach($request->name as $item=>$v){
-    //            $post2=array(
-    //                'name' => $request->name[$item],
-    //            );
-    //         Images::create(array_merge(
-    //             $post,
-    //            //  $post2,
-    //             $user,
-    //             $imagePath,
-    //             $company_id
-
-
-    //         ));
-
-    //        }}
-
-    //     return redirect()->back();
-    // }
 
     /**
      * Remove the specified resource from storage.
@@ -391,7 +366,7 @@ class CompanyController extends Controller
         // );
         $oldData->update(array_merge(
             $data,
-            $user,
+            $user
         // $call
         ));
 
@@ -441,6 +416,7 @@ class CompanyController extends Controller
     {
 //        $company = Company::findOrFail($id);
          Images::findOrFail($id)->delete();
+         return redirect()->back();
     }
 
     function fetch($id)

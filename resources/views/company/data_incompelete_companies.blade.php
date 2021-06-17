@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 
-
+<p>{{$count->count()}} Companies</p>
 <table class="table table-light">
     <thead class="thead-light">
         <tr>
@@ -33,13 +33,13 @@
                      {{-- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#defaultModalPrimary{{$posts->id}}">
                         Add Category
                      </button> --}}
-                     @if( $posts->called == NULL) 
-       <button type="button" class="btn btn-info mr-2" data-toggle="modal" data-target="#defaultModalPrimary{{$posts->id}}">Never Called</button>
+                     @if( $posts->called == NULL)
+       <button type="button" class="btn btn-info mr-2" data-toggle="modal" data-target="#defaultModalPrimary{{$posts->id}}"> <i class="align-middle" data-feather="tag"></i> Never Called</button>
 
 @elseif($posts->called == 1)
-       <button type="button" class="btn btn-warning mr-2" data-toggle="modal" data-target="#defaultModalPrimary{{$posts->id}}">No Answer</button>
+       <button type="button" class="btn btn-warning mr-2" data-toggle="modal" data-target="#defaultModalPrimary{{$posts->id}}"><i class="align-middle" data-feather="tag"></i> No Answer</button>
 @else
-       <button type="button" class="btn btn-warning mr-2" data-toggle="modal" data-target="#defaultModalPrimary{{$posts->id}}">Don't give information</button>
+       <button type="button" class="btn btn-warning mr-2" data-toggle="modal" data-target="#defaultModalPrimary{{$posts->id}}"><i class="align-middle" data-feather="tag"></i> Didn't give information</button>
 @endif
 <a href="{{ route('company.edit', $posts->id) }}"><button class="btn btn-primary mr-2" >Edit</button></a>
                 {{-- <form method="POST" action="">
@@ -53,8 +53,8 @@
                 <button class="btn btn-warning mr-2"  type="submit">Cancel verification</button>
                 @endif
                 </form> --}}
-        
-     
+
+
                 <form method="POST" action="{{ route('company.destroy', $posts->id) }}">
                 @csrf
                 @method('DELETE')
@@ -65,13 +65,13 @@
 
         </tr>
 
-          
-           
+
+
         @endforeach
     </tbody>
     <tfoot>
         <tr>
-            <th>#</th>
+            <th>{{$post->links()}}</th>
         </tr>
     </tfoot>
 </table>
@@ -88,7 +88,7 @@
     </button>
                 </div>
                 <div class="modal-body m-3">
-                    
+
             <form method="POST" action="{{ route('company.called', $posts->id)  }}">
                         @csrf
                     <div class="row">

@@ -437,38 +437,35 @@
 
     <div class="container-fluid">
         <br />
-{{--      <h3 align="center">Image Upload in Laravel using Dropzone</h3>--}}
-      <br />
-
-        <div class="panel panel-default">
-{{--          <div class="panel-heading">--}}
-{{--            <h3 class="panel-title">Select Image</h3>--}}
-{{--          </div>--}}
-{{--          <div class="panel-body">--}}
-{{--            <form id="dropzoneForm" class="dropzone" action="{{ route('dropzone.upload') }}" method="POST">--}}
-{{--              @csrf--}}
-{{--              <input type="hidden" name="image[ ]" id="name" class="form-control" >--}}
-
-{{--              <input type="hidden" name="company_id[ ]" id="company" class="form-control" value="{{$post->id}}">--}}
-{{--              --}}{{-- <button type="button" class="btn btn-link remove_image" id="'.$image->getFilename().'">Remove</button> --}}
-{{--            </form>--}}
-{{--            <div align="center">--}}
-{{--                <br>--}}
-{{--              <button type="button" class="btn btn-info" id="submit-all">Upload</button>--}}
-{{--            </div>--}}
-{{--          </div>--}}
-{{--        </div>--}}
+        {{--      <h3 align="center">Image Upload in Laravel using Dropzone</h3>--}}
         <br />
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Uploaded Image</h3>
-          <hr>
-          </div>
-          <div class="panel-body" id="uploaded_image">
 
-          </div>
+        <div class="panel panel-default">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Uploaded Image</h3>
+                    <hr>
+                </div>
+                <br />
+
+                <div class="panel-body" id="">
+                    <div class="row">
+                        @foreach ($images as $image)
+                            <div class="col-md-2" style="margin-bottom:16px;" align="center">
+                                <img src="/storage/{{$image->image}}" class="img-thumbnail" width="175" height="175" style="height:175px;" />
+                                <form action="{{route('dropzone.delete', $image->id)}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-link" >Remove</button>
+                                </form>
+
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
-        </div>
+    </div>
 
 
 <script>
@@ -531,80 +528,11 @@
         })
     }
 
-    $(document).on('click', '.remove_image', function(){
-              var name = $(this).attr('id');
-              $.ajax({
-                url:"{{ route('dropzone.delete', $company->id) }}",
-                data:{name : name},
-                success:function(data){
-                  load_images();
-                }
-              })
-       });
+
 
 </script>
 
-{{--      <script type="text/javascript">--}}
 
-{{--        Dropzone.options.dropzoneForm = {--}}
-{{--          autoProcessQueue : false,--}}
-{{--          acceptedFiles : ".png,.jpg,.gif,.bmp,.jpeg",--}}
-{{--          addRemoveLinks: true,--}}
-
-
-{{--          init:function(){--}}
-{{--            var submitButton = document.querySelector("#submit-all");--}}
-{{--            myDropzone = this;--}}
-{{--            var tr = '<tr>' +--}}
-{{--                '<td><input type="text" name="image[ ]" id="name" class="form-control"></td>'+--}}
-{{--                '<td><input type="hidden" name="company_id[ ]" id="company" class="form-control" value="{{$post->id}}"></td>' +--}}
-{{--        '</tr>';--}}
-{{--    // $('tbody').append(tr);--}}
-
-{{--            submitButton.addEventListener('click', function(){--}}
-{{--              myDropzone.processQueue();--}}
-{{--            });--}}
-
-{{--            this.on("complete", function(){--}}
-{{--              if(this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0)--}}
-{{--              {--}}
-{{--                var _this = this;--}}
-{{--                _this.removeAllFiles();--}}
-{{--              }--}}
-{{--              load_images();--}}
-{{--            });--}}
-
-{{--          }--}}
-
-{{--        };--}}
-
-{{--        load_images();--}}
-
-{{--        function load_images()--}}
-{{--        {--}}
-{{--          $.ajax({--}}
-{{--            url:"{{ route('dropzone.fetch', $company->id) }}",--}}
-{{--            success:function(data)--}}
-{{--            {--}}
-{{--              $('#uploaded_image').html(data);--}}
-{{--            }--}}
-{{--          })--}}
-{{--        }--}}
-
-{{--        $(document).on('click', '.remove_image', function(){--}}
-{{--          var name = $(this).attr('id');--}}
-{{--          $.ajax({--}}
-{{--            url:"{{ route('dropzone.delete', $company->id) }}",--}}
-{{--            data:{name : name},--}}
-{{--            success:function(data){--}}
-{{--              load_images();--}}
-{{--            }--}}
-{{--          })--}}
-{{--        });--}}
-{{--    //     $('tbody').on('click', '.deleteRow', function(){--}}
-{{--    //     $(this).parent().parent().remove();--}}
-{{--    // })--}}
-{{--        </script>--}}
       @endsection
 
 
