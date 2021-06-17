@@ -4,10 +4,10 @@ namespace App;
 
 use App\Company;
 use App\Service;
-// use Laravel\Sanctum\HasApiTokens;
+ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Laravel\Passport\HasApiTokens;
+//use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -43,7 +43,7 @@ class User extends Authenticatable
     public function companies(){
         return $this->hasMany(Company::class);
     }
-  
+
     public function blogs(){
         return $this->hasMany(Blog::class);
     }

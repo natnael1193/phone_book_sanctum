@@ -25,15 +25,17 @@ use Intervention\Image\Facades\Image;
 
 
 // Route::post('/login', 'AccesTokenController::class@issueToken')->middleware(['api-login', 'throttle']);
-
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     Route::post('/subscriber/create', 'Api\Auth\SubscriberRegistrationController@register')->name('subscriber.registration');
     // ...
-    Route::middleware('auth:api')->get('/user', function (Request $request) {
-        return $request->user();
-    });
+    // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    //     return $request->user();
+    // });
 
     Route::middleware('auth:api')->group(function () {
         // our routes to be protected will go in here
@@ -53,7 +55,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
                 'email' => ['The provided credentials are incorrect.'],
             ], 404);
         }
-        return ["user" => $user->id, "token" => $user->createToken('api-application')->accessToken];
+        return ["user" => $user->id, "token" => $user->createToken('API Token')->plainTextToken];
     });
 
     Route::post("/subscriber/login", function (Request $request) {
@@ -90,6 +92,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     });
 
     //MainController
+
     Route::get('companies', 'Api\MainController@company');
     Route::get('company_detail/{id}', 'Api\MainController@company_detail');
     Route::get('blogs', 'Api\MainController@blog');
@@ -110,9 +113,9 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
 
 //A Middleware For Subscriber Controller
-Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], function () {
+Route::group(['middleware' => ['cors', 'json.response', 'auth:api']], function () {
     // //Company Owner
-    Route::get('subscriber', 'Api\Auth\SubscriberController@index')->name('subscriber');
+//    Route::get('subscriber', 'Api\Auth\SubscriberController@index')->name('subscriber');
     Route::get('subscriber/edit', 'Api\Auth\SubscriberController@edit')->name('subscriber.edit');
     Route::post('subscriber/add_company', 'Api\Auth\SubscriberController@new_company')->name('subscriber.new_company');
     Route::post('/subscriber/store', 'Api\Auth\SubscriberController@create')->name('subscriber.store_company');
@@ -162,7 +165,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
 
 
 //A Middleware For Admin Controller
-Route::group(['middleware' => ['cors', 'json.response', 'auth:api']], function () {
+Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], function () {
     Route::resource('blog', 'Api\BlogController');
     Route::resource('company', 'Api\CompanyController');
     Route::resource('category', 'Api\CategoryController');
