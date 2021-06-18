@@ -8,4 +8,8 @@ class CompanyRating extends Model
 {
     //
     protected $fillable = ['company_id', 'rating', 'subscriber_id'];
+    public function subscriber()
+    {
+        return $this->belongsTo(Subscriber::class);
+    }
 }

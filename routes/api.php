@@ -1,9 +1,11 @@
 <?php
 
+use App\Service;
 use App\User;
 use App\Company;
 use App\Customer;
 use App\Subscriber;
+use App\WorkingTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -25,9 +27,15 @@ use Intervention\Image\Facades\Image;
 
 
 // Route::post('/login', 'AccesTokenController::class@issueToken')->middleware(['api-login', 'throttle']);
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:sanctum')->get('/subscriber', function (Request $request) {
+////    return $request->user();
+//    $post =  Company::query()->where('subscriber_id', auth()->user()->id)->first();
+//    $user = Subscriber::query()->where('email', auth()->user('sanctum')->email)->first();
+//    $service = Service::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
+//    $working_time = WorkingTime::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
+//
+//    return response()->json(["subscriber" => $user, "company" => $post, "company services" => $service, "working time" => $working_time]);
+//});
 
 Route::group(['middleware' => ['cors', 'json.response']], function () {
 
@@ -71,9 +79,9 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         }
         $subscriber_company = Company::where('company_email', $subscriber->company_email)->first();
         if ($subscriber_company == null) {
-            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "isCompany" => false, "token" => $subscriber->createToken('API Token')->plainTextToken];
+            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "hasCompany" => false, "token" => $subscriber->createToken('API Token')->plainTextToken];
         } else {
-            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "isCompany" => true, "companyID" => $subscriber_company->id, "companyName" => $subscriber_company->company_name,  "companyEmail" => $subscriber->company_email, "companyPhone" => $subscriber_company->phone_number, "token" => $subscriber->createToken('API Token')->plainTextToken];
+            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "hasCompany" => true, "companyID" => $subscriber_company->id, "companyName" => $subscriber_company->company_name,  "companyEmail" => $subscriber->company_email, "companyPhone" => $subscriber_company->phone_number, "token" => $subscriber->createToken('API Token')->plainTextToken];
         }
     });
 
@@ -113,9 +121,9 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
 
 //A Middleware For Subscriber Controller
-Route::group(['middleware' => ['cors', 'json.response', 'auth:api']], function () {
+Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], function () {
     // //Company Owner
-//    Route::get('subscriber', 'Api\Auth\SubscriberController@index')->name('subscriber');
+    Route::get('subscriber', 'Api\Auth\SubscriberController@index')->name('subscriber');
     Route::get('subscriber/edit', 'Api\Auth\SubscriberController@edit')->name('subscriber.edit');
     Route::post('subscriber/add_company', 'Api\Auth\SubscriberController@new_company')->name('subscriber.new_company');
     Route::post('/subscriber/store', 'Api\Auth\SubscriberController@create')->name('subscriber.store_company');

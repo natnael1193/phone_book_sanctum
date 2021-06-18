@@ -29,4 +29,13 @@ class Subscriber extends Authenticatable
     public function company(){
         return $this->hasOne(Company::class);
     }
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
+    public function company_reviews(){
+        return $this->hasMany(Review::class);
+    }
+    public function company_ratings(){
+        return $this->hasMany(Rating::class);
+    }
 }

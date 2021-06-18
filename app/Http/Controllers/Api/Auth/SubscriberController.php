@@ -66,7 +66,7 @@ class SubscriberController extends Controller
 
     public function index()
     {
-        $post =  Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $post =  Company::query()->where('subscriber_id', auth()->user()->id)->first();
         $user = Subscriber::query()->where('email', auth()->user('sanctum')->email)->first();
         $service = Service::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
         $working_time = WorkingTime::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
@@ -357,15 +357,15 @@ class SubscriberController extends Controller
         $data = request()->all();
         $subscriber = ['subscriber_id' => auth()->user('sanctum')->id];
         $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
-        $company_id =['company_id' => $company->id];
+//        $company_id =['company_id' => $company->id];
 
         CompanyRating::create(array_merge(
             $data,
-            $subscriber,
-            $company_id
+            $subscriber
+//            $company_id
         ));
 
-        return response()->json([$data, $subscriber, $company_id]);
+        return response()->json([$data, $subscriber]);
     }
 
     public function add_company_review(Request $request)

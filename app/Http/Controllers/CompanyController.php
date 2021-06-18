@@ -407,7 +407,7 @@ class CompanyController extends Controller
             $post = $post->where('company_name', 'LIKE', '%' . $keyword . '%');
         }
         $post = $post->get();
-        return response()->json($post);
+//        return response()->json($post);
 
         return view('company.search', compact('post'));
     }

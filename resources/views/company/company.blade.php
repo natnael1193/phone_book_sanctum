@@ -25,7 +25,7 @@
                     <form action="{{route('company.search')}}" method="POST">
                         @csrf
                     <div class="row col-xl-12 col-lg-12 col-md-12">
-                      
+
                             <h4>Search Company </h4>
                             <div class="col-xl-6 col-lg-6 col-md-6 mr-2">
                                 <input type="text" class="form-control  mr-2" name="keyword">
@@ -40,46 +40,46 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6" style="display: flex; justify-content: center; align-items: center">
                                 <button class="btn btn-info">Search</button>
-                            </div>                  
-                        <br>      
-                                
+                            </div>
+                        <br>
+
                     </div>
-                </form>  
-                    </div>  
-                    
-    
+                </form>
+                    </div>
+
+
             </div>
 
             <div class="row" style="margin-top: 5%">
-                @if(Auth::user()->role == 1 || Auth::user()->status_id == 1) 
+                @if(Auth::user()->role == 1 || Auth::user()->status_id == 1)
                 @foreach($company as $posts)
                 {{-- @if($posts->verification != Null) --}}
                 <div class="col-xl-4 col-lg-4 col-md-6">
         <div class="card">
             <div class="card-body">
-         
+
                 <div class="mb-3">
                     <div class="row  col-xl-12 col-lg-12 col-md-12">
                         <div class="alert-message">
-                       
+
                                 <div class="col-xl-12 col-lg-12 col-md-12">
                                     <h3 class="alert-heading">{{ $posts->company_name }}</h3>
                                 </div>
                            <div class="row">
                             <div class="col-xl-6 col-lg-6 col-md-6" role="alert">
                                 @if($posts->company_category == 2)
-                               <span class="badge badge-primary">Premium</span>                                        
-                               @else                                     
-                                   <span class="badge badge-warning">Basic</span>                                            
+                               <span class="badge badge-primary">Premium</span>
+                               @else
+                                   <span class="badge badge-warning">Basic</span>
                                @endif
                            </div>
                            <div class="col-xl-6 col-lg-6 col-md-6" role="alert">
                             @if($posts->verification == 1)
                             <div class="alert alert-primary alert-outline-coloured alert-dismissible col-xl-2 col-lg-2 col-md-2" >
-        
-                                    <i class="align-middle" data-feather="check-square" style="color: blue"></i> 
+
+                                    <i class="align-middle" data-feather="check-square" style="color: blue"></i>
                                 </div>
-             
+
                             @endif
                             </div>
                             </div>
@@ -91,7 +91,7 @@
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12"><p>Email: {{ $posts->email }}</p></div>
                                 <div class="col-xl-12 col-lg-12"><p>Phone: {{ $posts->phone_number }}</p></div>
-                                <div class="col-xl-12 col-lg-12"><p>Location: {{ $posts->location }}</h4></div>                           
+                                <div class="col-xl-12 col-lg-12"><p>Location: @if($posts->location_id != null){{ App\Location::findOrFail($posts->location_id)->name }} @else Location not registered  @endif</p></div>
                             </div>
                             <div class="btn-list d-flex">
                               <a href="{{ route('company.edit', $posts->id) }}" > <button class="btn btn-primary mr-2" type="button">Edit</button></a>
@@ -104,13 +104,13 @@
                             <br>
                         </div>
                 </div>
-          
+
             </div>
         </div>
                 </div>
                 {{-- @endif --}}
-    @endforeach  
-  
+    @endforeach
+
 </div>
 <div class="row col-xl-12 ol-lg-12" style="display: flex; justify-content: center; align-items: center">
 {{ $company->links() }}
@@ -120,35 +120,35 @@
 
 
                 <div class="row" style="margin-top: 5%">
-                    @if(Auth::user()->role != 1 && Auth::user()->status_id != 1) 
+                    @if(Auth::user()->role != 1 && Auth::user()->status_id != 1)
                     @foreach($post as $posts)
                     {{-- @if($posts->verification != Null) --}}
                     <div class="col-xl-4 col-lg-4 col-md-6">
             <div class="card">
                 <div class="card-body">
-             
+
                     <div class="mb-3">
                         <div class="row  col-xl-12 col-lg-12 col-md-12">
                             <div class="alert-message">
-                           
+
                                     <div class="col-xl-12 col-lg-12 col-md-12">
                                         <h3 class="alert-heading">{{ $posts->company_name }}</h3>
                                     </div>
                                <div class="row">
                                 <div class="col-xl-6 col-lg-6 col-md-6" role="alert">
                                     @if($posts->company_category == 2)
-                                   <span class="badge badge-primary">Premium</span>                                        
-                                   @else                                     
-                                       <span class="badge badge-warning">Basic</span>                                            
+                                   <span class="badge badge-primary">Premium</span>
+                                   @else
+                                       <span class="badge badge-warning">Basic</span>
                                    @endif
                                </div>
                                <div class="col-xl-6 col-lg-6 col-md-6" role="alert">
                                 @if($posts->verification == 1)
                                 <div class="alert alert-primary alert-outline-coloured alert-dismissible col-xl-2 col-lg-2 col-md-2" >
-            
-                                        <i class="align-middle" data-feather="check-square" style="color: blue"></i> 
+
+                                        <i class="align-middle" data-feather="check-square" style="color: blue"></i>
                                     </div>
-                 
+
                                 @endif
                                 </div>
                                 </div>
@@ -160,7 +160,7 @@
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12"><p>Email: {{ $posts->email }}</p></div>
                                     <div class="col-xl-12 col-lg-12"><p>Phone: {{ $posts->phone_number }}</p></div>
-                                    <div class="col-xl-12 col-lg-12"><p>Location: {{ $posts->location }}</h4></div>                           
+                                    <div class="col-xl-12 col-lg-12"><p>Location: {{ $posts->location }}</h4></div>
                                 </div>
                                 <div class="btn-list d-flex">
                                   <a href="{{ route('company.edit', $posts->id) }}" > <button class="btn btn-primary mr-2" type="button">Edit</button></a>
@@ -173,13 +173,13 @@
                                 <br>
                             </div>
                     </div>
-              
+
                 </div>
             </div>
                     </div>
                     {{-- @endif --}}
-        @endforeach  
-      
+        @endforeach
+
     </div>
 <div class="row col-xl-12 ol-lg-12" style="display: flex; justify-content: center; align-items: center">
     {{ $post->links() }}
@@ -188,7 +188,7 @@
 
         @endif
 
-   
+
 
 
         {{-- <script type="text/javascript">

@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     //
+    public function subscriber()
+    {
+        return $this->belongsTo(Subscriber::class);
+    }
 }
