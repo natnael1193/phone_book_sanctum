@@ -66,7 +66,7 @@
     <body>
         <div class="flex-center position-ref full-height">
             {{-- <div class="top-right links"> --}}
-       
+
             {{-- </div> --}}
             @if (Route::has('login'))
                 <div class="top-right links">
@@ -85,14 +85,14 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                JakTech
+       Hulum
                 </div>
 
                 <div class="links">
-                    <a href="/subscriber_company/sign_up">Company Owner Register</a>
-                    <a href="/subscriber/sign_in">Company Owner Login</a>
-                    <a href="/subscriber/sign_up">User Register</a>
-                    <a href="/customer/sign_in">User Login</a>
+{{--                    <a href="/subscriber_company/sign_up">Company Owner Register</a>--}}
+{{--                    <a href="/subscriber/sign_in">Company Owner Login</a>--}}
+{{--                    <a href="/subscriber/sign_up">User Register</a>--}}
+{{--                    <a href="/customer/sign_in">User Login</a>--}}
                     {{-- <a href="https://nova.laravel.com">Nova</a>
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://vapor.laravel.com">Vapor</a>

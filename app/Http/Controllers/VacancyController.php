@@ -20,11 +20,11 @@ class VacancyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+
     public function index()
     {
         //
-        $post = Vacancy::query()->paginate(10);
+        $post = Vacancy::query()->orderBy('created_at', "DESC")->paginate(10);
         return view('vacancy.vacancy', compact('post'));
     }
 
@@ -36,7 +36,7 @@ class VacancyController extends Controller
     public function create()
     {
         //
-        
+
         $company = Company::all()->sortBy('name');
         $category = Category::all()->sortBy('name');
         return view('vacancy.add_vacancy', compact('company', 'category'));

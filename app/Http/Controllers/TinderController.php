@@ -23,7 +23,7 @@ class TinderController extends Controller
     public function index()
     {
         //
-       
+
         // $user = auth()->user()->tinders()->pluck('tinders.user_id');
         // $post = Tinder::whereIn('user_id', $user)->orderBy('created_at', 'desc')->paginate(5);
         $post = Tinder::orderBy('created_at', 'desc')->paginate(5);
@@ -58,6 +58,7 @@ class TinderController extends Controller
             'image' => '',
             'price' => 'required',
             'bond' => '',
+            'category_id' => '',
             'opening_date' => 'required',
             'closing_date' => 'required',
             'company_id' => ''
@@ -76,7 +77,7 @@ class TinderController extends Controller
             $data,
             $user,
             $imageArray ?? [],
-            
+
         ));
     //    dd($data);
 return redirect()->back()->with('message', 'Tender Added Successfully');
@@ -108,7 +109,7 @@ return redirect()->back()->with('message', 'Tender Added Successfully');
         // return response()->json($post);
         $company = Company::all()->sortBy('name');
         return view('tinder.edit_tinder', compact('post', 'company'));
-        
+
     }
 
     /**

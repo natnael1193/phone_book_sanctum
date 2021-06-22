@@ -7,7 +7,7 @@
                     @if(Session::has('message'))
                     <p class="alert alert-info">{{ Session::get('message') }}</p>
                     @endif
-                 
+
                     </div>
                 <div class="col-auto ml-auto text-right mt-n1">
                     <nav aria-label="breadcrumb">
@@ -52,13 +52,17 @@
                                         <div class="form-group">
                                             <label for="my-select">Category</label>
                                             <select id="my-select" class="form-control" name="category_id" required>
-                                                <option>Select Category</option>
+{{--                                                <option>Select Category</option>--}}
                                                 @foreach($category as $categories)
-                                                <option value="{{ $categories->id }}">{{ $categories->name }}</option>
+                                                    @if($categories->id == 1)
+                                                        <option value=null>Select Category</option>
+                                                    @else
+                                                        <option value={{$categories->id}} required>{{$categories->name}}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div>                          
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6 col-md-12 col-sl-12">
@@ -85,7 +89,7 @@
                                             </select>
                                         </div>
                                     </div>
-                            
+
                                 </div>
                                 <div class="row">
                                         <div class="form-group">
@@ -111,7 +115,7 @@
                                         </div>
                                         </div>
                                     </div>
-                     
+
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
@@ -120,7 +124,7 @@
                                         </div>
                                     </div>
                                 </div>
-                    
+
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>

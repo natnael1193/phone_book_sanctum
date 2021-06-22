@@ -316,7 +316,7 @@ class CompanyController extends Controller
             $user,
             $verification
         ));
-        return redirect()->back()->with('message', "Company Verfied Successfully");
+        return redirect()->back()->with('message', "Company Verified Successfully");
     }
 
 

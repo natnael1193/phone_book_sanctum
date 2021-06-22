@@ -104,9 +104,13 @@
                                         <div class="form-group">
                                             <label for="my-select">Company Category</label>
                                             <select id="my-select" class="form-control" name="category_id" required>
-                                                <option value="">Select Category</option>
+
                                                 @foreach($post as $posts)
+                                                    @if($posts->id == 1)
+                                                        <option value=null>Select Category</option>
+                                                    @else
                                                 <option value="{{ $posts->id }}">{{ $posts->name }}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
