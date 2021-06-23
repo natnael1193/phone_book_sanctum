@@ -288,12 +288,12 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
-                                          <input class="form-control" type="time" name="monday_open" value="08:00 AM">
+                                          <input class="form-control" type="time" value="08:00" name="monday_open" >
                                           <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="monday_closed" value="05:00 PM">
+                                           <input class="form-control" type="time" value="05:00" name="monday_closed" >
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -303,12 +303,12 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
-                                          <input class="form-control" type="time" name="tuesday_open" value="08:00 AM">
+                                          <input class="form-control" type="time" name="tuesday_open" value="08:00">
                                           <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="tuesday_closed" value="05:00 PM">
+                                           <input class="form-control" type="time" name="tuesday_closed" value="05:00" >
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -318,12 +318,12 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
-                                          <input class="form-control" type="time" name="wednesday_open" value="08:00 AM">
+                                          <input class="form-control" type="time" name="wednesday_open" value="08:00">
                                           <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="wednesday_closed" value="05:00 PM">
+                                           <input class="form-control" type="time" name="wednesday_closed" value="05:00">
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -333,12 +333,12 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
-                                          <input class="form-control" type="time" name="thursday_open" value="08:00 AM">
+                                          <input class="form-control" type="time" name="thursday_open" value="08:00">
                                           <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="thursday_closed" value="05:00 PM">
+                                           <input class="form-control" type="time" name="thursday_closed" value="05:00">
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -348,12 +348,12 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
-                                          <input class="form-control" type="time" name="friday_open" value="08:00 AM">
+                                          <input class="form-control" type="time" name="friday_open" value="08:00">
                                           <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="friday_closed" value="05:00 PM">
+                                           <input class="form-control" type="time" name="friday_closed" value="05:00">
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -363,12 +363,12 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
-                                          <input class="form-control" type="time" name="saturday_open" value="08:00 AM">
+                                          <input class="form-control" type="time" name="saturday_open" value="08:00">
                                           <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="saturday_closed" value="05:00 PM">
+                                           <input class="form-control" type="time" name="saturday_closed" value="05:00">
                                            <br>
                                         </div>
                                     </div>

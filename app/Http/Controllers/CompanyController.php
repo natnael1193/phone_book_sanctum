@@ -114,8 +114,13 @@ class CompanyController extends Controller
         $company_id = ['company_id' => $company->id];
 
 
+        $time = request()->validate([
+                "monday_open" => '',
+
+            ]
+        );
         WorkingTime::create(array_merge(
-            $data,
+            $time,
             $company_id
         ));
 
@@ -246,7 +251,7 @@ class CompanyController extends Controller
 
 
         $company_id = ['company_id' => $oldData->id];
-        $check_company = WorkingTime::where('company_id', '=', \Request::get($oldData->id))->first();
+        $check_company = WorkingTime::where('company_id', $oldData->id)->exists();
 
         if ($check_company != true) {
             WorkingTime::create(array_merge(
@@ -418,7 +423,12 @@ class CompanyController extends Controller
          Images::findOrFail($id)->delete();
          return redirect()->back();
     }
-
+    function delete_service($id)
+    {
+//        $company = Company::findOrFail($id);
+        Service::findOrFail($id)->delete();
+        return redirect()->back();
+    }
     function fetch($id)
     {
         $company = Company::findOrFail($id);

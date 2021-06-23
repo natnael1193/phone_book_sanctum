@@ -21,10 +21,13 @@ class ActivityLogController extends Controller
     public function index()
     {
         //
-     $post = DB::table('activity_log')->orderBy('created_at', 'desc')->paginate(5);
+          $post = DB::table('activity_log')->orderBy('created_at', 'desc')->paginate(5);
+//        $activity = Activity::all()->last();
+//
+//         $post = $activity->changes();
         return view('activity_log.activity_log', compact('post'));
-        
-     
+
+
 
     }
 
@@ -37,8 +40,8 @@ class ActivityLogController extends Controller
     {
         //
         $activity = Activity::all()->last();
-        // $activity->changes;
-        return response()->json($activity);
+        return $activity->changes();
+//        return response()->json($activity);
     }
 
     /**
@@ -61,9 +64,8 @@ class ActivityLogController extends Controller
     public function show($id)
     {
         //
-        $activity = Activity::findOrFail($id);
-        // $json = Collection::make([ $activity])->toJson();
-          
+        $post = Activity::findOrFail($id);
+       $activity = $post;
         return view('activity_log.activity_log_detail', compact('activity'));
     }
 

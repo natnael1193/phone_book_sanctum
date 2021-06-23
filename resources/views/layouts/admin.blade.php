@@ -35,7 +35,7 @@
 	<div class="wrapper">
 		<nav id="sidebar" class="sidebar">
 			<div class="sidebar-content js-simplebar">
-				<a class="sidebar-brand" href="index.html">
+				<a class="sidebar-brand" href="/admin">
           <span class="align-middle">Hulum</span>
         </a>
 
@@ -46,7 +46,7 @@
 
 					<li class="sidebar-item active">
 
-						<a class="sidebar-link" href="@if(Auth::user()->role == 1) /admin @elseif(Auth::user()->role == 4) /encoder @elseif(Auth::user()->role == 5)  /blogger @endif">
+						<a class="sidebar-link" href="@if(Auth::user()->role == 1) /admin @elseif(Auth::user()->role == 4) /encoder @elseif(Auth::user()->role == 5)  /blogger @else / @endif">
               <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
             </a>
 					</li>

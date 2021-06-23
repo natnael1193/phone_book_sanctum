@@ -67,6 +67,7 @@ Route::post('company_search', 'CompanyController@search_company')->name('company
 Route::delete('dropzone/delete/{id}', 'CompanyController@delete')->name('dropzone.delete');
 Route::get('dropzone/fetch/{id}', 'CompanyController@fetch')->name('dropzone.fetch');
 Route::post('/upload/images', 'CompanyController@upload')->name('dropzone.upload');
+Route::delete('/service/delete/{id}', 'CompanyController@delete_service');
 
 
 

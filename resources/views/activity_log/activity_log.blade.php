@@ -7,6 +7,7 @@
             <th>Name</th>
             <th>Status</th>
             <th>Model</th>
+            <th colspan="2">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -16,6 +17,7 @@
             <td>{{ App\User::findOrFail($posts->causer_id)->name }}</td>
             <td>{{ $posts->description }}</td>
             <td>{{ $posts->causer_type }}</td>
+            <td><a href="/activity_log/{{$posts->id}}"><button class="btn btn-primary">Show</button> </a> </td>
         </tr>
         @endforeach
     </tbody>
