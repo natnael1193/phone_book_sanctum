@@ -52,6 +52,7 @@ class BlogController extends Controller
             'title' => 'required',
             'description' => 'required',
             'image' => '',
+            'category_id' => ''
         ]);
         $user=['user_id' => auth()->user()->id];
         if(request('image')){
@@ -67,7 +68,7 @@ class BlogController extends Controller
             $data,
             $user,
             $imageArray ?? [],
-            
+
         ));
     //    dd($data);
 return redirect('/blog');

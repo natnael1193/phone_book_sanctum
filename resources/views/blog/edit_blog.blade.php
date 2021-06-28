@@ -24,10 +24,23 @@
                                 @method('PATCH')
                                 <input hidden value="{{ $post->user_id }}"name="user_id">
                                 <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Image</label>
                                             <input type="file" class="form-control" placeholder="Email" value="{{ $post->image }}" name="image" imageOnly>
                                         </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label for="my-select">Blog Category</label>
+                                        <select id="my-select" class="form-control" name="category_id">
+                                            <option value='{{ $post->category_id }}'>Select Blog Category</option>
+                                            @foreach(App\BlogCategroy::all()->sortBy('name') as $subscribers)
+                                                <option value="{{$subscribers->id}}">{{$subscribers->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                     </div>
 
                                     <div class="row">
@@ -38,7 +51,7 @@
                                         </div>
                                         </div>
                                     </div>
-                     
+
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
@@ -47,7 +60,7 @@
                                         </div>
                                     </div>
                                 </div>
-                    
+
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>

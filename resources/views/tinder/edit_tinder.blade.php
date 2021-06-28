@@ -56,6 +56,22 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="my-select">Select Category</label>
+                                        <select id="my-select" class="form-control" name="category_id">
+                                            {{--                                            <option value=null>Select Category</option>--}}
+                                            @foreach(App\Category::all() ->sortBy('name') as $categories)
+                                                @if($categories->id == 1)
+                                                    <option value="{{ $post->category_id }}">Select Category</option>
+                                                @else
+                                                    <option value={{$categories->id}} required>{{$categories->name}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <br>
+                                </div>
 
                                 <div class="row">
                                     <div class="col-6">
@@ -79,7 +95,7 @@
                                         </div>
                                         </div>
                                     </div>
-                     
+
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
@@ -88,7 +104,7 @@
                                         </div>
                                     </div>
                                 </div>
-                    
+
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>

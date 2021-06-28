@@ -4,7 +4,7 @@
     {{-- <div class="row">
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Vacancy</strong> </h3>
-           <a href="/vacancy/create"><button class="btn btn-success">Add New Vacancy</button></a>     
+           <a href="/vacancy/create"><button class="btn btn-success">Add New Vacancy</button></a>
             </div>
             </div> --}}
             <div class="row col-xl-12 col-lg-12 col-md-12 col-sm-12" role="alert">
@@ -36,8 +36,8 @@
 
                             <hr>
                             <div class="row">
-                                <div class="btn-list">
-                                    <a href="{{ route('tender.edit', $posts->id) }}"> <button class="btn btn-primary mb-2"
+                                <div class="btn-list" style="display: flex">
+                                    <a href="{{ route('tender.edit', $posts->id) }}"> <button class="btn btn-primary mr-2"
                                             type="button">Edit</button></a>
                                     <form method="POST" action="{{ route('tender.destroy', $posts->id) }}">
                                         @csrf
@@ -65,7 +65,7 @@
                         <hr>
                         <p>{!! Illuminate\Support\Str::of($posts->description)->words(9) !!}</p>
 
-                        <div class="btn-list">
+                        <div class="btn-list" style="display: flex">
                             <a href="{{ route('tender.edit', $posts->id) }}"> <button class="btn btn-primary mr-2"
                                     type="button">Edit</button></a>
                             <form method="POST" action="{{ route('tender.destroy', $posts->id) }}">

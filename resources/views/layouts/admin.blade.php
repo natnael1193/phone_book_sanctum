@@ -113,8 +113,8 @@
               <i class="align-middle" data-feather="book"></i> <span class="align-middle">Blog</span>
             </a>
 						<ul id="forms2" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog.index') }}">All Vacancies</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog.create') }}">Add New Vacancy</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog.index') }}">All Blogs</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog.create') }}">Add New Blog</a></li>
 						</ul>
 					</li>
 
@@ -143,6 +143,7 @@
 			</li>
 			<li class="sidebar-item"><a class="sidebar-link" href="{{ route('category.index') }}">Category</a></li>
 			<li class="sidebar-item"><a class="sidebar-link" href="{{ route('location.index') }}">Location</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog_category.index') }}">Blog Category</a></li>
 				</ul>
 
 				<div class="sidebar-cta">

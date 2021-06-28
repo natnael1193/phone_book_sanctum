@@ -68,7 +68,7 @@ Route::delete('dropzone/delete/{id}', 'CompanyController@delete')->name('dropzon
 Route::get('dropzone/fetch/{id}', 'CompanyController@fetch')->name('dropzone.fetch');
 Route::post('/upload/images', 'CompanyController@upload')->name('dropzone.upload');
 Route::delete('/service/delete/{id}', 'CompanyController@delete_service');
-
+Route::resource('/blog_category', 'BlogCategoryController');
 
 
 Route::resource('activity_log', 'ActivityLogController');

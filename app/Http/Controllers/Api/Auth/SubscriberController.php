@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Company;
+use App\Images;
 use App\Service;
 use App\Vacancy;
 use App\Category;
@@ -70,8 +71,9 @@ class SubscriberController extends Controller
         $user = Subscriber::query()->where('email', auth()->user('sanctum')->email)->first();
         $service = Service::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
         $working_time = WorkingTime::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
+        $image = Images::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
 
-        return response()->json(["subscriber" => $user, "company" => $post, "company services" => $service, "working time" => $working_time]);
+        return response()->json(["subscriber" => $user, "company" => $post, "company services" => $service, "working time" => $working_time, "images" => $image]);
     }
     public function edit()
     {
@@ -265,6 +267,21 @@ class SubscriberController extends Controller
             $subscriber,
             $company_id
         ));
+//
+//        if ($request->name != null) {
+//            foreach ($request->name as $item => $v) {
+//                $post2 = array(
+//                    'name' => $request->name[$item],
+//                    'subscriber_id' => $subscriber->id,
+//                    'company_id' => $company->id,
+//                );
+//                Service::create(array_merge(
+//                    $data,
+//                    $post2
+//
+//                ));
+//            }
+//        }
 
         return response()->json([$data, $subscriber, $company_id]);
     }
@@ -288,7 +305,7 @@ class SubscriberController extends Controller
 
         $oldData->update(array_merge(
             $post,
-            $user,
+            $user
         // $company
         ));
         return response()->json([$user, $post]);
@@ -383,4 +400,40 @@ class SubscriberController extends Controller
 
         return response()->json([$data, $subscriber, $company_id]);
     }
+
+    public function add_image(Request $request){
+        $data = request()->all();
+        $subscriber = ['subscriber_id' => auth()->user('sanctum')->id];
+        $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $company_id =['company_id' => $company->id];
+
+        if (!empty($request->image)) {
+            foreach ($request->image as $item => $v) {
+                $post2 = array(
+                    'image' => $request->image[$item],
+                    'user_id' => auth()->user()->id,
+                    'company_id' => $company->id,
+                );
+
+                Images::create(array_merge(
+                    $data,
+                    $post2
+
+                ));
+            }
+        }
+    }
+public function delete_image($id){
+//    $company = Company::findOrFail($id);
+    Images::findOrFail($id)->delete();
+    return redirect()->back();
+}
+
+public function get_image($id){
+    $company = Company::findOrFail($id);
+    $images = Images::where('company_id', $company->id)->get();
+
+    return response()->json($images);
+}
+
 }

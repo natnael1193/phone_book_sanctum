@@ -68,7 +68,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <label for="my-select">Select Category</label>
-                                        <select id="my-select" class="form-control" name="company_id">
+                                        <select id="my-select" class="form-control" name="category_id">
 {{--                                            <option value=null>Select Category</option>--}}
                                             @foreach(App\Category::all() ->sortBy('name') as $categories)
                                                 @if($categories->id == 1)
@@ -86,7 +86,7 @@
                                         <div class="form-group">
                                             <label class="form-label">Price</label>
                                             <input type="text" class="form-control" placeholder="Price"
-                                                   name="category_id">
+                                                   name="price">
                                         </div>
                                     </div>
                                     <div class="col-6">
