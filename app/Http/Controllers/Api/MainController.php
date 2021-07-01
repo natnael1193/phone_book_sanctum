@@ -44,13 +44,13 @@ class MainController extends Controller
 
 
 //        $review = CompanyReview::query()->where('company_id', $id)->with('subscriber')->get();
-        $review = CompanyReview::get();
+        $review = CompanyReview::where('company_id', $id)->get();
         foreach ($review as $reviews){
-            $reviews['company_id'] = $reviews->subscriber()->first()->name;
+            $reviews['subscriber_id'] = $reviews->subscriber()->first()->name;
         }
-$rating = CompanyRating::get();
+$rating = CompanyRating::where('company_id', $id)->get();
         foreach ($rating as $ratings){
-            $ratings['company_id'] = $ratings->subscriber()->first()->name;
+            $ratings['subscriber_id'] = $ratings->subscriber()->first()->name;
         }
 
         $sum =  CompanyRating::query()->where('company_id', $id)->sum('rating');
@@ -59,7 +59,7 @@ $rating = CompanyRating::get();
         if($rate != null){
         $blog = CompanyRating::query()->where('company_id', $id)->count();
         $data =  $sum/$blog;
-        $value = $data;
+        $value = number_format($data ,1);
 
         // return response()->json(['blog'=>$post, 'review'=>$review, 'rating'=>$value]);
         return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time, 'review'=> $review, 'rating' => $rating,'average_rating'=>$value, 'location' => $location]);
@@ -87,7 +87,7 @@ $rating = CompanyRating::get();
         if($rate != null){
         $blog = Rating::query()->where('blog_id', $id)->count();
         $data =  $sum/$blog;
-        $value = $data;
+        $value = number_format($data ,2);
 
         return response()->json(['blog'=>$post, 'review'=>$review, 'rating'=>$value]);
     }
