@@ -5,12 +5,12 @@
             <div class="row m-3">
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Blog</strong> </h3>
-           <a href="/blog/create"><button class="btn btn-success">Add New blog</button></a>     
+           <a href="/blog/create"><button class="btn btn-success">Add New blog</button></a>
             </div>
             </div>
 
             <div class="row">
-                
+
                 {{-- @if(Auth::user()->role_id == 1) --}}
                 @can('viewAny', App\Blog::class)
                {{-- @if(Auth::user()->status_id != 1)  --}}
@@ -29,12 +29,11 @@
                         <div class="alert-message">
                             <h3 class="alert-heading">{{ $companies->title }}</h3>
                             <hr>
-                            <p>Aww yeah, you successfully read this important alert message.  so that you can see how spacing within an
-                                alert works with this kind of content.</p>
+                            <p>{!! Illuminate\Support\Str::of($companies->description)->words(9) !!}</p>
                             <hr>
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12"><p>Phone: {{ $companies->phone_number }}</p></div>
-                                <div class="col-xl-12 col-lg-12"><p>Location: </h4></div>                           
+                                <div class="col-xl-12 col-lg-12"><p>Location: </h4></div>
                             </div>
                             <div class="row btn-list">
                               <a href="{{ route('blog.edit', $companies->id) }}" > <button class="btn btn-primary mr-2" type="button">Edit</button></a>
@@ -51,17 +50,17 @@
                         </div>
                     {{-- </div> --}}
                 </div>
-          
+
             </div>
         </div>
-   
+
     </div>
     @endforeach
     {{-- @endif --}}
     @endcan
                 {{-- @else --}}
-             
-                @if(Auth::user()->role != 1 && Auth::user()->status_id != 1) 
+
+                @if(Auth::user()->role != 1 && Auth::user()->status_id != 1)
                 @foreach($post as $posts)
                 <div class="col-12 col-xl-4 col-lg-4 col-md-6">
 
@@ -83,8 +82,8 @@
                             <div class="row">
                                 <div class="col-xl-6 col-lg-6"><p>Phone: {{ $posts->phone_number }}</p></div>
                                 <div class="col-xl-6 col-lg-6"><p>Location:</h4></div>
-                                
-                                
+
+
                             </div>
                             <div class="row btn-list">
                               <a href="{{ route('blog.edit', $posts->id) }}" > <button class="btn btn-primary mr-2" type="button">Edit</button></a>
@@ -99,10 +98,10 @@
                         </div>
                     {{-- </div> --}}
                 </div>
-          
+
             </div>
         </div>
-   
+
     </div>
     @endforeach
     @endif

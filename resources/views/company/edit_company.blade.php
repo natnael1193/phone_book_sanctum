@@ -1,9 +1,25 @@
 @extends('layouts.admin')
 @section('content')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maps.google.com/maps/api/js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gmaps.js/0.4.24/gmaps.js"></script>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        #mymap {
+            border:1px solid red;
+            width: 100%;
+            height: 500px;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: fill;
+
+        }
+    </style>
 
     <main class="content">
         <div class="container-fluid p-0">
@@ -131,6 +147,30 @@
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
+                                            <label class="form-label">Address</label>
+                                            <input type="text" class="form-control" placeholder="Address" name="address" value="{{ $post->address }}">
+                                            {{-- <select id="my-select" class="form-control" name="company_name" required>
+                                                <option value="">Select Company</option>
+                                                @foreach($all as $items)
+                                                <option value="{{$items->id}}">{{$items->company_name}}</option>
+                                                @endforeach
+                                            </select> --}}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Specific Address</label>
+                                            <input type="text" class="form-control" placeholder="Specific Address" name="specific_address" value="{{ $post->specific_address }}">
+                                        </div>
+                                        {{-- <div class="form-group">
+                                            <label class="form-label">Email address</label>
+                                            <input type="email" class="form-control" placeholder="Email" name="email" required>
+                                        </div> --}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
                                             <label class="form-label">Email address</label>
                                             <input type="email" class="form-control" placeholder="Email"
                                                    name="company_email" value="{{ $post->company_email }}">
@@ -220,7 +260,7 @@
                                             <select id="my-select" class="form-control" name="verification"
                                                     value="{{ $post->verfication }}">
                                                 <option value="{{ $post->verification }}">Select Category</option>
-                                                <option value="05:00">Not Verified</option>
+                                                <option value="">Not Verified</option>
                                                 <option value="1">Verified</option>
                                             </select>
                                         </div>
@@ -274,6 +314,7 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
+{{--                                            <p>{{$available_hour->monday_open}}</p>--}}
                                             <input class="form-control" type="time" name="monday_open"
                                                    @if($available_hour != NULL) value="{{$available_hour->monday_open}}"
                                                    @else value="08:00" @endif>
@@ -283,7 +324,7 @@
                                             {{-- <label>Closing Hour</label> --}}
                                             <input class="form-control" type="time" name="monday_closed"
                                                    @if($available_hour != NULL) value="{{$available_hour->monday_closed}}"
-                                                   @else value="05:00" @endif>
+                                                   @else value="17:00" @endif>
                                             <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -302,7 +343,7 @@
                                             {{-- <label>Closing Hour</label> --}}
                                             <input class="form-control" type="time" name="tuesday_closed"
                                                    @if($available_hour != NULL) value="{{$available_hour->tuesday_closed}}"
-                                                   @else value="05:00" @endif>
+                                                   @else value="17:00" @endif>
                                             <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -313,15 +354,15 @@
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
                                             <input class="form-control" type="time" name="wednesday_open"
-                                                   @if($available_hour != NULL)value="{{$available_hour->wednesday_open}}"
+                                                   @if($available_hour != NULL) value="{{$available_hour->wednesday_open}}"
                                                    @else value="08:00" @endif>
                                             <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
                                             <input class="form-control" type="time" name="wednesday_closed"
-                                                   @if($available_hour != NULL)value="{{$available_hour->wednesday_closed}}"
-                                                   @else value="05:00" @endif>
+                                                   @if($available_hour != NULL) value="{{$available_hour->wednesday_closed}}"
+                                                   @else value="17:00" @endif>
                                             <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -332,15 +373,15 @@
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
                                             <input class="form-control" type="time" name="thursday_open"
-                                                   @if($available_hour != NULL)value="{{$available_hour->thursday_open}}"
+                                                   @if($available_hour != NULL) value="{{$available_hour->thursday_open}}"
                                                    @else value="08:00" @endif>
                                             <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
                                             <input class="form-control" type="time" name="thursday_closed"
-                                                   @if($available_hour != NULL)value="{{$available_hour->thursday_closed}}"
-                                                   @else value="05:00" @endif>
+                                                   @if($available_hour != NULL) value="{{$available_hour->thursday_closed}}"
+                                                   @else value="17:00" @endif>
                                             <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -351,15 +392,15 @@
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
                                             <input class="form-control" type="time" name="friday_open"
-                                                   @if($available_hour != NULL)value="{{$available_hour->friday_open}}"
+                                                   @if($available_hour != NULL) value="{{$available_hour->friday_open}}"
                                                    @else value="08:00" @endif>
                                             <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
                                             <input class="form-control" type="time" name="friday_closed"
-                                                   @if($available_hour != NULL)value="{{$available_hour->friday_closed}}"
-                                                   @else value="05:00" @endif>
+                                                   @if($available_hour != NULL) value="{{$available_hour->friday_closed}}"
+                                                   @else value="17:00" @endif>
                                             <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -370,15 +411,15 @@
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Opening Hour</label> --}}
                                             <input class="form-control" type="time" name="saturday_open"
-                                                   @if($available_hour != NULL)value="{{$available_hour->saturday_open}}"
+                                                   @if($available_hour != NULL) value="{{$available_hour->saturday_open}}"
                                                    @else value="08:00" @endif>
                                             <br>
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
                                             <input class="form-control" type="time" name="saturday_closed"
-                                                   @if($available_hour != NULL)value="{{$available_hour->saturday_closed}}"
-                                                   @else value="05:00" @endif>
+                                                   @if($available_hour != NULL) value="{{$available_hour->saturday_closed}}"
+                                                   @else value="17:00" @endif>
                                             <br>
                                         </div>
                                     </div>
@@ -408,6 +449,30 @@
                                         <input id="user_id" class="form-control-file" type="hidden" name="user_id[]"
                                                value="{{auth()->user()->id}}">
                                         <input type="hidden" name="company_id[]" id="company_id" class="form-control">
+                                    </div>
+                                    <div class="form-group col-lg-12 col-md-12">
+                                        <h4>@if($edit_map == NULL) Add @else Edit @endif Map</h4>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-xl-4 col-lg-4">
+                                                <div class="form-group">
+                                                    <label class="form-label">City</label>
+                                                    <input type="text" class="form-control" placeholder="City" name="city" @if($edit_map != NULL) value="{{$edit_map->city}}" @else value="" @endif>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-4">
+                                                <div class="form-group">
+                                                    <label class="form-label">Latitude</label>
+                                                    <input type="text" class="form-control" placeholder="Latitude" name="lat" @if($edit_map != NULL) value="{{$edit_map->lat}}"  @else value="" @endif>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-4">
+                                                <div class="form-group">
+                                                    <label class="form-label">Longitude</label>
+                                                    <input type="text" class="form-control" placeholder="Longitude" name="lng" @if($edit_map != NULL) value="{{$edit_map->lng}}"  @else value="" @endif>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -554,6 +619,8 @@
         </div>
     </div>
 
+        <div id="mymap"></div>
+
 
     <script>
         const image = document.querySelector('input[id="image"]');
@@ -617,6 +684,33 @@
 
     </script>
 
+    <script type="text/javascript">
+
+
+        var locations = <?php print_r(json_encode($map)) ?>;
+
+
+        var mymap = new GMaps({
+            el: '#mymap',
+            lat: 8.9806,
+            lng: 38.7578,
+            zoom:3
+        });
+
+
+        $.each( locations, function( index, value ){
+            mymap.addMarker({
+                lat: value.lat,
+                lng: value.lng,
+                title: value.city,
+                click: function(e) {
+                    alert('This is '+value.city);
+                }
+            });
+        });
+
+
+    </script>
 
 @endsection
 

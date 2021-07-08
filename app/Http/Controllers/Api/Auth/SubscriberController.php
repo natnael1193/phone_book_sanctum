@@ -436,4 +436,11 @@ public function get_image($id){
     return response()->json($images);
 }
 
+    public function map($id){
+        $company = Company::findOrFail($id);
+        $map = Map::where('company_id', $company->id)->get();
+
+        return response()->json($map);
+    }
+
 }

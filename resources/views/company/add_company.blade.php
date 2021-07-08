@@ -77,7 +77,7 @@
                         <div class="card-body">
                             <form method="POST" action="{{ route('company.store') }}" enctype="multipart/form-data">
                                 @csrf
-                                <input hidden value="" name="user_id">
+                                <input hidden name="user_id" value="{{auth()->user()->id}}">
 
                                 <hr>
                                 <div class="row">
@@ -168,6 +168,30 @@
                                         <div class="form-group">
                                             <label class="form-label">ስም</label>
                                             <input type="text" class="form-control" placeholder="Name" name="company_name_am" required>
+                                        </div>
+                                        {{-- <div class="form-group">
+                                            <label class="form-label">Email address</label>
+                                            <input type="email" class="form-control" placeholder="Email" name="email" required>
+                                        </div> --}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Address</label>
+                                            <input type="text" class="form-control" placeholder="Address" name="address" >
+                                            {{-- <select id="my-select" class="form-control" name="company_name" required>
+                                                <option value="">Select Company</option>
+                                                @foreach($all as $items)
+                                                <option value="{{$items->id}}">{{$items->company_name}}</option>
+                                                @endforeach
+                                            </select> --}}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Specific Address</label>
+                                            <input type="text" class="form-control" placeholder="Specific Address" name="specific_address" >
                                         </div>
                                         {{-- <div class="form-group">
                                             <label class="form-label">Email address</label>
@@ -293,7 +317,7 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" value="05:00" name="monday_closed" >
+                                           <input class="form-control" type="time" value="17:00" name="monday_closed" >
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -308,7 +332,7 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="tuesday_closed" value="05:00" >
+                                           <input class="form-control" type="time" name="tuesday_closed" value="17:00" >
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -323,7 +347,7 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="wednesday_closed" value="05:00">
+                                           <input class="form-control" type="time" name="wednesday_closed" value="17:00">
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -338,7 +362,7 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="thursday_closed" value="05:00">
+                                           <input class="form-control" type="time" name="thursday_closed" value="17:00">
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -353,7 +377,7 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="friday_closed" value="05:00">
+                                           <input class="form-control" type="time" name="friday_closed" value="17:00">
                                            <br>
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2">
@@ -368,7 +392,7 @@
                                         </div>
                                         <div class="col-xl-5 col-lg-5 col-md-5">
                                             {{-- <label>Closing Hour</label> --}}
-                                           <input class="form-control" type="time" name="saturday_closed" value="05:00">
+                                           <input class="form-control" type="time" name="saturday_closed" value="17:00">
                                            <br>
                                         </div>
                                     </div>
@@ -399,6 +423,30 @@
                                     <input id="user_id" class="form-control-file" type="hidden" name="user_id[]" value="{{auth()->user()->id}}">
                                     <input type="hidden" name="company_id[]" id="company_id" class="form-control" >
                                 </div>
+                                    <div class="form-group col-lg-12 col-md-12">
+                                        <h4>Add Map</h4>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-xl-4 col-lg-4">
+                                                <div class="form-group">
+                                                    <label class="form-label">City</label>
+                                                    <input type="text" class="form-control" placeholder="City" name="city">
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-4">
+                                                <div class="form-group">
+                                                    <label class="form-label">Latitude</label>
+                                                    <input type="text" class="form-control" placeholder="Latitude" name="lat">
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-4">
+                                                <div class="form-group">
+                                                    <label class="form-label">Longitude</label>
+                                                    <input type="text" class="form-control" placeholder="Longitude" name="lng">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Images;
+use App\Map;
 use App\Rating;
 use App\Company;
 use App\Service;
@@ -14,6 +15,7 @@ use App\WorkingTime;
 use App\CompanyCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
@@ -114,9 +116,17 @@ class CompanyController extends Controller
         $company_id = ['company_id' => $company->id];
 
 
+        if ($request->city != null) {
+        Map::create(array_merge(
+            $data,
+            $user,
+            $company_id
+
+        ));
+        }
+
         $time = request()->validate([
                 "monday_open" => '',
-
             ]
         );
         WorkingTime::create(array_merge(
@@ -156,7 +166,7 @@ class CompanyController extends Controller
                 ));
             }
         }
-
+//        dd($data);
 
         return redirect()->back()->with('message', 'Company added successfully');
 
@@ -212,9 +222,11 @@ class CompanyController extends Controller
         $service = Service::where('company_id', $id)->get();
         $all = Company::all()->sortBy('name');
         $images = Images::where('company_id', $company->id)->get();
+        $map = DB::table('maps')->where('company_id', $company->id)->get();
+        $edit_map = DB::table('maps')->where('company_id', $company->id)->first();
 
 
-        return view('company.edit_company', compact('post', 'category', 'company_category', 'location', 'available_hour', 'service', 'all', 'company', 'images'));
+        return view('company.edit_company', compact('post', 'category', 'company_category', 'location', 'available_hour', 'service', 'all', 'company', 'images', 'map', 'edit_map'));
 
     }
 
@@ -234,7 +246,9 @@ class CompanyController extends Controller
         // $oldData = $job;\
         $oldData = Company::findOrFail($id);
         $available_hour = WorkingTime::where('company_id', $id)->first();
+        $map = Map::where('company_id', $id)->first();
         $user = ['user_id' => auth()->user()->id];
+
         if (request('company_logo_path')) {
             Storage::delete("/public/{$oldData->company_logo_path}");
             $imagePath = request('company_logo_path')->store('uploads', 'public');
@@ -252,6 +266,7 @@ class CompanyController extends Controller
 
         $company_id = ['company_id' => $oldData->id];
         $check_company = WorkingTime::where('company_id', $oldData->id)->exists();
+        $check_map = Map::where('company_id', $oldData->id)->exists();
 
         if ($check_company != true) {
             WorkingTime::create(array_merge(
@@ -261,6 +276,23 @@ class CompanyController extends Controller
             ));
         } else {
             $available_hour->update(array_merge(
+                $data,
+                $user,
+                $company_id
+            ));
+        }
+
+        if ($check_map != true) {
+            if ($request->city != null){
+                Map::create(array_merge(
+                    $data,
+                    $user,
+                    $company_id
+                ));
+        }
+
+        } else {
+            $map->update(array_merge(
                 $data,
                 $user,
                 $company_id
@@ -298,6 +330,7 @@ class CompanyController extends Controller
                 ));
             }
         }
+
 
 //        return redirect()->back();
         return redirect('/company')->with('message', 'Company Updated Successfully');
@@ -420,15 +453,17 @@ class CompanyController extends Controller
     function delete($id)
     {
 //        $company = Company::findOrFail($id);
-         Images::findOrFail($id)->delete();
-         return redirect()->back();
+        Images::findOrFail($id)->delete();
+        return redirect()->back();
     }
+
     function delete_service($id)
     {
 //        $company = Company::findOrFail($id);
         Service::findOrFail($id)->delete();
         return redirect()->back();
     }
+
     function fetch($id)
     {
         $company = Company::findOrFail($id);

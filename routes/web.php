@@ -2,6 +2,7 @@
 
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,7 +24,8 @@ Route::get('/', function () {
     // Storage::disk('google')->put('hello.text', "Hello laravelbackup");
 
     // $existingUser = User::where('email', auth()->user()->email)->first();
-    return view('welcome');
+    $locations = DB::table('maps')->get();
+    return view('welcome', compact('locations'));
 });
 Route::get('/dashboard', function () {
     $existingUser = User::where('email', auth()->user()->email)->first();

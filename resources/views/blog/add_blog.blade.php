@@ -47,7 +47,7 @@
                                         <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Title</label>
-                                            <input type="text" class="form-control" placeholder="Title" name="title" imageOnly>
+                                            <input type="text" class="form-control" placeholder="Title" name="title" >
                                         </div>
                                         </div>
                                     </div>

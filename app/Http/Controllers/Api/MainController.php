@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Blog;
 use App\Images;
+use App\Map;
 use App\Rating;
 use App\Review;
 use App\Subscriber;
@@ -40,6 +41,9 @@ class MainController extends Controller
         $service = Service::where('company_id', $id)->get();
         $image = Images::where('company_id', $id)->get();
         $working_time = WorkingTime::where('company_id', $id)->get();
+        $map = Map::where('company_id', $id)->first();
+        $vacancy = Vacancy::where('company_id', $id)->get();
+        $tender = Tinder::where('company_id', $id)->get();
         // $company_location = Company::whereIn('location_id' ,  $location)->first();
 
 
@@ -62,7 +66,7 @@ $rating = CompanyRating::where('company_id', $id)->get();
         $value = number_format($data ,1);
 
         // return response()->json(['blog'=>$post, 'review'=>$review, 'rating'=>$value]);
-        return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time, 'review'=> $review, 'rating' => $rating,'average_rating'=>$value, 'location' => $location]);
+        return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time, 'review'=> $review, 'rating' => $rating,'average_rating'=>$value, 'location' => $location, 'google map' => $map, 'vacancy' => $vacancy, 'tender' => $tender]);
     }
     else{
         $blog = CompanyRating::query()->where('company_id', $id)->get();
@@ -70,7 +74,7 @@ $rating = CompanyRating::where('company_id', $id)->get();
         $value = $data;
 
         // return response()->json(['blog'=>$post, 'review'=>$review, 'rating'=>$value]);
-        return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time, 'review'=>[ $review], 'rating'=>$value, 'location' => $location]);
+        return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time, 'review'=>[ $review], 'rating'=>$value, 'location' => $location, 'google map' => $map, 'vacancy' => $vacancy, 'tender' => $tender]);
     }
 
         // return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time]);
