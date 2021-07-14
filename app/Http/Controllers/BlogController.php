@@ -67,10 +67,10 @@ class BlogController extends Controller
         Blog::create(array_merge(
             $data,
             $user,
-            $imageArray ?? [],
+            $imageArray ?? []
 
         ));
-    //    dd($data);
+        dd($data);
 return redirect('/blog');
     }
 
@@ -140,5 +140,18 @@ return redirect('/blog');
         //
         Blog::findOrFail($id)->delete();
         return redirect()->back();
+    }
+
+    public function image(Request $request){
+        if($request->hasFile('image')){
+            $file = $request->file('image');
+            $filename = $file->getClientOriginalName();
+            $folder = uniqid() . '-' . now()->timestamp;
+           $path =  $file->storeAs('uploads' .$folder, $filename);
+
+            return $folder;
+
+        }
+        return '';
     }
 }

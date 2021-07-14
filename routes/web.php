@@ -1,6 +1,9 @@
 <?php
 
+use App\Company;
+use App\CompanyRating;
 use App\User;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -24,8 +27,10 @@ Route::get('/', function () {
     // Storage::disk('google')->put('hello.text', "Hello laravelbackup");
 
     // $existingUser = User::where('email', auth()->user()->email)->first();
-    $locations = DB::table('maps')->get();
-    return view('welcome', compact('locations'));
+//    $locations = DB::table('maps')->get();
+
+    return view('welcome');
+
 });
 Route::get('/dashboard', function () {
     $existingUser = User::where('email', auth()->user()->email)->first();
@@ -101,6 +106,7 @@ Route::get('/customer/sign_in', 'Auth\CustomerLoginController@showLoginForm');
 Route::post('/customer/login', 'Auth\CustomerLoginController@login')->name('customer.login');
 // Route::resource('company_owner', 'CompanyOwnerController');
 
+Route::post('blog_image', 'BlogController@image');
 
 
 Route::get('/layouts', function(){
@@ -110,5 +116,18 @@ Route::get('/layouts', function(){
 
 
 
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
+
+Route::get('/config_cache', function () {
+    Artisan::call('config:cache');
+    return response("success");
+});
+
+Route::get('/cache_clear', function () {
+    Artisan::call('cache:clear');
+    return response("success");
+});
 
 

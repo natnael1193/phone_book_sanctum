@@ -81,6 +81,7 @@
                                             <label class="form-label">Image</label>
                                             <input type="file" class="form-control" placeholder="Image"
                                                    name="company_logo_path" value="{{ $post->company_logo_path }}">
+{{--                                            <p>{{ $post->company_logo_path }}</p>--}}
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6">
@@ -622,6 +623,7 @@
         <div id="mymap"></div>
 
 
+{{--    @section('script')--}}
     <script>
         const image = document.querySelector('input[id="image"]');
 
@@ -711,7 +713,7 @@
 
 
     </script>
-
+{{--    @endsection--}}
 @endsection
 
 

@@ -7,6 +7,7 @@ use App\Subscriber;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 
 class SubscriberRegistrationController extends Controller
 {
@@ -58,7 +59,7 @@ class SubscriberRegistrationController extends Controller
 
         $subscriber_company = Company::where('company_email', $subscriber->company_email)->first();
         if ($subscriber_company == null) {
-            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "hasCompany" => false, "token" => $subscriber->createToken('API Token')->plainTextToken];
+            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, 'image' => $subscriber->image, "subscriberEmail" => $subscriber->email, "hasCompany" => false, "token" => $subscriber->createToken('API Token')->plainTextToken];
         } else {
             return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email,"hasCompany" => true,  "companyID" => $subscriber_company->id, "companyName" => $subscriber_company->company_name,  "companyEmail" => $subscriber->company_email, "companyPhone" => $subscriber_company->phone_number, "token" => $subscriber->createToken('API Token')->plainTextToken];
         }
@@ -115,6 +116,12 @@ class SubscriberRegistrationController extends Controller
 
     public function save(array $data)
     {
+        if(request('image')){
+            $imagePath = request('image')->store('uploads','public');
+            $image = Image::make(public_path("storage/{$imagePath}"))->resize(300,300);
+            $image->save();
+            $imageArray=['image' => $imagePath];
+        }
 
 
         $user =  Subscriber::create([
@@ -123,6 +130,7 @@ class SubscriberRegistrationController extends Controller
             'email' => $data['email'],
             'company_email' => $data['company_email'],
             'password' => Hash::make($data['password']),
+            'image' => $imagePath
 
         ]);
         $userId = $user->id;

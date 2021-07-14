@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 @section('content')
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
 	<main class="content">
         <div class="container-fluid p-0">
             <div class="row mb-2 mb-xl-3">
@@ -28,6 +29,8 @@
                                         <div class="form-group">
                                             <label class="form-label">Image</label>
                                             <input type="file" class="form-control" placeholder="Email" name="image" imageOnly>
+
+{{--                                            <input type="file" class="filepond" id="image">--}}
                                         </div>
                                 </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6">
@@ -69,4 +72,21 @@
             </div>
         </div>
     </main>
+
+        <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    <script>
+        // Get a reference to the file input element
+        const inputElement = document.querySelector('input[id="image"]');
+
+        // Create a FilePond instance
+        const pond = FilePond.create(inputElement);
+        FilePond.setOptions({
+            server: {
+                url: '/blog_image',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            }
+        });
+    </script
     @endsection

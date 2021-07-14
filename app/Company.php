@@ -8,12 +8,16 @@ use Carbon\Carbon;
 use App\Subscriber;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+
 // use Spatie\Backup\Notifications\Notifiable;
 
 class Company extends Model
 {
 
     use  LogsActivity;
+
+
+    protected $appends = ['dates'];
     //
     protected static $logAttributes = [
         'company_category', 'company_name', 'company_name_am', 'phone_number', 'location_id',
@@ -51,6 +55,10 @@ class Company extends Model
     {
         return $this->belongsTo(Rating::class);
     }
+    public function company_rating()
+    {
+        return $this->belongsTo(CompanyRating::class);
+    }
     public function services()
     {
         return $this->hasMany(Service::class);
@@ -59,4 +67,29 @@ class Company extends Model
     {
         return $this->hasMany(Bookmark::class);
     }
+
+    public function company_category() {
+        return $this->hasOne('App\CompanyRating','id','company_id');
+    }
+
+    public function getDatesAttribute()
+    {
+        $date = Carbon::parse($this->created_at); //You can use any date field you want
+
+    $year  = $date->year;
+    $month = $date->format('F');
+    $day   = $date->day;
+    $timeS = $date->format('A');
+    $time  = $date->format('H:i');
+
+//    return array (
+//        'year'  => $year,
+//        'month' => $month,
+//        'day'   => $day,
+//        'timeS' => $timeS,
+//        'time'  => $time
+//    );
+
+}
+
 }

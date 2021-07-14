@@ -178,7 +178,7 @@ class SubscriberController extends Controller
         // $subscriber=['subscriber_id' => auth('subscriber')->user()->id];
         // $               $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
         $company->update(array_merge(
-            $data,
+            $data
         ));
 
         $oldData->update(array_merge(
@@ -232,7 +232,7 @@ class SubscriberController extends Controller
 
         $oldData->update(array_merge(
             $post,
-            $user,
+            $user
         // $company
         ));
         return response()->json([$user, $post]);

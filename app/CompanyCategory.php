@@ -11,10 +11,12 @@ class CompanyCategory extends Model
     //
     // use HasFactory, Notifiable;
     use  LogsActivity;
-    
+
     protected $table = "company_categories";
 
     protected $fillable = [
         'name'
     ];
+
+
 }

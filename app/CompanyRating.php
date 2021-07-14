@@ -12,4 +12,8 @@ class CompanyRating extends Model
     {
         return $this->belongsTo(Subscriber::class);
     }
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

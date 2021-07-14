@@ -114,6 +114,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('tender_detail/{id}', 'Api\MainController@tender_detail');
     Route::get('tenders', 'Api\MainController@tender');
     Route::post('company_search', 'Api\MainController@search_company')->name('company.search');
+    Route::get('/top_rated', 'Api\MainController@top_rated');
 });
 
 

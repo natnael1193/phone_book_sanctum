@@ -16,7 +16,7 @@ class Subscriber extends Authenticatable
       *
       * @var array
       */
-      protected $fillable = ['name', 'password', 'email', 'company_email'];
+      protected $fillable = ['name', 'password', 'email', 'company_email', 'image'];
       /**
        * The attributes that should be hidden for arrays.
        *

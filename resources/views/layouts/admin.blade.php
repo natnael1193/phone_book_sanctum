@@ -379,6 +379,7 @@
 		</div>
 	</div>
 
+    @yield('scripts')
 
 	<script src="/admins/js/app.js"></script>
 	<script src="{{ asset('/admins/ckeditor/ckeditor.js') }}"></script>
