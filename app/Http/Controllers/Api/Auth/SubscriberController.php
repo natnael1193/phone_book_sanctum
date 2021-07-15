@@ -108,7 +108,7 @@ class SubscriberController extends Controller
             "phone_number" => "required|unique:companies"
         ]);
         $oldData =  Subscriber::where('id', auth()->user('sanctum')->id)->first();
-        $subscriber = ['subscriber_id' => auth('subscriber')->user()->id];
+        $subscriber = ['subscriber_id' => auth('sanctum')->user()->id];
 
         Company::create(array_merge(
             $data,
@@ -357,8 +357,8 @@ class SubscriberController extends Controller
         $data = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
         $post = request()->all();
         $oldData = WorkingTime::findOrFail($id);
-        //  $this->authorize('view', $oldData);
-        $user = ['subscriber_id' => auth('subscriber')->user()->id];
+          $this->authorize('view', $oldData);
+        $user = ['subscriber_id' => auth('sanctum')->user()->id];
         $company = ['company_id' => $data->id];
 
         $oldData->update(array_merge(
@@ -385,20 +385,53 @@ class SubscriberController extends Controller
         return response()->json([$data, $subscriber]);
     }
 
+
+    public function update_company_rating(Request $request, $id)
+    {
+        $post = request()->all();
+        $oldData = CompanyRating::findOrFail($id);
+//        $this->authorize('view', $oldData);
+        $user = ['subscriber_id' => auth('sanctum')->user()->id];
+        // $company = ['company_id' => $data->id];
+
+        $oldData->update(array_merge(
+            $post,
+            $user
+        // $company
+        ));
+        return response()->json([$user, $post]);
+    }
+
     public function add_company_review(Request $request)
     {
         $data = request()->all();
         $subscriber = ['subscriber_id' => auth()->user('sanctum')->id];
         $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
-        $company_id =['company_id' => $company->id];
+//        $company_id =['company_id' => $company->id];
 
         CompanyReview::create(array_merge(
             $data,
-            $subscriber,
-            $company_id
+            $subscriber
+//            $company_id
         ));
 
-        return response()->json([$data, $subscriber, $company_id]);
+        return response()->json([$data, $subscriber]);
+    }
+
+    public function update_company_review(Request $request, $id)
+    {
+        $post = request()->all();
+        $oldData = CompanyReview::findOrFail($id);
+//        $this->authorize('view', $oldData);
+        $user = ['subscriber_id' => auth('sanctum')->user()->id];
+        // $company = ['company_id' => $data->id];
+
+        $oldData->update(array_merge(
+            $post,
+            $user
+        // $company
+        ));
+        return response()->json([$user, $post]);
     }
 
     public function add_image(Request $request){

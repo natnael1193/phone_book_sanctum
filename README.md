@@ -1,61 +1,239 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+![download](https://user-images.githubusercontent.com/49104552/125738747-2e806cca-fb5f-4f9c-8ccd-7029fdc2d141.png)
+# User signup and User login
+   - ## url
+      - /subscriber/create
+   - ## method
+      - POST
+   - ## description
+      - User Singup ( create an account )
+   - ## url
+      - /subscriber/login
+   - ## method
+      - POST
+  - ## description
+     - User Login 
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+# Company
+  - ## url
+     - /companies
+  - ## method
+    -  GET
+  - ## description
+     - List all companies
+  - ## url
+   - /company_detail/id
+  - ## method
+     - GET
+  - ## description
+     - Company detail ( company description)
+  - ## url
+     - /company_categories
+  - ## method
+     - GET
+  - ## description
+     - List all company categories
+  - ## url
+     - /company_categories/id
+  - ## method
+     - GET
+  - ## description
+     - Specific company category
+  - ## url
+     - /company_search
+  - ## method
+     - POST
+  - ## description
+     - Company Search
 
-## About Laravel
+# Blog
+  - ## url
+     - /blogs
+  - ## method
+     - GET
+  - ## description
+     - List all blogs
+  - ## url
+     - /blog_detail/id
+  - ## method
+     - GET
+  - ## description
+     - Blog detail ( blog description)
+  - ## url
+     - /blog_search
+  - ## method
+     -  POST
+  - ## description
+     - Blog search
+ 
+ # Vacancy
+  - ## url
+     - /vacancies
+  - ## method
+     - GET
+  - ## description
+     - List all vacancies
+  - ## url
+     - /vacancy_detail/id
+  - ## method
+     - GET
+  - ## description
+     - Vacancy description
+  - ## url
+     - /vacancy_search
+  - ## method
+     - POST
+  - ## description
+     - Vacancy Search
+   
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+ # Tender
+  - ## url
+     - /tenders
+  - ## method
+     - GET
+  - ## description
+     - List all tenders
+  - ## url
+     - /tender_detail/id
+  - ## method
+     - GET
+  - ## description
+     - Tender description
+  - ## url
+     - /tender_search
+  - ## method
+     - POST
+  - ## description
+     - Tender Search
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+ # User ( Subscriber )
+   - ## url
+     - /subscriber
+  - ## method
+     - GET
+  - ## description
+     - Subscriber's Profile
+ 
+  - ## url
+     - /subscriber/update
+  - ## method
+     - PATCH
+  - ## description
+     - Edit Subscriber's Profile
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+  - ## url
+     - /subscriber/add_company
+  - ## method
+     - POST
+  - ## description
+     -  Subscriber add new company
+  - ## url
+     - /subscriber/company
+  - ## method
+     - GET
+  - ## description
+     -  Subscriber's company
+  - ## url
+     - /subscriber/update_company
+  - ## method
+     - PATCH
+  - ## description
+     -  Subscriber update his/her company
 
-## Learning Laravel
+  - ## url
+     - /subscriber/vacancy
+  - ## method
+     - GET
+  - ## description
+     -  Subscriber's vacancies
+  - ## url
+     - /subscriber/add_vacancy
+  - ## method
+     - POST
+  - ## description
+     -  Subscriber add new vacancy
+ - ## url
+     - /subscriber/id/update_vacancy
+  - ## method
+     - PATCH
+  - ## description
+     -  Subscriber update vacancy
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+ - ## url
+     - /subscriber/id/delete_vacancy
+  - ## method
+     - DELETE
+  - ## description
+     -  Subscriber delete vacancy
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+ - ## url
+     - /subscriber/service
+  - ## method
+     - GET
+  - ## description
+     -  Subscriber's services
+   - ## url
+     - /subscriber/add_serivce
+  - ## method
+     - POST
+  - ## description
+     -  Subscriber add new service
+ - ## url
+     - /subscriber/id/update_service
+  - ## method
+     - PATCH
+  - ## description
+     -  Subscriber update service
 
-## Laravel Sponsors
+ - ## url
+     - /subscriber/id/delete_service
+  - ## method
+     - DELETE
+  - ## description
+     -  Subscriber delete service
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+ - ## url
+     - /subscriber/working_time
+  - ## method
+     - GET
+  - ## description
+     -  Subscriber's working_time
+  - ## url
+     - /subscriber/add_working_time
+  - ## method
+     - POST
+  - ## description
+     -  Subscriber add working_time
+ - ## url
+     - /subscriber/id/update_working_time
+  - ## method
+     - PATCH
+  - ## description
+     -  Subscriber update working_time
 
-### Premium Partners
+ - ## url
+     - /subscriber/add_company_rating
+  - ## method
+     - POST
+  - ## description
+     -  Subscriber add company rating
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+ - ## url
+     - /subscriber/id/update_company_rating
+  - ## method
+     - PATCH
+  - ## description
+     -  Subscriber update company rating
+  - ## url
+     - /subscriber/add_company_review
+  - ## method
+     - POST
+  - ## description
+     -  Subscriber add company review
+  - ## url
+     - /subscriber/id/update_company_review
+  - ## method
+     - PATCH
+  - ## description
+     -  Subscriber update company review  
+   
