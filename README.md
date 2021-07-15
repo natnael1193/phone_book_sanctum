@@ -106,4 +106,43 @@
   - ## description
      - Tender Search
 
+ # User ( Subscriber )
+   - ## url
+     - /subscriber
+  - ## method
+     - GET
+  - ## description
+     - Subscriber's Profile
  
+  - ## url
+     - /subscriber/update
+  - ## method
+     - PATCH
+  - ## description
+     - Edit Subscriber's Profile
+
+   - ## url
+     - /subscriber/edit
+  - ## method
+     - GET
+  - ## description
+     - Edit Subscriber's Profile
+  - ## url
+     - subscriber/add_company
+  - ## method
+     - POST
+  - ## description
+     -  Subscriber add new company
+  - ## url
+     - subscriber/company
+  - ## method
+     - GET
+  - ## description
+     -  Subscriber's company
+  - ## url
+     - subscriber/update_company
+  - ## method
+     - PATCH
+  - ## description
+     -  Subscriber update his/her company
+
