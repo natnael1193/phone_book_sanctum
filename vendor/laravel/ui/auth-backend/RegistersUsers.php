@@ -2,11 +2,10 @@
 
 namespace Illuminate\Foundation\Auth;
 
-use App\Role;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 trait RegistersUsers
 {
@@ -19,8 +18,7 @@ trait RegistersUsers
      */
     public function showRegistrationForm()
     {
-        $role = Role::all();
-        return view('auth.register', compact('role'));
+        return view('auth.register');
     }
 
     /**

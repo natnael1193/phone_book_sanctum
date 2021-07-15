@@ -46,7 +46,6 @@ class MainController extends Controller
 //        for ($x=0; $x<sizeof($post); $x++ ){
 //            return response()->json($post);
 //        }
-
     }
 
     public function blog()
@@ -57,7 +56,10 @@ class MainController extends Controller
 
     public function company_detail($id)
     {
+
         $post = Company::findOrFail($id);
+        $post->count = $post->count+1;
+        $post->save();
 
         $location = Location::where('id', $post->location_id)->get();
         $service = Service::where('company_id', $id)->get();

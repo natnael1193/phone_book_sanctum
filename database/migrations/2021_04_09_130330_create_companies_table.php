@@ -22,7 +22,7 @@ class CreateCompaniesTable extends Migration
             $table->string('email')->nullable();
             $table->longText('description');
             $table->string('fax')->nullable();
-            
+            $table->integer('count')->min(0)->nullable();
             $table->string('website')->nullable();
             $table->longText('company_logo_path')->nullable();
             $table->string('location_image_id')->nullable();
