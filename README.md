@@ -121,28 +121,119 @@
   - ## description
      - Edit Subscriber's Profile
 
-   - ## url
-     - /subscriber/edit
-  - ## method
-     - GET
-  - ## description
-     - Edit Subscriber's Profile
   - ## url
-     - subscriber/add_company
+     - /subscriber/add_company
   - ## method
      - POST
   - ## description
      -  Subscriber add new company
   - ## url
-     - subscriber/company
+     - /subscriber/company
   - ## method
      - GET
   - ## description
      -  Subscriber's company
   - ## url
-     - subscriber/update_company
+     - /subscriber/update_company
   - ## method
      - PATCH
   - ## description
      -  Subscriber update his/her company
 
+  - ## url
+     - /subscriber/vacancy
+  - ## method
+     - GET
+  - ## description
+     -  Subscriber's vacancies
+  - ## url
+     - /subscriber/add_vacancy
+  - ## method
+     - POST
+  - ## description
+     -  Subscriber add new vacancy
+ - ## url
+     - /subscriber/id/update_vacancy
+  - ## method
+     - PATCH
+  - ## description
+     -  Subscriber update vacancy
+
+ - ## url
+     - /subscriber/id/delete_vacancy
+  - ## method
+     - DELETE
+  - ## description
+     -  Subscriber delete vacancy
+
+ - ## url
+     - /subscriber/service
+  - ## method
+     - GET
+  - ## description
+     -  Subscriber's services
+   - ## url
+     - /subscriber/add_serivce
+  - ## method
+     - POST
+  - ## description
+     -  Subscriber add new service
+ - ## url
+     - /subscriber/id/update_service
+  - ## method
+     - PATCH
+  - ## description
+     -  Subscriber update service
+
+ - ## url
+     - /subscriber/id/delete_service
+  - ## method
+     - DELETE
+  - ## description
+     -  Subscriber delete service
+
+ - ## url
+     - /subscriber/working_time
+  - ## method
+     - GET
+  - ## description
+     -  Subscriber's working_time
+  - ## url
+     - /subscriber/add_working_time
+  - ## method
+     - POST
+  - ## description
+     -  Subscriber add working_time
+ - ## url
+     - /subscriber/id/update_working_time
+  - ## method
+     - PATCH
+  - ## description
+     -  Subscriber update working_time
+
+ - ## url
+     - /subscriber/add_company_rating
+  - ## method
+     - POST
+  - ## description
+     -  Subscriber add company rating
+
+ - ## url
+     - /subscriber/id/update_company_rating
+  - ## method
+     - PATCH
+  - ## description
+     -  Subscriber update company rating
+  - ## url
+     - /subscriber/add_company_review
+  - ## method
+     - POST
+  - ## description
+     -  Subscriber add company review
+  - ## url
+     - /subscriber/id/update_company_review
+  - ## method
+     - PATCH
+  - ## description
+     -  Subscriber update company review  
+   
