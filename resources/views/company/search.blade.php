@@ -7,6 +7,12 @@
 
 
     <div class="row" style="margin-top: 5%">
+        @if(sizeof($post)==0)
+            <div class="col-lg-9 col-md-9 text-center">
+                <h2>{{"No Companies found "}}</h2>
+            </div>
+        @endif
+    </div>
 
             @foreach($post as $posts)
                 {{-- @if($posts->verification != Null) --}}

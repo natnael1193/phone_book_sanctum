@@ -77,7 +77,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
                 'email' => ['The provided credentials are incorrect.'],
             ], 404);
         }
-        $subscriber_company = Company::where('company_email', $subscriber->company_email)->first();
+        $subscriber_company = Company::where('subscriber_id', $subscriber->id)->first();
         if ($subscriber_company == null) {
             return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "hasCompany" => false, "token" => $subscriber->createToken('API Token')->plainTextToken];
         } else {
@@ -111,9 +111,12 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('blog_search', 'Api\MainController@blog_search');
     Route::get('vacancies', 'Api\MainController@vacancy');
     Route::get('vacancy_detail/{id}', 'Api\MainController@vacancy_detail');
+    Route::post('vacancy_search', 'Api\MainController@vacancy_search');
+    Route::get('vacancy_categories', 'Api\MainController@vacancy_category');
+    Route::get('vacancy_categories/{id}', 'Api\MainController@vacancy_category_detail');
     Route::get('tender_detail/{id}', 'Api\MainController@tender_detail');
     Route::get('tenders', 'Api\MainController@tender');
-    Route::post('company_search', 'Api\MainController@search_company')->name('company.search');
+    Route::post('tender_search', 'Api\MainController@tender_search')->name('tender.search');
     Route::get('/top_rated', 'Api\MainController@top_rated');
 });
 
@@ -158,9 +161,12 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
 
     //Company Rating
     Route::post('subscriber/add_company_rating', 'Api\Auth\SubscriberController@add_company_rating')->name('subscriber.add_company_rating');
+    Route::patch('subscriber/{id}/update_company_rating', 'Api\Auth\SubscriberController@update_company_rating')->name('subscriber.update_company_rating');
 
     //Company Review
     Route::post('subscriber/add_company_review', 'Api\Auth\SubscriberController@add_company_review')->name('subscriber.add_company_review');
+    Route::patch('subscriber/{id}/update_company_review', 'Api\Auth\SubscriberController@update_company_review')->name('subscriber.update_company_rating');
+
 
     Route::resource('rating', 'Api\RatingController');
     Route::resource('review', 'Api\ReviewController');

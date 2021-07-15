@@ -75,6 +75,8 @@ class MainController extends Controller
         foreach ($review as $reviews) {
             $reviews['subscriber_name'] = $reviews->subscriber()->first()->name;
         }
+
+
         $rating = CompanyRating::where('company_id', $id)->get();
         foreach ($rating as $ratings) {
             $ratings['subscriber_name'] = $ratings->subscriber()->first()->name;
@@ -96,7 +98,7 @@ class MainController extends Controller
             $value = $data;
 
             // return response()->json(['blog'=>$post, 'review'=>$review, 'rating'=>$value]);
-            return response()->json(['company' => $post, 'service' => $service, 'image' => $image, 'working time' => $working_time, 'review' => [$review], 'rating' => $value, 'location' => $location, 'google map' => $map, 'vacancy' => $vacancy, 'tender' => $tender]);
+            return response()->json(['company' => $post, 'service' => $service, 'image' => $image, 'working time' => $working_time, 'review' => $review, 'rating' => $value, 'location' => $location, 'google map' => $map, 'vacancy' => $vacancy, 'tender' => $tender]);
         }
 
         // return response()->json(['company' => $post, 'service'=>$service, 'image' => $image, 'working time' => $working_time]);
@@ -129,7 +131,7 @@ class MainController extends Controller
 
     public function company_category()
     {
-        $post = Category::all()->sortBy('id');
+        $post = Category::get()->sortBy('name')->skip(1);
         // $service = Service::where('company_id',  $id)->get();
 
         return response()->json(['company category' => $post]);
@@ -146,6 +148,34 @@ class MainController extends Controller
 
             // $sub_category = Category::where('category_id', $id)->get();
             return response()->json([' category' => $post, 'company' => $company]);
+
+        }
+        // $service = Service::where('company_id',  $id)->get();
+
+    }
+
+
+
+    public function vacancy_category()
+    {
+        $post = Category::all()->sortBy('name')->skip(1);
+//        $post = Category::all()->sortBy('id');
+        // $service = Service::where('company_id',  $id)->get();
+
+        return response()->json(['company category' => $post]);
+    }
+
+    public function vacancy_category_detail($id)
+    {
+        $post = Category::findOrFail($id);
+        $vacancy = Vacancy::where('category_id', $id)->get();
+
+        if ($post->id == 1) {
+            return [];
+        } else {
+
+            // $sub_category = Category::where('category_id', $id)->get();
+            return response()->json([' category' => $post, 'vacancy' => $vacancy]);
 
         }
         // $service = Service::where('company_id',  $id)->get();
@@ -226,6 +256,41 @@ class MainController extends Controller
         }
         if ($keyword != null) {
             $post = $post->where('company_name', 'LIKE', '%' . $keyword . '%');
+        }
+        $post = $post->get();
+        return response()->json($post);
+
+//        return view('company.search', compact('post'));
+    }
+
+
+    public function vacancy_search()
+    {
+
+        $data = request()->all();
+        $keyword = $data['keyword'];
+        $post = Vacancy::query();
+
+
+        if ($keyword != null) {
+            $post = $post->where('title', 'LIKE', '%' . $keyword . '%');
+        }
+        $post = $post->get();
+        return response()->json($post);
+
+//        return view('company.search', compact('post'));
+    }
+
+    public function tender_search()
+    {
+
+        $data = request()->all();
+        $keyword = $data['keyword'];
+        $post = Tinder::query();
+
+
+        if ($keyword != null) {
+            $post = $post->where('title', 'LIKE', '%' . $keyword . '%');
         }
         $post = $post->get();
         return response()->json($post);
