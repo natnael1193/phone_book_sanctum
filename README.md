@@ -65,7 +65,7 @@
   - ## description
      - Blog search
  
- #Vacancy
+ # Vacancy
   - ## url
      - /vacancies
   - ## method
