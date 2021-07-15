@@ -16,6 +16,7 @@ class SubscriberRegistrationController extends Controller
     {
         return view('company_owner.company_owner_registration');
     }
+
     public function register(Request $request)
     {
         $company = $request->company_email;
@@ -29,6 +30,7 @@ class SubscriberRegistrationController extends Controller
                 'phone_number' => 'unique:companies',
                 //'contact_number' => 'required|contact_number|unique:users',
                 'password' => 'required|confirmed|min:6',
+                'image' => ""
             ]);
         } else {
             request()->validate([
@@ -61,7 +63,7 @@ class SubscriberRegistrationController extends Controller
         if ($subscriber_company == null) {
             return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, 'image' => $subscriber->image, "subscriberEmail" => $subscriber->email, "hasCompany" => false, "token" => $subscriber->createToken('API Token')->plainTextToken];
         } else {
-            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email,"hasCompany" => true,  "companyID" => $subscriber_company->id, "companyName" => $subscriber_company->company_name,  "companyEmail" => $subscriber->company_email, "companyPhone" => $subscriber_company->phone_number, "token" => $subscriber->createToken('API Token')->plainTextToken];
+            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, 'image' => $subscriber->image,  "subscriberEmail" => $subscriber->email, "hasCompany" => true, "companyID" => $subscriber_company->id, "companyName" => $subscriber_company->company_name, "companyEmail" => $subscriber->company_email, "companyPhone" => $subscriber_company->phone_number, "token" => $subscriber->createToken('API Token')->plainTextToken];
         }
     }
 
@@ -121,7 +123,7 @@ class SubscriberRegistrationController extends Controller
             $image = Image::make(public_path("storage/{$imagePath}"))->resize(300,300);
             $image->save();
             $imageArray=['image' => $imagePath];
-        }
+
 
 
         $user =  Subscriber::create([
@@ -133,7 +135,18 @@ class SubscriberRegistrationController extends Controller
             'image' => $imagePath
 
         ]);
-        $userId = $user->id;
+        }
+        else {
+            $user = Subscriber::create([
+                'name' => $data['name'],
+                //            'lastName' => $data['lastName'],
+                'email' => $data['email'],
+                'company_email' => $data['company_email'],
+                'password' => Hash::make($data['password']),
+            ]);
+        }
+
+            $userId = $user->id;
         // $userCompanyEmail =  $user->company_email;
 
         if ($user->company_email != null) {

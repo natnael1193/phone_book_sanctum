@@ -42,8 +42,11 @@ class MainController extends Controller
         return  response()->json($category);
 
 //        $post = Company::all();
-//        $post = Company::all();
-        return response()->json($category);
+////        $post = Company::all();
+//        for ($x=0; $x<sizeof($post); $x++ ){
+//            return response()->json($post);
+//        }
+
     }
 
     public function blog()
@@ -70,11 +73,11 @@ class MainController extends Controller
 //        $review = CompanyReview::query()->where('company_id', $id)->with('subscriber')->get();
         $review = CompanyReview::where('company_id', $id)->get();
         foreach ($review as $reviews) {
-            $reviews['subscriber_id'] = $reviews->subscriber()->first()->name;
+            $reviews['subscriber_name'] = $reviews->subscriber()->first()->name;
         }
         $rating = CompanyRating::where('company_id', $id)->get();
         foreach ($rating as $ratings) {
-            $ratings['subscriber_id'] = $ratings->subscriber()->first()->name;
+            $ratings['subscriber_name'] = $ratings->subscriber()->first()->name;
         }
 
         $sum = CompanyRating::query()->where('company_id', $id)->sum('rating');
@@ -254,21 +257,20 @@ class MainController extends Controller
         $category = Company::all()->toArray();
 
         for ($x=0; $x<sizeof($category); $x++ ){
-
             $category[$x]['rating'] = CompanyRating::all()->where('company_id',$category[$x]['id'])->avg('rating');
-
-
             if($category[$x]['rating'] >= 4){
                 $category[$x]['approximate'] = number_format($category[$x]['rating'], 1);
-
             }
-
         }
 
-
         $res = array_values($category);
-
         return  response()->json($res);
 
-}
+//        foreach ($category as $categories){
+//            $res = array_values($categories);
+//            return  response()->json($res);
+//        }
+
+
+    }
 }
