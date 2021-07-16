@@ -60,13 +60,9 @@
                                     <div class="col-6">
                                         <label for="my-select">Select Category</label>
                                         <select id="my-select" class="form-control" name="category_id">
-                                            {{--                                            <option value=null>Select Category</option>--}}
-                                            @foreach(App\Category::all() ->sortBy('name') as $categories)
-                                                @if($categories->id == 1)
-                                                    <option value="{{ $post->category_id }}">Select Category</option>
-                                                @else
+                                            <option value="{{ $post->category_id }}">Select Category</option>
+                                            @foreach(App\TenderCategory::all()->sortBy('name') as $categories)
                                                     <option value={{$categories->id}} required>{{$categories->name}}</option>
-                                                @endif
                                             @endforeach
                                         </select>
                                     </div>

@@ -52,13 +52,9 @@
                                         <div class="form-group">
                                             <label for="my-select">Category</label>
                                             <select id="my-select" class="form-control" name="category_id" required>
-{{--                                                <option>Select Category</option>--}}
+                                                <option value="">Select Category</option>
                                                 @foreach($category as $categories)
-                                                    @if($categories->id == 1)
-                                                        <option value=null>Select Category</option>
-                                                    @else
                                                         <option value={{$categories->id}} required>{{$categories->name}}</option>
-                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -73,7 +69,8 @@
                                                 {{-- @foreach($company as $companies) --}}
                                                 <option value="1">Full Time</option>
                                                 <option value="2">Part Time</option>
-                                                <option value="3">Contractual</option>
+{{--                                                <option value="3">Contractual</option>--}}
+                                                <option value="3">Remotely</option>
                                                 {{-- @endforeach --}}
                                             </select>
                                         </div>

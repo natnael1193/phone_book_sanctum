@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Blog;
+use App\CompanyCategory;
 use App\Images;
 use App\Map;
 use App\Rating;
@@ -14,6 +15,7 @@ use App\Service;
 use App\Vacancy;
 use App\Category;
 use App\Location;
+use App\VacancyCategory;
 use App\WorkingTime;
 use App\CompanyRating;
 use App\CompanyReview;
@@ -28,18 +30,23 @@ class MainController extends Controller
     //
     public function company()
     {
-        $category = Company::all()->toArray();
+        $post = Company::all()->toArray();
 
-        for ($x=0; $x<sizeof($category); $x++ ){
+        for ($x = 0; $x < sizeof($post); $x++) {
 
-            $category[$x]['rating'] = CompanyRating::all()->where('company_id',$category[$x]['id'])->avg('rating');
+            $post[$x]['rating'] = CompanyRating::all()->where('company_id', $post[$x]['id'])->avg('rating');
 
-                $category[$x]['approximate'] = number_format($category[$x]['rating'], 1);
-
+            [
+                $post[$x]['approximate'] = number_format($post[$x]['rating'], 1),
+                $post[$x]['location'] = Location::where('id', $post[$x]['location_id'])->first('name'),
+                $post[$x]['category'] = Category::where('id', $post[$x]['location_id'])->first('name'),
+                $post[$x]['company_type'] = CompanyCategory::where('id', $post[$x]['company_category'])->first('name')
+            ];
 //            $category[$x]['rating'] = CompanyRating::where('rating' , '>' , 3.9)->get();
         }
 
-        return  response()->json($category);
+
+        return response()->json($post);
 
 //        $post = Company::all();
 ////        $post = Company::all();
@@ -58,7 +65,7 @@ class MainController extends Controller
     {
 
         $post = Company::findOrFail($id);
-        $post->count = $post->count+1;
+        $post->count = $post->count + 1;
         $post->save();
 
         $location = Location::where('id', $post->location_id)->get();
@@ -149,13 +156,12 @@ class MainController extends Controller
         } else {
 
             // $sub_category = Category::where('category_id', $id)->get();
-            return response()->json([' category' => $post, 'company' => $company]);
+            return response()->json(['category' => $post, 'company' => $company]);
 
         }
         // $service = Service::where('company_id',  $id)->get();
 
     }
-
 
 
     public function vacancy_category()
@@ -184,17 +190,17 @@ class MainController extends Controller
 
     }
 
-    public function company_search()
+    public function company_search($id)
     {
 
         // App::setLocale($lang);
         $data = request()->all();
-        $keyword = $data['company_name'];
+//        $keyword = $data['company_name'];
         $post = Company::query();
 
-        if ($keyword != null) {
+        if ($id != null) {
 
-            $post = $post->where('company_name', 'LIKE', '%' . $keyword . '%');
+            $post = $post->where('company_name','LIKE', '%' . $id . '%');
         }
         $post = $post->get();
 //        dd($post);
@@ -222,7 +228,33 @@ class MainController extends Controller
 
     public function vacancy()
     {
-        $post = Vacancy::all();
+        $post = Vacancy::all()->toArray();
+//        $location = Location::all();
+
+//        foreach ($post as $posts) {
+//            $posts['location'] = $posts->location()->first()->name;
+//        }
+
+
+        for ($x = 0; $x < sizeof($post); $x++) {
+          [  $post[$x]['location'] = Location::where('id', $post[$x]['location'])->first('name'),
+              $post[$x]['category'] = VacancyCategory::where('id', $post[$x]['category_id'])->first(['name', 'image']),
+
+
+
+];
+          if($post[$x]['job_type'] == 1){
+              $post[$x]['job_type'] = 'permanent';
+          }
+          elseif ($post[$x]['job_type'] == 2){
+              $post[$x]['job_type'] = 'Temporary';
+          }
+          else{
+              $post[$x]['job_type'] = 'Remotely';
+          }
+        }
+
+
         return response()->json($post);
     }
 
@@ -304,7 +336,6 @@ class MainController extends Controller
     {
 
 
-
 //    $company = Company::join('company_ratings', 'company_ratings.company_id', '=', 'companies.id')
 ////            ->where('companies.status', 'active')
 //        ->where('company_ratings.company_id', 16)
@@ -323,15 +354,15 @@ class MainController extends Controller
 
         $category = Company::all()->toArray();
 
-        for ($x=0; $x<sizeof($category); $x++ ){
-            $category[$x]['rating'] = CompanyRating::all()->where('company_id',$category[$x]['id'])->avg('rating');
-            if($category[$x]['rating'] >= 4){
+        for ($x = 0; $x < sizeof($category); $x++) {
+            $category[$x]['rating'] = CompanyRating::all()->where('company_id', $category[$x]['id'])->avg('rating');
+            if ($category[$x]['rating'] >= 4) {
                 $category[$x]['approximate'] = number_format($category[$x]['rating'], 1);
             }
         }
 
         $res = array_values($category);
-        return  response()->json($res);
+        return response()->json($res);
 
 //        foreach ($category as $categories){
 //            $res = array_values($categories);

@@ -152,6 +152,10 @@
                 </li>
                 <li class="sidebar-item {{ request()->is('category*') ? 'active' : '' }}"><a class="sidebar-link"
                         href="{{ route('category.index') }}">Category</a></li>
+                    <li class="sidebar-item {{ request()->is('vacancy_category*') ? 'active' : '' }}"><a class="sidebar-link"
+                                                                                                 href="{{ route('vacancy_category.index') }}">Vacancy Category</a></li>
+                    <li class="sidebar-item {{ request()->is('tender_category*') ? 'active' : '' }}"><a class="sidebar-link"
+                                                                                                 href="{{ route('tender_category.index') }}">Tender Category</a></li>
                 <li class="sidebar-item  {{ request()->is('location*') ? 'active' : '' }}"><a class="sidebar-link"
                         href="{{ route('location.index') }}">Location</a></li>
                 <li class="sidebar-item {{ request()->is('blog_category*') ? 'active' : '' }}"><a class="sidebar-link" href="{{ route('blog_category.index') }}">Blog

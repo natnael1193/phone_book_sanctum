@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class CategoryController extends Controller
 {
@@ -20,7 +22,7 @@ class CategoryController extends Controller
     ->get();
 
     // return response()->json($categories);
-    
+
         $sub_category = Category::orderBy('name')->get();
     // return view('categories', compact('categories'));
         return view('category.category', compact('categories', 'sub_category'));
@@ -45,10 +47,24 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
-        $post = new Category();
-        $post->name = $request->input('name');
-        $post->category_id = $request->input('category_id');
-        $post->save();
+        $data = request()->all();
+
+        if(request('image')){
+            $imagePath = request('image')->store('uploads','public');
+            $image = Image::make(public_path("storage/{$imagePath}"))->resize(300,300);
+            $image->save();
+            $imageArray=['image' => $imagePath];
+        }
+
+        // dd($data,
+        // $imageArray, $user);
+        Category::create(array_merge(
+            $data,
+
+            $imageArray ?? []
+
+        ));
+//        dd($data);
         return redirect()->back();
     }
 
@@ -87,13 +103,24 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $post = Category::findOrFail($id);
+        $data = request()->all();
+        $oldData = Category::findOrFail($id);
 
-        $post->name = $request->input('name');
-        $post->category_id = $request->input('category_id');
-        $post->save();
+        if(request('image')){
+            Storage::delete("/public/{$oldData->image}");
+            $imagePath = request('image')->store('uploads','public');
+            $image = Image::make(public_path("storage/{$imagePath}"))->resize(300,300);
+            $image->save();
+            $imageArray=['image' => $imagePath];
+        }
+
+        $oldData->update(array_merge(
+            $data,
+            $imageArray ?? []
+
+        ));
         return redirect('/category');
-        
+
     }
 
     /**

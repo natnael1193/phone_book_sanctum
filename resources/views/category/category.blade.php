@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-12 col-xl-10">
                 <div class="card">
-                    <div class="card-header">           
+                    <div class="card-header">
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#defaultModalPrimary">
                            Add Category
                         </button>
@@ -19,7 +19,7 @@
                             <tr>
                                 <th style="width:40%;">Name</th>
                                {{-- <th>Parent Category</th> --}}
-                                {{-- <th class="d-none d-md-table-cell" style="width:25%">Role</th> --}} 
+                                {{-- <th class="d-none d-md-table-cell" style="width:25%">Role</th> --}}
                                 {{-- <th>Actions</th> --}}
                             </tr>
                         </thead>
@@ -38,7 +38,7 @@
                                         @include('category.child_category', ['child_category' => $childCategory])
                                     @endforeach
                                     {{-- </ul> --}}
-                          
+
                             </td>
                             {{-- <td>{{ $category->category_id }}</td> --}}
                                 @endforeach
@@ -50,13 +50,13 @@
             </div>
         </div>
     </div>
-    
+
 {{-- </main> --}}
 <div class="card">
-    
-        
+
+
         <!-- BEGIN primary modal -->
-    
+
         <div class="modal fade" id="defaultModalPrimary" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -67,15 +67,19 @@
 </button>
                     </div>
                     <div class="modal-body m-3">
-                        
-                <form method="POST" action="{{ route('category.store') }}">
+
+                <form method="POST" action="{{ route('category.store') }}" enctype="multipart/form-data">
                             @csrf
                         <div class="row">
+                            <div class="form-group col-xl-12">
+                                <label>Image</label>
+                                <input type="file" class="form-control" name="image">
+                            </div>
                             <div class="form-group col-xl-12">
                                 <label for="my-select">Category</label>
                                 <select id="my-select" class="form-control"   name="category_id">
                                     {{-- <option>Select Category</option> --}}
-                                    @foreach($sub_category as $sub_categories)        
+                                    @foreach($sub_category as $sub_categories)
                                     <option value="{{ $sub_categories->id }}">{{ $sub_categories->name }}</option>
                                     @endforeach
                                 </select>
@@ -93,7 +97,7 @@
 </div>
 
 
-  
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 @endsection

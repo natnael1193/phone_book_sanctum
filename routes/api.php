@@ -77,7 +77,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
                 'email' => ['The provided credentials are incorrect.'],
             ], 404);
         }
-        $subscriber_company = Company::where('subscriber_id', $subscriber->id)->first();
+        $subscriber_company = Company::where('subscriber_id', '=', $subscriber->id)->first();
         if ($subscriber_company == null) {
             return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "hasCompany" => false, "token" => $subscriber->createToken('API Token')->plainTextToken];
         } else {
@@ -107,7 +107,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('blog_detail/{id}', 'Api\MainController@blog_detail');
     Route::get('company_categories', 'Api\MainController@company_category');
     Route::get('company_categories/{id}', 'Api\MainController@company_category_detail');
-    Route::post('company_search', 'Api\MainController@company_search');
+    Route::get('company_search/{id}', 'Api\MainController@company_search');
     Route::post('blog_search', 'Api\MainController@blog_search');
     Route::get('vacancies', 'Api\MainController@vacancy');
     Route::get('vacancy_detail/{id}', 'Api\MainController@vacancy_detail');

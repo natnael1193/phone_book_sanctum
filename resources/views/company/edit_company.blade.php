@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&' +'callback=window.showNewMap"></script>
     <style type="text/css">
         #mymap {
             border:1px solid red;
@@ -455,22 +456,28 @@
                                         <h4>@if($edit_map == NULL) Add @else Edit @endif Map</h4>
                                         <hr>
                                         <div class="row">
-                                            <div class="col-xl-4 col-lg-4">
+                                            <div class="col-xl-3 col-lg-3">
                                                 <div class="form-group">
                                                     <label class="form-label">City</label>
                                                     <input type="text" class="form-control" placeholder="City" name="city" @if($edit_map != NULL) value="{{$edit_map->city}}" @else value="" @endif>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-lg-4">
+                                            <div class="col-xl-3 col-lg-3">
                                                 <div class="form-group">
                                                     <label class="form-label">Latitude</label>
                                                     <input type="text" class="form-control" placeholder="Latitude" name="lat" @if($edit_map != NULL) value="{{$edit_map->lat}}"  @else value="" @endif>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-lg-4">
+                                            <div class="col-xl-3 col-lg-3">
                                                 <div class="form-group">
                                                     <label class="form-label">Longitude</label>
                                                     <input type="text" class="form-control" placeholder="Longitude" name="lng" @if($edit_map != NULL) value="{{$edit_map->lng}}"  @else value="" @endif>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-3">
+                                                <div class="form-group">
+                                                    <label class="form-label">Iframe</label>
+                                                    <input type="text" class="form-control" placeholder="Iframe" name="lng" @if($edit_map != NULL) value="{{$edit_map->iframe}}"  @else value="" @endif>
                                                 </div>
                                             </div>
                                         </div>
@@ -621,6 +628,7 @@
     </div>
 
         <div id="mymap"></div>
+{{--    <div class="row">{{$edit_map->iframe}}</div>--}}
 
 
 {{--    @section('script')--}}
@@ -704,6 +712,7 @@
             mymap.addMarker({
                 lat: value.lat,
                 lng: value.lng,
+                // iframe: value.iframe,
                 title: value.city,
                 click: function(e) {
                     alert('This is '+value.city);

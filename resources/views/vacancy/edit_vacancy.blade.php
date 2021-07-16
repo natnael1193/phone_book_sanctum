@@ -53,7 +53,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div>                          
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6 col-md-12 col-sl-12">
@@ -64,7 +64,7 @@
                                                 {{-- @foreach($company as $companies) --}}
                                                 <option value="1">Full Time</option>
                                                 <option value="2">Part Time</option>
-                                                <option value="3">Contractual</option>
+                                                <option value="3">Remotely</option>
                                                 {{-- @endforeach --}}
                                             </select>
                                         </div>
@@ -80,7 +80,7 @@
                                             </select>
                                         </div>
                                     </div>
-                            
+
                                 </div>
                                 <div class="row">
                                         <div class="form-group">
@@ -97,7 +97,7 @@
                                         </div>
                                         </div>
                                     </div>
-                     
+
                                     <div class="row">
                                         <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
@@ -106,7 +106,7 @@
                                         </div>
                                         </div>
                                     </div>
-                     
+
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
@@ -115,7 +115,7 @@
                                         </div>
                                     </div>
                                 </div>
-                    
+
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>

@@ -60,7 +60,7 @@
                                 @enderror
                                 @error('password')
                                 <input type="hidden" class="form-control @error('password') is-invalid @enderror"
-                                       name="password" placeholder="********" required autocomplete="new-password">
+                                       name="password" placeholder="********"  autocomplete="new-password">
                                 <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -110,7 +110,7 @@
                                                 <div class="form-group">
                                                     <label for="my-select">Company Category</label>
                                                     <select id="my-select" class="form-control" name="category_id"
-                                                            required>
+                                                            >
 
                                                         @foreach($post as $posts)
                                                             @if($posts->id == 1)
@@ -127,7 +127,7 @@
                                                 <div class="form-group">
                                                     <label for="my-select">Location</label>
                                                     <select id="my-select" class="form-control" name="location_id"
-                                                            required>
+                                                            >
                                                         <option value="">Select Location</option>
                                                         @foreach($location as $locations)
                                                             <option
@@ -142,7 +142,7 @@
                                                 <div class="form-group">
                                                     <label for="my-select">Company Status</label>
                                                     <select id="my-select" class="form-control" name="company_category"
-                                                            required>
+                                                            >
                                                         <option value="">Select Category</option>
                                                         @foreach($company_category as $company_categories)
                                                             <option
@@ -155,7 +155,7 @@
                                                 <div class="form-group">
                                                     <label for="my-select">Company Verification</label>
                                                     <select id="my-select" class="form-control" name="verification"
-                                                            required>
+                                                            >
                                                         <option value="">Select Category</option>
                                                         <option value="">Not Verified</option>
                                                         <option value="1">Verified</option>
@@ -169,8 +169,8 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Company Name</label>
                                                     <input type="text" class="form-control" placeholder="Name"
-                                                           name="company_name" required>
-                                                    {{-- <select id="my-select" class="form-control" name="company_name" required>
+                                                           name="company_name" >
+                                                    {{-- <select id="my-select" class="form-control" name="company_name" >
                                                         <option value="">Select Company</option>
                                                         @foreach($all as $items)
                                                         <option value="{{$items->id}}">{{$items->company_name}}</option>
@@ -182,11 +182,11 @@
                                                 <div class="form-group">
                                                     <label class="form-label">ስም</label>
                                                     <input type="text" class="form-control" placeholder="Name"
-                                                           name="company_name_am" required>
+                                                           name="company_name_am" >
                                                 </div>
                                                 {{-- <div class="form-group">
                                                     <label class="form-label">Email address</label>
-                                                    <input type="email" class="form-control" placeholder="Email" name="email" required>
+                                                    <input type="email" class="form-control" placeholder="Email" name="email" >
                                                 </div> --}}
                                             </div>
                                         </div>
@@ -196,7 +196,7 @@
                                                     <label class="form-label">Address</label>
                                                     <input type="text" class="form-control" placeholder="Address"
                                                            name="address">
-                                                    {{-- <select id="my-select" class="form-control" name="company_name" required>
+                                                    {{-- <select id="my-select" class="form-control" name="company_name" >
                                                         <option value="">Select Company</option>
                                                         @foreach($all as $items)
                                                         <option value="{{$items->id}}">{{$items->company_name}}</option>
@@ -212,7 +212,7 @@
                                                 </div>
                                                 {{-- <div class="form-group">
                                                     <label class="form-label">Email address</label>
-                                                    <input type="email" class="form-control" placeholder="Email" name="email" required>
+                                                    <input type="email" class="form-control" placeholder="Email" name="email" >
                                                 </div> --}}
                                             </div>
                                         </div>
@@ -221,7 +221,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Email</label>
                                                     <input type="email" class="form-control" placeholder="Email"
-                                                           name="company_email" required>
+                                                           name="company_email" >
                                                 </div>
                                             </div>
                                             <div class="col-xl-6 col-lg-6">
@@ -237,7 +237,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Phone 1</label>
                                                     <input type="text" class="form-control" placeholder="Phone 1"
-                                                           name="phone_number" required>
+                                                           name="phone_number" >
                                                 </div>
                                             </div>
                                             <div class="col-xl-6 col-lg-6">
@@ -473,25 +473,32 @@
                                                 <h4>Add Map</h4>
                                                 <hr>
                                                 <div class="row">
-                                                    <div class="col-xl-4 col-lg-4">
+                                                    <div class="col-xl-3 col-lg-3">
                                                         <div class="form-group">
                                                             <label class="form-label">City</label>
                                                             <input type="text" class="form-control" placeholder="City"
                                                                    name="city">
                                                         </div>
                                                     </div>
-                                                    <div class="col-xl-4 col-lg-4">
+                                                    <div class="col-xl-3 col-lg-3">
                                                         <div class="form-group">
                                                             <label class="form-label">Latitude</label>
                                                             <input type="text" class="form-control"
                                                                    placeholder="Latitude" name="lat">
                                                         </div>
                                                     </div>
-                                                    <div class="col-xl-4 col-lg-4">
+                                                    <div class="col-xl-3 col-lg-3">
                                                         <div class="form-group">
                                                             <label class="form-label">Longitude</label>
                                                             <input type="text" class="form-control"
                                                                    placeholder="Longitude" name="lng">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-3">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Iframe</label>
+                                                            <input type="text" class="form-control"
+                                                                   placeholder="Iframe" name="iframe">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -504,6 +511,7 @@
                         </div>
                     </div>
             </div>
+        </div>
     </main>
 
 
@@ -572,7 +580,7 @@
                                 <div class="form-group col-xl-12">
                                     <label>Password</label>
                                     <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                           name="password" placeholder="********" required autocomplete="new-password">
+                                           name="password" placeholder="********"  autocomplete="new-password">
                                     @error('password')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -584,7 +592,7 @@
                                 <div class="form-group col-xl-12">
                                     <label>Password Confirmation</label>
                                     <input id="password-confirm" type="password" class="form-control"
-                                           placeholder="********" name="password_confirmation" required
+                                           placeholder="********" name="password_confirmation"
                                            autocomplete="new-password">
                                 </div>
                             </div>

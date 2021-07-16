@@ -2,31 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
-use App\Vacancy;
-use App\Category;
-use App\VacancyCategory;
+use App\TenderCategory;
+use App\Tinder;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
 
-class VacancyController extends Controller
+class TenderCategoryController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index()
     {
         //
-        $post = Vacancy::query()->orderBy('created_at', "DESC")->paginate(10);
-        return view('vacancy.vacancy', compact('post'));
+        $post  = TenderCategory::query()->get()->sortBy('name');
+        $category  = TenderCategory::query()->get()->sortBy('name');
+
+        return  view('category.tender_category', compact('post', 'category'));
     }
 
     /**
@@ -37,10 +31,6 @@ class VacancyController extends Controller
     public function create()
     {
         //
-
-        $company = Company::all()->sortBy('name');
-        $category = VacancyCategory::all()->sortBy('name');
-        return view('vacancy.add_vacancy', compact('company', 'category'));
     }
 
     /**
@@ -53,7 +43,7 @@ class VacancyController extends Controller
     {
         //
         $data = request()->all();
-        $user = ['user_id' => auth()->user()->id];
+
         if(request('image')){
             $imagePath = request('image')->store('uploads','public');
             $image = Image::make(public_path("storage/{$imagePath}"))->resize(300,300);
@@ -61,13 +51,17 @@ class VacancyController extends Controller
             $imageArray=['image' => $imagePath];
         }
 
-        // dd($data, $user);
-        Vacancy::create(array_merge(
+        // dd($data,
+        // $imageArray, $user);
+        TenderCategory::create(array_merge(
             $data,
-            $user,
+
             $imageArray ?? []
+
         ));
-        return redirect()->back()->with('message', 'Vacancy Added Successfully');
+//        dd($data);
+        return redirect()->back();
+
     }
 
     /**
@@ -90,10 +84,6 @@ class VacancyController extends Controller
     public function edit($id)
     {
         //
-        $post = Vacancy::findOrFail($id);
-        $category = VacancyCategory::all()->sortBy('name');
-
-        return view('vacancy.edit_vacancy', compact('post', 'category'));
     }
 
     /**
@@ -107,8 +97,8 @@ class VacancyController extends Controller
     {
         //
         $data = request()->all();
-        $oldData = Vacancy::findOrFail($id);
-        $user = ['user_id' => auth()->user()->id];
+        $oldData = TenderCategory::findOrFail($id);
+
         if(request('image')){
             Storage::delete("/public/{$oldData->image}");
             $imagePath = request('image')->store('uploads','public');
@@ -119,11 +109,10 @@ class VacancyController extends Controller
 
         $oldData->update(array_merge(
             $data,
-            $imageArray ?? [],
-            $user
-        ));
+            $imageArray ?? []
 
-        return redirect('/vacancy')->with('message', 'Vacancy Updated Successfully');
+        ));
+        return redirect('/tender_category');
     }
 
     /**
@@ -135,7 +124,15 @@ class VacancyController extends Controller
     public function destroy($id)
     {
         //
-        Vacancy::findOrFail($id)->delete();
-        return redirect()->back()->with('message1', 'Vacancy Deleted Successfully');
+        $post = TenderCategory::findOrFail($id);
+        $student = Tinder::where('batch_id', $post->id)->exists();
+
+        if($student != true){
+            TenderCategory::findOrFail($id)->delete();
+            return redirect()->back();
+        }
+        else{
+            return redirect()->back()->with('message', 'Tender Registered With This Tender Category, Please Delete The Tender First');
+        }
     }
 }
