@@ -41,7 +41,7 @@
   - ## url
      - /company_search
   - ## method
-     - POST
+     - GET
   - ## description
      - Company Search
 
