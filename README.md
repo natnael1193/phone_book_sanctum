@@ -5,7 +5,7 @@
    - ## method
       - POST
    - ## attributes
-      - ( name, email, password, image, company_email, password )
+      - ( name, email, password, image, company_email, phone_number )
    - ## description
       - User Singup ( create an account )
    - ## url
