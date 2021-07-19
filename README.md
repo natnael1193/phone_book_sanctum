@@ -4,12 +4,16 @@
       - /subscriber/create
    - ## method
       - POST
+   - ## attributes
+      - ( name, email, password, image, company_email, password )
    - ## description
       - User Singup ( create an account )
    - ## url
       - /subscriber/login
    - ## method
       - POST
+     - ## attributes
+      - (  email, password )
   - ## description
      - User Login 
 
