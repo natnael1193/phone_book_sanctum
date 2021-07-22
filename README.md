@@ -104,6 +104,12 @@
   - ## description
      - Tender description
   - ## url
+     - /tender_categories/id
+  - ## method
+     - GET
+  - ## description
+     - Tender Categories
+  - ## url
      - /tender_search
   - ## method
      - POST
