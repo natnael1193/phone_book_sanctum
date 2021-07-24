@@ -4,12 +4,16 @@
       - /subscriber/create
    - ## method
       - POST
+   - ## attributes
+      - ( name, email, password, image, company_email, phone_number )
    - ## description
       - User Singup ( create an account )
    - ## url
       - /subscriber/login
    - ## method
       - POST
+     - ## attributes
+      - (  email, password )
   - ## description
      - User Login 
 
@@ -41,7 +45,7 @@
   - ## url
      - /company_search
   - ## method
-     - POST
+     - GET
   - ## description
      - Company Search
 
@@ -99,6 +103,12 @@
      - GET
   - ## description
      - Tender description
+  - ## url
+     - /tender_categories/id
+  - ## method
+     - GET
+  - ## description
+     - Tender Categories
   - ## url
      - /tender_search
   - ## method
