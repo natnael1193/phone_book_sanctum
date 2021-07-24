@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class VacancyCategory extends Model
 {
     //
-    protected $fillable = ['image', 'name'];
+    protected $fillable = ['image', 'name', 'name_am'];
 }

@@ -32,10 +32,10 @@ Route::get('/', function () {
     return view('welcome');
 
 });
-Route::get('/dashboard', function () {
-    $existingUser = User::where('email', auth()->user()->email)->first();
-    return view('index', compact('existingUser'))->name('dashboard');
-});
+//Route::get('/dashboard', function () {
+//    $existingUser = User::where('email', auth()->user()->email)->first();
+//    return view('index', compact('existingUser'))->name('dashboard');
+//});
 
 Auth::routes();
 
@@ -115,6 +115,7 @@ Route::get('/layouts', function(){
     return view('layouts.admin');
 });
 
+Route::get('/top_rated', 'MainController@top_rated');
 
 
 

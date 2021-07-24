@@ -59,7 +59,7 @@
                                     <div class="col-xl-6 col-lg-6 col-md-12 col-sl-12">
                                         <div class="form-group">
                                             <label for="my-select">Job Type</label>
-                                            <select id="my-select" class="form-control" name="job_type" required>
+                                            <select id="my-select" class="form-control" name="job_type" >
                                                 <option value="{{$post->job_type}}">Select Job Type</option>
                                                 {{-- @foreach($company as $companies) --}}
                                                 <option value="1">Full Time</option>
@@ -72,7 +72,7 @@
                                     <div class="col-xl-6 col-lg-6 col-md-12 col-sl-12">
                                         <div class="form-group">
                                             <label for="my-select">Location</label>
-                                            <select id="my-select" class="form-control" name="location" required>
+                                            <select id="my-select" class="form-control" name="location">
                                                 <option value="{{$post->location}}">Select Location</option>
                                                 @foreach(App\Location::all() as $locations)
                                                 <option value="{{ $locations->id }}">{{ $locations->name }}</option>
@@ -93,7 +93,7 @@
                                         <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Company</label>
-                                            <input type="text" class="form-control" placeholder="Title" value="{{ $post->company }}" name="company" imageOnly>
+                                            <input type="text" class="form-control" placeholder="Title" value="{{ $post->company }}" name="company" >
                                         </div>
                                         </div>
                                     </div>
@@ -102,11 +102,18 @@
                                         <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Title</label>
-                                            <input type="text" class="form-control" placeholder="Title" value="{{ $post->title }}" name="title" imageOnly>
+                                            <input type="text" class="form-control" placeholder="Title" value="{{ $post->title }}" name="title" >
                                         </div>
                                         </div>
                                     </div>
-
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Title (Amharic)</label>
+                                            <input type="text" class="form-control" placeholder="Title" value="{{ $post->title_am}}" name="title_am" >
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
@@ -116,6 +123,14 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Description (Amharic)</label>
+                                            <textarea class="form-control" id="summary-ckeditor1" placeholder="description" name="description_am">{{ $post->description_am }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>

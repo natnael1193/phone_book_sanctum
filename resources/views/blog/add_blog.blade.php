@@ -54,12 +54,27 @@
                                         </div>
                                         </div>
                                     </div>
-
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Title (Amharic)</label>
+                                            <input type="text" class="form-control" placeholder="Title" name="title_am" >
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Description</label>
                                      <textarea class="form-control" id="summary-ckeditor" placeholder="description" name="description"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Description (Amharic)</label>
+                                            <textarea class="form-control" id="summary-ckeditor" placeholder="description" name="description_am"></textarea>
                                         </div>
                                     </div>
                                 </div>

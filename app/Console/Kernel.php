@@ -24,6 +24,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+
+        $schedule->call(function () {
+
+            // your schedule code
+            Log::info('Working');
+
+        })->everyMinute();
         $schedule->command('backup:run --only-db')->everyMinute();
     }
 
@@ -39,3 +46,5 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 }
+
+

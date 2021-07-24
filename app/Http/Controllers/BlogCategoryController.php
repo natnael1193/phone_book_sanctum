@@ -16,7 +16,8 @@ class BlogCategoryController extends Controller
     {
         //
         $post = BlogCategroy::paginate(20)->sortBy('name');
-        return view('blog_category.blog_category', compact('post'));
+        $category = BlogCategroy::all();
+        return view('blog_category.blog_category', compact('post', 'category'));
     }
 
     /**
@@ -41,6 +42,7 @@ class BlogCategoryController extends Controller
 
         $post = new BlogCategroy();
         $post->name = $request->input('name');
+        $post->name_am = $request->input('name_am');
         $post->save();
 
         return redirect()->back();
@@ -80,6 +82,7 @@ class BlogCategoryController extends Controller
         //
         $post = BlogCategroy::findOrFail($id);
         $post->name = $request->input('name');
+        $post->name_am = $request->input('name_am');
         $post->save();
         return redirect()->back();
     }

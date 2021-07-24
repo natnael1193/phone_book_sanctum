@@ -24,6 +24,10 @@
                 <label>Name</label>
                 <input type="text" class="form-control" name="name" value="{{$post->name}}">
             </div>
+            <div class="form-group col-xl-12">
+                <label>Amharic Name</label>
+                <input type="text" class="form-control" name="name_am" value="{{$post->name_am}}">
+            </div>
         </div>
         <button type="submit" class="btn btn-success">Submit</button>
     </form>

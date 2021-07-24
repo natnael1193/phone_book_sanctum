@@ -55,6 +55,8 @@ class TinderController extends Controller
         $data = request()->validate([
             'title' => 'required',
             'description' => '',
+            'title_am' => 'required',
+            'description_am' => '',
             'image' => '',
             'price' => 'required',
             'bond' => '',

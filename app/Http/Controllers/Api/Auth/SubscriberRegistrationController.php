@@ -26,7 +26,8 @@ class SubscriberRegistrationController extends Controller
             request()->validate([
                 'email' => 'required|email|unique:subscribers',
                 'name' => 'required',
-                'company_email' => 'unique:subscribers',
+                'last_name' => '',
+                 'company_email' => 'unique:subscribers',
                 'phone_number' => 'unique:companies',
                 //'contact_number' => 'required|contact_number|unique:users',
                 'password' => 'required|confirmed|min:6',

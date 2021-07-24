@@ -381,6 +381,8 @@ class SubscriberController extends Controller
             $subscriber
 //            $company_id
         ));
+        $post->rating = rating_value;
+        $post->save();
 
         return response()->json([$data, $subscriber]);
     }

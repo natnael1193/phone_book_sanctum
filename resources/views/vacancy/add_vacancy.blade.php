@@ -68,7 +68,7 @@
                                                 <option>Select Job Type</option>
                                                 {{-- @foreach($company as $companies) --}}
                                                 <option value="1">Full Time</option>
-                                                <option value="2">Part Time</option>
+                                                <option value="2">Per Time</option>
 {{--                                                <option value="3">Contractual</option>--}}
                                                 <option value="3">Remotely</option>
                                                 {{-- @endforeach --}}
@@ -99,7 +99,7 @@
                                         <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Company</label>
-                                            <input type="text" class="form-control" placeholder="Company" name="company" >
+                                            <input type="text" class="form-control" placeholder="Company" name="company" required>
                                         </div>
                                         </div>
                                     </div>
@@ -108,10 +108,18 @@
                                         <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Title</label>
-                                            <input type="text" class="form-control" placeholder="Title" name="title" >
+                                            <input type="text" class="form-control" placeholder="Title" name="title" required>
                                         </div>
                                         </div>
                                     </div>
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Title (Amharic)</label>
+                                            <input type="text" class="form-control" placeholder="Title" name="title_am" required>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12">
@@ -122,6 +130,14 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Description (Amharic)</label>
+                                            <textarea class="form-control" id="summary-ckeditor1" placeholder="description" name="description_am"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>

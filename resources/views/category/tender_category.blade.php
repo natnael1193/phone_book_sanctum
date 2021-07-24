@@ -61,7 +61,13 @@
                                                    placeholder="category name">
                                         </div>
                                         <br>
+                                        <div class="for-group">
 
+                                            <label>Tender Category Name (Amharic)</label>
+                                            <input type="text" name="name_am" class="form-control"
+                                                   placeholder="category name">
+                                        </div>
+                                        <br>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
@@ -93,6 +99,7 @@
                             <tr>
                                 <th scope="col">Tender Category Image</th>
                                 <th scope="col">Tender Category Name</th>
+                                <th scope="col">Tender Category Name (Amharic Name)</th>
                                 <th scope="col" colspan="3">Actions</th>
 
                             </tr>
@@ -102,6 +109,7 @@
                                 <tr>
                                     <td><img src="/storage/{{$posts->image}}" style="width: 100px; height: 100px"/></td>
                                     <td>{{$posts->name}}</td>
+                                    <td>{{$posts->name_am}}</td>
                                     <td>
                                         <div class="row">
                                             <button class="btn btn-primary mr-2" data-toggle="modal"
@@ -147,6 +155,14 @@
                                                             <label>Tender Category Name</label>
                                                             <input type="text" name="name" class="form-control"
                                                                    value="{{$categories->name}}"
+                                                                   placeholder="category name">
+                                                        </div>
+                                                        <br>
+                                                        <div class="for-group">
+
+                                                            <label>Tender Category Name (Amharic)</label>
+                                                            <input type="text" name="name_am" class="form-control"
+                                                                   value="{{$categories->name_am}}"
                                                                    placeholder="category name">
                                                         </div>
                                                         <br>

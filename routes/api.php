@@ -116,8 +116,12 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('vacancy_categories/{id}', 'Api\MainController@vacancy_category_detail');
     Route::get('tender_detail/{id}', 'Api\MainController@tender_detail');
     Route::get('tenders', 'Api\MainController@tender');
+    Route::get('tender_categories', 'Api\MainController@tender_category');
+    Route::get('tender_categories/{id}', 'Api\MainController@tender_category_detail');
     Route::post('tender_search', 'Api\MainController@tender_search')->name('tender.search');
     Route::get('/top_rated', 'Api\MainController@top_rated');
+    Route::get('/verified_companies', 'Api\MainController@verified_companies');
+    Route::get('/recommended_companies', 'Api\MainController@recommended_companies');
 });
 
 

@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class TenderCategory extends Model
 {
     //
-    protected $fillable = ['image', 'name'];
+    protected $fillable = ['image', 'name', 'name_am'];
 }

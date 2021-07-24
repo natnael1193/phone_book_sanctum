@@ -113,12 +113,12 @@
                                                             >
 
                                                         @foreach($post as $posts)
-                                                            @if($posts->id == 1)
+{{--                                                            @if($posts->id == 1)--}}
                                                                 <option value=null>Select Category</option>
-                                                            @else
+{{--                                                            @else--}}
                                                                 <option
                                                                     value="{{ $posts->id }}">{{ $posts->name }}</option>
-                                                            @endif
+{{--                                                            @endif--}}
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -502,6 +502,28 @@
                                                         </div>
                                                     </div>
                                                 </div>
+{{--                                                <div class="row  col-xl-12 col-lg-12 col-md-12">--}}
+{{--                                                    <a href="javascritp:;" class="btn btn-info addRow">Add + </a>--}}
+{{--                                                    <div class="col-lg-3 col-md-3 "> </div>--}}
+{{--                                                                                                        <div class="form-group  col-xl-12 col-lg-12 col-md-12">--}}
+
+{{--                                                        <table class="table" style="width: 100%">--}}
+{{--                                                            <thead1>--}}
+{{--                                                            <tr>--}}
+{{--                                                                <th>Maps</th>--}}
+{{--                                                                <th><a href="javascritp1:;" class="btn btn-info addRow1">Add--}}
+{{--                                                                        + </a></th>--}}
+{{--                                                            </tr>--}}
+{{--                                                            </thead1>--}}
+{{--                                                            <tbody>--}}
+{{--                                                            <tr>--}}
+
+{{--                                                            </tr>--}}
+
+{{--                                                            </tbody>--}}
+{{--                                                        </table>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -511,7 +533,7 @@
                         </div>
                     </div>
             </div>
-        </div>
+
     </main>
 
 
@@ -655,5 +677,24 @@
         })
 
     </script>
+
+
+{{--    <script>--}}
+{{--        $('thead1').on('click', '.addRow', function () {--}}
+{{--            var div = '<div>' +--}}
+{{--                '<div class="col-lg-3 col-md-3 col-sm-3"><input type="text" name="city[]" id="city" class="form-control"></div>' +--}}
+{{--                '<div class="col-lg-3 col-md-3 col-sm-3"><input type="text" name="lat[]" id="lat" class="form-control"></div>' +--}}
+{{--                '<div class="col-lg-3 col-md-3 col-sm-3"><input type="text" name="lang[]" id="lang" class="form-control"></div>' +--}}
+{{--                '<div class="col-lg-3 col-md-3 col-sm-3"><input type="text" name="iframe[]" id="iframe" class="form-control"></div>' +--}}
+{{--                '<div class="col-lg-3 col-md-3 col-sm-3"><a href="javascritp:;" class="btn btn-danger deleteRow" >Delete - </a></div>' +--}}
+{{--                '</div>';--}}
+{{--            $('tbody').append(div);--}}
+
+{{--        });--}}
+{{--        $('tbody').on('click', '.deleteRow', function () {--}}
+{{--            $(this).parent().parent().remove();--}}
+{{--        })--}}
+
+{{--    </script>--}}
 @endsection
 @endsection

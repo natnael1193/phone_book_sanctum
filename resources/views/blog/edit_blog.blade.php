@@ -47,10 +47,19 @@
                                         <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Title</label>
-                                            <input type="text" class="form-control" placeholder="Title" value="{{ $post->title }}" name="title" imageOnly>
+                                            <input type="text" class="form-control" placeholder="Title" value="{{ $post->title }}" name="title" >
                                         </div>
                                         </div>
                                     </div>
+
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Title (Amharic)</label>
+                                            <input type="text" class="form-control" placeholder="Title" value="{{ $post->title_am }}" name="title_am" >
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12">
@@ -60,7 +69,14 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Description (Amharic)</label>
+                                            <textarea class="form-control" id="summary-ckeditor1" placeholder="description" name="description_am">{{ $post->description_am }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>

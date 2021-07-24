@@ -57,6 +57,10 @@
                                     <label>Category Name</label>
                                     <input type="text" class="form-control" name="name">
                                 </div>
+                                <div class="form-group col-xl-12">
+                                    <label>Category Name (Amharic)</label>
+                                    <input type="text" class="form-control" name="name_am">
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-success">Submit</button>
                         </form>
@@ -67,9 +71,9 @@
     </div>
 
 
-    @foreach($post as $posts)
+    @foreach($category as $categories)
     <div class="card">
-        <div class="modal fade" id="defaultModalEdit{{$posts->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade" id="defaultModalEdit{{$categories->id}}" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -80,13 +84,17 @@
                     </div>
                     <div class="modal-body m-3">
 
-                        <form method="POST" action="{{ route('blog_category.update', $posts->id) }}">
+                        <form method="POST" action="{{ route('blog_category.update', $categories->id) }}">
                             @csrf
                             @method('PATCH')
                             <div class="row">
                                 <div class="form-group col-xl-12">
                                     <label>Category Name</label>
-                                    <input type="text" class="form-control" name="name" value="{{$posts->name}}">
+                                    <input type="text" class="form-control" name="name" value="{{$categories->name}}">
+                                </div>
+                                <div class="form-group col-xl-12">
+                                    <label>Category Name (Amharic)</label>
+                                    <input type="text" class="form-control" name="name_am" value="{{$categories->name_am}}">
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">Submit</button>

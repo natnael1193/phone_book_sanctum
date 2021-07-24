@@ -68,7 +68,7 @@ class Company extends Model
         return $this->hasMany(Bookmark::class);
     }
 
-    public function company_category() {
+    public function company_ratings() {
         return $this->hasOne('App\CompanyRating','id','company_id');
     }
 

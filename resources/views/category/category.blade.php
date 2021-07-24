@@ -18,7 +18,7 @@
                         <thead>
                             <tr>
                                 <th style="width:40%;">Name</th>
-                               {{-- <th>Parent Category</th> --}}
+                                <th style="width:40%;">Amharic Name</th>
                                 {{-- <th class="d-none d-md-table-cell" style="width:25%">Role</th> --}}
                                 {{-- <th>Actions</th> --}}
                             </tr>
@@ -28,11 +28,11 @@
                                 @foreach ($categories as $category)
                                 <tr>
                                     <td>
-                                @if($category->id == 1)
-                                <h4></h4>
-                                @else
-                                    <li><a href="">{{ $category->name }}</a></li>
-                                    @endif
+{{--                                @if($category->id == 1)--}}
+{{--                                <h4></h4>--}}
+{{--                                @else--}}
+                                    <li><a href="{{route('category.edit', $category->id)}}">{{ $category->name }}</a></li>
+{{--                                    @endif--}}
                                     <ul>
                                     @foreach ($category->childrenCategories as $childCategory)
                                         @include('category.child_category', ['child_category' => $childCategory])
@@ -87,6 +87,10 @@
                             <div class="form-group col-xl-12">
                                 <label>Name</label>
                                 <input type="text" class="form-control" name="name">
+                            </div>
+                            <div class="form-group col-xl-12">
+                                <label>Amharic Name</label>
+                                <input type="text" class="form-control" name="name_am">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-success">Submit</button>

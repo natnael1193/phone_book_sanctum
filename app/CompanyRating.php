@@ -16,4 +16,5 @@ class CompanyRating extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
 }
