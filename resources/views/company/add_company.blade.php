@@ -448,6 +448,7 @@
                                                             <th>Services</th>
                                                             <th><a href="javascritp:;" class="btn btn-info addRow">Add
                                                                     + </a></th>
+                                                           <th><a href="javascritp:;" class="btn btn-info addRow">Add + </a></th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -680,7 +681,7 @@
 
 
 {{--    <script>--}}
-{{--        $('thead1').on('click', '.addRow', function () {--}}
+{{--        $('thead').on('click', '.addRow', function () {--}}
 {{--            var div = '<div>' +--}}
 {{--                '<div class="col-lg-3 col-md-3 col-sm-3"><input type="text" name="city[]" id="city" class="form-control"></div>' +--}}
 {{--                '<div class="col-lg-3 col-md-3 col-sm-3"><input type="text" name="lat[]" id="lat" class="form-control"></div>' +--}}
