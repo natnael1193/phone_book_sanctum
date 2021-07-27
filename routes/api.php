@@ -40,6 +40,8 @@ use Intervention\Image\Facades\Image;
 Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     Route::post('/subscriber/create', 'Api\Auth\SubscriberRegistrationController@register')->name('subscriber.registration');
+    Route::post('/company_owner/create', 'Api\Auth\CompanyOwnerRegistrationController@register')->name('subscriber.registration');
+    Route::post('/company_owner/login', 'Api\Auth\CompanyOwnerLoginController@login')->name('subscriber.registration');
     // ...
     // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     //     return $request->user();

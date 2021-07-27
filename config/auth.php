@@ -21,9 +21,9 @@ return [
         'driver' => 'eloquent',
         'model' => App\Subscriber::class,
     ],
-    'customers' => [
+    'company_owners' => [
         'driver' => 'eloquent',
-        'model' => App\Customer::class,
+        'model' => App\CompanyOwner::class,
     ],
 
     /*
@@ -58,9 +58,9 @@ return [
             'driver' => 'session',
             'provider' => 'subscribers',
         ],
-        'customer' => [
+        'company_owner' => [
             'driver' => 'session',
-            'provider' => 'customers',
+            'provider' => 'company_owners',
         ],
     ],
 
@@ -90,9 +90,9 @@ return [
             'driver' => 'eloquent',
             'model' => App\Subscriber::class,
         ],
-        'customers' => [
+        'company_owners' => [
             'driver' => 'eloquent',
-            'model' => App\Customer::class,
+            'model' => App\CompanyOwner::class,
         ],
         // 'users' => [
         //     'driver' => 'database',
@@ -128,8 +128,8 @@ return [
             'table' => 'password_resets',
             'expire' => 15,
         ],
-        'customers' => [
-            'provider' => 'customers',
+        'company_owners' => [
+            'provider' => 'company_owners',
             'table' => 'password_resets',
             'expire' => 15,
         ],

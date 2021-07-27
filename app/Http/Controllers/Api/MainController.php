@@ -126,10 +126,15 @@ class MainController extends Controller
             $post[$x]['location'] = Location::where('id', $post[$x]['location_id'])->first();
             $post[$x]['service'] = Service::where('company_id', $post[$x]['id'])->get();
             $post[$x]['image'] = Images::where('company_id', $post[$x]['id'])->get();
-            $post[$x]['available_hours'] = WorkingTime::where('company_id', $post[$x]['id'])->get();
+            $post[$x]['working_time'] = WorkingTime::where('company_id', $post[$x]['id'])->get();
+// if(($post[$x]['working_time'] >= 12)? 'pm' : 'am'){
+
+// }
+// $post[$x]['working_time'] = $post([$x]['working_time'] >= 12)? 'pm' : 'am';
             $post[$x]['review'] = CompanyReview::where('company_id', $post[$x]['id'])->get();
             foreach ($post[$x]['review'] as $reviews) {
-                $reviews['subscriber_name'] = $reviews->subscriber()->first()->name;
+             $reviews['subscriber_name'] = $reviews->subscriber()->first()->name;
+             $reviews['subscriber_image'] = $reviews->subscriber()->first()->image;
             }
             $post[$x]['rating'] = CompanyRating::where('company_id', $id)->get();
             foreach ($post[$x]['rating'] as $ratings) {
@@ -137,12 +142,27 @@ class MainController extends Controller
             }
             $post[$x]['average_rating'] = CompanyRating::where('company_id', $id)->avg('rating');
             $post[$x]['vacancy'] = Vacancy::where('company_id', $post[$x]['id'])->get();
+            foreach ($post[$x]['vacancy'] as $job_type) {
+
+                if( $job_type['job_type'] == 1){
+                    $job_type['job_type'] = 'Full Time';
+                }
+                elseif( $job_type['job_type'] == 1){
+                    $job_type['job_type'] = 'Per Time';
+                }
+               else{
+                    $job_type['job_type'] = 'Remotely';
+                }
+               
+            }
             $post[$x]['tender'] = Tinder::where('company_id', $post[$x]['id'])->get();
-
-            return response()->json($post);
-
-        }
+         
     }
+
+
+
+    return response()->json(['company' => $post]);
+}
 
 
 //    public function blog_detail($id)
