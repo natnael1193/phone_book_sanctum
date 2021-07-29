@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Subscriber;
+use App\CompanyOwner;
 use App\Vacancy;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -11,29 +11,28 @@ class VacancyPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the Subscriber can view any models.
+     * Determine whether the CompanyOwner can view any models.
      *
-     * @param  \App\Subscriber  $subscriber
+     * @param  \App\CompanyOwner  $company_owner
      * @return mixed
      */
-    public function viewAny(Subscriber $subscriber)
+    public function viewAny(CompanyOwner $company_owner)
     {
         //
     }
 
     /**
-     * Determine whether the Subscriber can view the model.
+     * Determine whether the CompanyOwner can view the model.
      *
-     * @param  \App\Subscriber  $subscriber
+     * @param  \App\CompanyOwner  $company_owner
      * @param  \App\Vacancy  $vacancy
      * @return mixed
      */
-    public function view(Subscriber $subscriber, Vacancy $vacancy)
+    public function view(CompanyOwner $company_owner, Vacancy $vacancy)
     {
         //
-           // $user = User::all();
-           return in_array($subscriber->id, [
-            $subscriber->id == $vacancy->subscriber_id,
+        return in_array($company_owner->id, [
+            $company_owner->id == $vacancy->subscriber_id,
             // $user->role = 4,
             // $user->role = 1,
             ]
@@ -41,72 +40,72 @@ class VacancyPolicy
     }
 
     /**
-     * Determine whether the Subscriber can create models.
+     * Determine whether the CompanyOwner can create models.
      *
-     * @param  \App\Subscriber  $subscriber
+     * @param  \App\CompanyOwner  $company_owner
      * @return mixed
      */
-    public function create(Subscriber $subscriber)
+    public function create(CompanyOwner $company_owner)
     {
         //
     }
 
     /**
-     * Determine whether the Subscriber can update the model.
+     * Determine whether the CompanyOwner can update the model.
      *
-     * @param  \App\Subscriber  $subscriber
+     * @param  \App\CompanyOwner  $company_owner
      * @param  \App\Vacancy  $vacancy
      * @return mixed
      */
-    public function update(Subscriber $subscriber, Vacancy $vacancy)
+    public function update(CompanyOwner $company_owner, Vacancy $vacancy)
     {
-               // $user = User::all();
-               return in_array($subscriber->id, [
-                $subscriber->id == $vacancy->subscriber_id,
-                // $user->role = 4,
-                // $user->role = 1,
-                ]
-                );
+        //
+        return in_array($company_owner->id, [
+            $company_owner->id == $vacancy->subscriber_id,
+            // $user->role = 4,
+            // $user->role = 1,
+            ]
+            );
     }
 
     /**
-     * Determine whether the Subscriber can delete the model.
+     * Determine whether the CompanyOwner can delete the model.
      *
-     * @param  \App\Subscriber  $subscriber
+     * @param  \App\CompanyOwner  $company_owner
      * @param  \App\Vacancy  $vacancy
      * @return mixed
      */
-    public function delete(Subscriber $subscriber, Vacancy $vacancy)
+    public function delete(CompanyOwner $company_owner, Vacancy $vacancy)
     {
-             // $user = User::all();
-             return in_array($subscriber->id, [
-                $subscriber->id == $vacancy->subscriber_id,
-                // $user->role = 4,
-                // $user->role = 1,
-                ]
-                );
+        //
+        return in_array($company_owner->id, [
+            $company_owner->id == $vacancy->subscriber_id,
+            // $user->role = 4,
+            // $user->role = 1,
+            ]
+            );
     }
 
     /**
-     * Determine whether the Subscriber can restore the model.
+     * Determine whether the CompanyOwner can restore the model.
      *
-     * @param  \App\Subscriber  $subscriber
+     * @param  \App\CompanyOwner  $company_owner
      * @param  \App\Vacancy  $vacancy
      * @return mixed
      */
-    public function restore(Subscriber $subscriber, Vacancy $vacancy)
+    public function restore(CompanyOwner $company_owner, Vacancy $vacancy)
     {
         //
     }
 
     /**
-     * Determine whether the Subscriber can permanently delete the model.
+     * Determine whether the CompanyOwner can permanently delete the model.
      *
-     * @param  \App\Subscriber  $subscriber
+     * @param  \App\CompanyOwner  $company_owner
      * @param  \App\Vacancy  $vacancy
      * @return mixed
      */
-    public function forceDelete(Subscriber $subscriber, Vacancy $vacancy)
+    public function forceDelete(CompanyOwner $company_owner, Vacancy $vacancy)
     {
         //
     }

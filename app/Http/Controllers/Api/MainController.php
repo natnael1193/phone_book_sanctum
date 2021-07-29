@@ -208,8 +208,12 @@ class MainController extends Controller
 }
     public function company_category()
     {
-        $post = Category::get();
+        $post = Category::get()->toArray();
         // $service = Service::where('company_id',  $id)->get();
+        for ($x = 0; $x < sizeof($post); $x++) {
+            $post[$x]['companies'] = Company::where('category_id', $post[$x]['id'])->count();
+
+        }
 
         return response()->json($post);
     }
@@ -218,16 +222,21 @@ class MainController extends Controller
     {
         $post = Category::findOrFail($id);
         $company = Company::where('category_id', $post->id)->get()->toArray();
-//        $cat
+        $count = Company::where('category_id', $post->id)->count();
 
-        for ($x = 0; $x < sizeof($company); $x++) {
+        // if($company != null){
+            for ($x = 0; $x < sizeof($company); $x++) {
 
-            $company[$x]['category'] = Category::where('id', $company[$x]['category_id'])->first('name');
-            $company[$x]['average_rating'] = CompanyRating::where('company_id', $company[$x]['id'])->avg('rating');
-            $company[$x]['location'] = Location::where('id', $company[$x]['category_id'])->first('name');
-        }
-
-        return response()->json($company);
+                $company[$x]['category'] = Category::where('id', $company[$x]['category_id'])->first('name');
+                $company[$x]['average_rating'] = CompanyRating::where('company_id', $company[$x]['id'])->avg('rating');
+                $company[$x]['location'] = Location::where('id', $company[$x]['category_id'])->first('name');
+            }
+    
+            return response()->json($post); 
+        // }
+    //   else{
+    //     return response()->json($post); 
+    //   }
 
     }
 

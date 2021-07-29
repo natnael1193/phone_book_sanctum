@@ -41,7 +41,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     Route::post('/subscriber/create', 'Api\Auth\SubscriberRegistrationController@register')->name('subscriber.registration');
     Route::post('/company_owner/create', 'Api\Auth\CompanyOwnerRegistrationController@register')->name('subscriber.registration');
-    Route::post('/company_owner/login', 'Api\Auth\CompanyOwnerLoginController@login')->name('subscriber.registration');
+    Route::post('/company_owner/login', 'Api\Auth\CompanyOwnerLoginController@login');
     // ...
     // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     //     return $request->user();
@@ -79,12 +79,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
                 'email' => ['The provided credentials are incorrect.'],
             ], 404);
         }
-        $subscriber_company = Company::where('subscriber_id', '=', $subscriber->id)->first();
-        if ($subscriber_company == null) {
-            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "hasCompany" => false, "token" => $subscriber->createToken('API Token')->plainTextToken];
-        } else {
-            return ["subscriberId" => $subscriber->id, "subscriberName" => $subscriber->name, "subscriberEmail" => $subscriber->email, "hasCompany" => true, "companyID" => $subscriber_company->id, "companyName" => $subscriber_company->company_name,  "companyEmail" => $subscriber->company_email, "companyPhone" => $subscriber_company->phone_number, "token" => $subscriber->createToken('API Token')->plainTextToken];
-        }
+        // $subscriber_company = Company::where('subscriber_id', '=', $subscriber->id)->first();
+            return ["subscriber_id" => $subscriber->id, "subscriber_name" => $subscriber->name, "subscriber_email" => $subscriber->email, "token" => $subscriber->createToken('API Token')->plainTextToken];    
     });
 
     Route::post("/customer/login", function (Request $request) {
@@ -196,4 +192,46 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
 
     Route::middleware(['admin'])->get('/admin', 'Api\AdminController@index')->name('admin');
     Route::middleware(['admin'])->get('/admin/register', 'Api\AdminController@register')->name('admin.register');
+});
+
+
+//A Middleware For Subscriber Controller
+Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], function () {
+    // //Company Owner
+    Route::get('company_owner', 'Api\Auth\CompanyOwnerController@index')->name('company_owner');
+    Route::get('company_owner/edit', 'Api\Auth\CompanyOwnerController@edit')->name('company_owner.edit');
+    Route::post('company_owner/add_company', 'Api\Auth\CompanyOwnerController@new_company')->name('company_owner.new_company');
+    Route::post('/company_owner/store', 'Api\Auth\CompanyOwnerController@create')->name('company_owner.store_company');
+    // Route::patch('/company_owner/update/{id}', 'Api\Auth\CompanyOwnerController@store')->name('company_owner.update');
+    // Route::get('/company_owner/sign_up', 'Api\Auth\SubscriberRegistrationController@index');
+    Route::get('company_owner/company', 'Api\Auth\CompanyOwnerController@subscriber_company');
+    Route::post('/company_owner/update', 'Api\Auth\CompanyOwnerController@update');
+    Route::patch('/company_owner_update_company', 'Api\Auth\CompanyOwnerController@subscriber_company_update');
+    Route::get('/company_owner/sign_in', 'Api\Auth\SubscriberLoginController@showLoginForm');
+
+       //vacancy
+       Route::post('company_owner_add_vacancy', 'Api\Auth\CompanyOwnerController@add_vacancy')->name('company_owner.add_vacancy');
+       Route::get('/company_owner_vacancy', 'Api\Auth\CompanyOwnerController@vacancy');
+       Route::get('company_owner/{id}/edit_vacancy', 'Api\Auth\CompanyOwnerController@edit_vacancy')->name('company_owner.edit_vacancy');
+       Route::patch('company_owner/{id}/update_vacancy', 'Api\Auth\CompanyOwnerController@update_vacancy')->name('company_owner.update_vacancy');
+       Route::delete('company_owner/{id}/delete_vacancy', 'Api\Auth\CompanyOwnerController@delete_vacancy')->name('company_owner.delete_vacancy');
+
+               //service
+    Route::get('company_owner_service', 'Api\Auth\CompanyOwnerController@service')->name('company_owner.service');
+    Route::post('company_owner_add_service', 'Api\Auth\CompanyOwnerController@add_service')->name('company_owner.add_service');
+    Route::get('company_owner_/{id}/edit_service', 'Api\Auth\CompanyOwnerController@edit_service')->name('company_owner.edit_service');
+    Route::patch('company_owner/{id}/update_service', 'Api\Auth\CompanyOwnerController@update_service')->name('company_owner.update_service');
+    Route::delete('company_owner/{id}/delete_service', 'Api\Auth\CompanyOwnerController@delete_service')->name('company_owner.delete_service');
+
+     //Working Time
+     Route::get('company_owner_working_time', 'Api\Auth\CompanyOwnerController@working_time')->name('company_owner.working_time');
+     Route::post('company_owner_add_working_time', 'Api\Auth\CompanyOwnerController@add_working_time')->name('company_owner.add_working_time');
+     Route::get('company_owner/{id}/edit_working_time', 'Api\Auth\CompanyOwnerController@edit_working_time')->name('company_owner.edit_working_time');
+     Route::patch('company_owner/{id}/update_working_time', 'Api\Auth\CompanyOwnerController@update_working_time')->name('company_owner.update_working_time');
+     // Route::delete('company_owner/{id}/delete_service', 'Api\Auth\CompanyOwnerController@delete_service')->name('company_owner.delete_service');
+ 
+      //Company Rating
+    Route::post('company_owner_add_company_rating', 'Api\Auth\CompanyOwnerController@add_company_rating')->name('company_owner.add_company_rating');
+    Route::patch('company_owner/{id}/update_company_rating', 'Api\Auth\CompanyOwnerController@update_company_rating')->name('company_owner.update_company_rating');
+
 });

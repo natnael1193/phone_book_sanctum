@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\CompanyOwner;
 use App\Company;
+
 use Illuminate\Support\Facades\Hash;
 
 class CompanyOwnerLoginController extends Controller

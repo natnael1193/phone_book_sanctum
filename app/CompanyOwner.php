@@ -13,7 +13,7 @@ class CompanyOwner extends Authenticatable
     //
     use HasApiTokens, Notifiable;
 // The authentication guard for admin
-    protected $guard = 'subscriber';
+    protected $guard = 'company_owner';
      /**
       * The attributes that are mass assignable.
       *

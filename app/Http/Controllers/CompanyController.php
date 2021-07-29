@@ -117,24 +117,24 @@ class CompanyController extends Controller
 
 
         if ($request->city != null) {
-//        Map::create(array_merge(
-//            $data,
-//            $user,
-//            $company_id
-//
-//        ));
-            foreach ($request->city as $item => $v) {
-                $post2 = array(
-                    'city' => $request->city[$item],
-                    'user_id' => auth()->user()->id,
-                    'company_id' => $company->id,
-                );
-                Map::create(array_merge(
-                    $data,
-                    $post2
+       Map::create(array_merge(
+           $data,
+           $user,
+           $company_id
 
-                ));
-            }
+       ));
+            // foreach ($request->city as $item => $v) {
+            //     $post2 = array(
+            //         'city' => $request->city[$item],
+            //         'user_id' => auth()->user()->id,
+            //         'company_id' => $company->id,
+            //     );
+            //     Map::create(array_merge(
+            //         $data,
+            //         $post2
+
+            //     ));
+            // }
         }
 
         $time = request()->validate([

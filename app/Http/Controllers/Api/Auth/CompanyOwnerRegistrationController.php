@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\CompanyOwner;
 use App\Company;
+use App\Subscriber;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 
@@ -18,76 +19,119 @@ class CompanyOwnerRegistrationController extends Controller
 
     public function register(Request $request)
     {
-        $data = request()->validate([ 
-        'first_name' => 'required',
-        'last_name' => 'required',
-        'email' => 'required|unique:company_owners',
-         'company_email' => 'required',
-         'company_name' => 'required',
-        'phone_number' => 'required',
-        'password' => 'required|confirmed|min:6',
-        'image' => ""]);
-       
-        // $check = $this->save($data);
+        $company = $request->company_email;
+        if ($company != null) {
+
+            request()->validate([
+                'email' => 'required|email|unique:company_owners',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'company_email' => 'required',
+                'phone_number' => 'required',
+                'password' => 'required|confirmed|min:6',
+                'image' => ""
+            ]);
+        } else {
+            request()->validate([
+                'email' => 'required|email|unique:subscribers',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'image' => "",
+                'status_id' => "",
+                'password' => 'required|confirmed|min:6',
+            ]);
+        }
+
+        $data = request()->all();
         $check = $this->save($data);
-       
+
         $user = $request->validate([
             'email' => 'required',
             'password' => 'required',
         ]);
-        $subscriber = CompanyOwner::whereEmail($request->email)->first();
-        $company = Company::where('subscriber_id', $subscriber->id)->first();
-        if (!$subscriber || !Hash::check($request->password, $subscriber->password)) {
+        $company_owner = CompanyOwner::whereEmail($request->email)->first();
+        $owner = CompanyOwner::where('company_email', $request->company_email)->first();
+        $subscriber = Subscriber::whereEmail($request->email)->first();
+        $sub = Subscriber::first();
+
+        if ($owner == true) {
+            $company = Company::where('subscriber_id', $company_owner->id)->first();
+            // $subscriber_company = CompanyOwner::where('company_email', $company_owner->company_email)->first();  
+            return ["id" => $company_owner->id, "first_name" => $company_owner->first_name, "last_name" => $company_owner->last_name, 'image' => $company_owner->image,  "email" => $company_owner->email, "company_id" => $company->id, "company_name" => $company->company_name, "company_email" => $company->company_email, "company_phone" => $company->phone_number, "token" => $company_owner->createToken('API Token')->plainTextToken];
+        } elseif ($sub == true) {
+
+            return ["id" => $subscriber->id, "first_name" => $subscriber->first_name, "last_name" => $subscriber->last_name,  "email" => $subscriber->email, 'status_id' => $subscriber->status_id, "token" => $subscriber->createToken('API Token')->plainTextToken];
+        } else {
             return response([
                 'email' => ['The provided credentials are incorrect.'],
             ], 404);
         }
-
-        $subscriber_company = CompanyOwner::where('company_email', $subscriber->company_email)->first();  
-            return ["id" => $subscriber->id, "first_name" => $subscriber->first_name,"last_name" => $subscriber->last_name, 'image' => $subscriber->image,  "email" => $subscriber->email, "company_id" => $company->id, "company_name" => $company->company_name, "company_email" => $company->company_email, "company_phone" => $company->phone_number, "token" => $subscriber->createToken('API Token')->plainTextToken];   
-        }
-        
+        // return response($data);
+    }
+    //    
+    // }
     public function save(array $data)
     {
-        if(request('image')){
-            $imagePath = request('image')->store('uploads','public');
-            $image = Image::make(public_path("storage/{$imagePath}"))->resize(300,300);
-            $image->save();
-            $imageArray=['image' => $imagePath];
+
+
+        if (request('company_email')) {
+            if (request('image')) {
+                $imagePath = request('image')->store('uploads', 'public');
+                $image = Image::make(public_path("storage/{$imagePath}"))->resize(300, 300);
+                $image->save();
+                $imageArray = ['image' => $imagePath];
 
 
 
-            $user = CompanyOwner::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'company_email' => $data['company_email'],
-            'password' => Hash::make($data['password']),
-            'image' => $imagePath
+                $user = CompanyOwner::create([
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name'],
+                    'email' => $data['email'],
+                    'company_email' => $data['company_email'],
+                    'password' => Hash::make($data['password']),
+                    'image' => $imagePath
 
-        ]);
-    }
-        else {
-            $user = CompanyOwner::create([
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
-                'email' => $data['email'],
+                ]);
+            } else {
+                $user = CompanyOwner::create([
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name'],
+                    'email' => $data['email'],
+                    'company_email' => $data['company_email'],
+                    'password' => Hash::make($data['password']),
+
+                ]);
+            }
+            $userId = $user->id;
+            Company::create([
+                'company_name' => $data['company_name'],
+                'subscriber_id' => $userId,
                 'company_email' => $data['company_email'],
-                'password' => Hash::make($data['password']),
-                
+                'phone_number' => $data['phone_number'],
+                'phone_number' => $data['phone_number'],
+
             ]);
-        }
-        $userId = $user->id;
-        Company::create([
-            'company_name' => $data['company_name'],
-            'subscriber_id' => $userId,
-            'company_email' => $data['company_email'],
-            'phone_number' => $data['phone_number'],
-            'phone_number' => $data['phone_number'],
+        } else {
+            if (request('status_id') == true) {
+                $status_id = "1";
+                Subscriber::create([
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name'],
+                    'email' => $data['email'],
+                    'password' => Hash::make($data['password']),
+                    'status_id' =>  $status_id
 
-        ]);
+                ]);
+            } else {
+                Subscriber::create([
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name'],
+                    'email' => $data['email'],
+                    'password' => Hash::make($data['password']),
+                ]);
+            }
         }
-
+    }
     public function __construct()
     {
         $this->middleware('guest:subscriber')->except('logout');
