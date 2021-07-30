@@ -112,14 +112,15 @@ class CompanyOwnerRegistrationController extends Controller
 
             ]);
         } else {
-            if (request('status_id') == true) {
+            if (request('status_id')) {
                 $status_id = "1";
                 Subscriber::create([
                     'first_name' => $data['first_name'],
                     'last_name' => $data['last_name'],
                     'email' => $data['email'],
                     'password' => Hash::make($data['password']),
-                    'status_id' =>  $status_id
+                    'status_id' =>  1,
+                  
 
                 ]);
             } else {
@@ -128,6 +129,7 @@ class CompanyOwnerRegistrationController extends Controller
                     'last_name' => $data['last_name'],
                     'email' => $data['email'],
                     'password' => Hash::make($data['password']),
+                    
                 ]);
             }
         }

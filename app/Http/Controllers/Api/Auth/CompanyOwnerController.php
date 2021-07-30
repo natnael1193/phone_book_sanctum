@@ -39,9 +39,13 @@ class CompanyOwnerController extends Controller
         $vacancy = Vacancy::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
         $working_time = WorkingTime::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
         $image = Images::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
+        if ($user == true) {
+            return response()->json(["company_owner" => $user, "company" => $post, "company services" => $service, "vacancy" => $vacancy, "working time" => $working_time, "images" => $image]);
+        } else {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
 
-
-        return response()->json(["company_owner" => $user, "company" => $post, "company services" => $service, "vacancy" => $vacancy, "working time" => $working_time, "images" => $image]);
+        
     }
 
     public function update(Request $request)

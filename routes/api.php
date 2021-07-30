@@ -80,7 +80,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
             ], 404);
         }
         // $subscriber_company = Company::where('subscriber_id', '=', $subscriber->id)->first();
-            return ["subscriber_id" => $subscriber->id, "subscriber_name" => $subscriber->name, "subscriber_email" => $subscriber->email, "token" => $subscriber->createToken('API Token')->plainTextToken];    
+        return ["subscriber_id" => $subscriber->id, "subscriber_name" => $subscriber->name, "subscriber_email" => $subscriber->email, "token" => $subscriber->createToken('API Token')->plainTextToken];
     });
 
     Route::post("/customer/login", function (Request $request) {
@@ -140,26 +140,42 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     Route::patch('/subscriber/update_company', 'Api\Auth\SubscriberController@subscriber_company_update');
     Route::get('/subscriber/sign_in', 'Api\Auth\SubscriberLoginController@showLoginForm');
 
-    //vacancy
-    Route::post('subscriber/add_vacancy', 'Api\Auth\SubscriberController@add_vacancy')->name('subscriber.add_vacancy');
-    Route::get('subscriber/vacancy', 'Api\Auth\SubscriberController@vacancy')->name('subscriber.vacancy');
-    Route::get('subscriber/{id}/edit_vacancy', 'Api\Auth\SubscriberController@edit_vacancy')->name('subscriber.edit_vacancy');
-    Route::patch('subscriber/{id}/update_vacancy', 'Api\Auth\SubscriberController@update_vacancy')->name('subscriber.update_vacancy');
-    Route::delete('subscriber/{id}/delete_vacancy', 'Api\Auth\SubscriberController@delete_vacancy')->name('subscriber.delete_vacancy');
+    //Certificate
+    Route::post('subscriber/add_certificate', 'Api\Auth\SubscriberController@add_certificate')->name('subscriber.add_certificate');
+    Route::get('subscriber/certificate', 'Api\Auth\SubscriberController@certificate')->name('subscriber.certificate');
+    Route::get('subscriber/{id}/edit_certificate', 'Api\Auth\SubscriberController@edit_certificate')->name('subscriber.edit_certificate');
+    Route::patch('subscriber/{id}/update_certificate', 'Api\Auth\SubscriberController@update_certificate')->name('subscriber.update_certificate');
+    Route::delete('subscriber/{id}/delete_certificate', 'Api\Auth\SubscriberController@delete_certificate')->name('subscriber.delete_certificate');
 
-        //service
-    Route::get('subscriber/service', 'Api\Auth\SubscriberController@service')->name('subscriber.service');
-    Route::post('subscriber/add_service', 'Api\Auth\SubscriberController@add_service')->name('subscriber.add_service');
-    Route::get('subscriber/{id}/edit_service', 'Api\Auth\SubscriberController@edit_service')->name('subscriber.edit_service');
-    Route::patch('subscriber/{id}/update_service', 'Api\Auth\SubscriberController@update_service')->name('subscriber.update_service');
-    Route::delete('subscriber/{id}/delete_service', 'Api\Auth\SubscriberController@delete_service')->name('subscriber.delete_service');
+    //Education
+    Route::get('subscriber/education', 'Api\Auth\SubscriberController@education')->name('subscriber.education');
+    Route::post('subscriber/add_education', 'Api\Auth\SubscriberController@add_education')->name('subscriber.add_education');
+    Route::get('subscriber/{id}/edit_education', 'Api\Auth\SubscriberController@edit_education')->name('subscriber.edit_education');
+    Route::patch('subscriber/{id}/update_education', 'Api\Auth\SubscriberController@update_education')->name('subscriber.update_education');
+    Route::delete('subscriber/{id}/delete_education', 'Api\Auth\SubscriberController@delete_education')->name('subscriber.delete_education');
 
-    //Working Time
-    Route::get('subscriber/working_time', 'Api\Auth\SubscriberController@working_time')->name('subscriber.working_time');
-    Route::post('subscriber/add_working_time', 'Api\Auth\SubscriberController@add_working_time')->name('subscriber.add_working_time');
-    Route::get('subscriber/{id}/edit_working_time', 'Api\Auth\SubscriberController@edit_working_time')->name('subscriber.edit_working_time');
-    Route::patch('subscriber/{id}/update_working_time', 'Api\Auth\SubscriberController@update_working_time')->name('subscriber.update_working_time');
-    // Route::delete('subscriber/{id}/delete_service', 'Api\Auth\SubscriberController@delete_service')->name('subscriber.delete_service');
+    //Experience
+    Route::get('subscriber/experience', 'Api\Auth\SubscriberController@experience')->name('subscriber.experience');
+    Route::post('subscriber/add_experience', 'Api\Auth\SubscriberController@add_experience')->name('subscriber.add_experience');
+    Route::get('subscriber/{id}/edit_experience', 'Api\Auth\SubscriberController@edit_experience')->name('subscriber.edit_experience');
+    Route::patch('subscriber/{id}/update_experience', 'Api\Auth\SubscriberController@update_experience')->name('subscriber.update_experience');
+    Route::delete('subscriber/{id}/delete_experience', 'Api\Auth\SubscriberController@delete_experience')->name('subscriber.delete_experience');
+
+    //Professional Skill
+    Route::get('subscriber/professional_skill', 'Api\Auth\SubscriberController@professional_skill')->name('subscriber.professional_skill');
+    Route::post('subscriber/add_professional_skill', 'Api\Auth\SubscriberController@add_professional_skill')->name('subscriber.add_professional_skill');
+    Route::get('subscriber/{id}/edit_professional_skill', 'Api\Auth\SubscriberController@edit_professional_skill')->name('subscriber.edit_professional_skill');
+    Route::patch('subscriber/{id}/update_professional_skill', 'Api\Auth\SubscriberController@update_professional_skill')->name('subscriber.update_professional_skill');
+    Route::delete('subscriber/{id}/delete_professional_skill', 'Api\Auth\SubscriberController@delete_professional_skill')->name('subscriber.delete_professional_skill');
+
+    //PersonalSkill
+    Route::get('subscriber/personal_skill', 'Api\Auth\SubscriberController@personal_skill')->name('subscriber.personal_skill');
+    Route::post('subscriber/add_personal_skill', 'Api\Auth\SubscriberController@add_personal_skill')->name('subscriber.add_personal_skill');
+    Route::get('subscriber/{id}/edit_personal_skill', 'Api\Auth\SubscriberController@edit_personal_skill')->name('subscriber.edit_personal_skill');
+    Route::patch('subscriber/{id}/update_personal_skill', 'Api\Auth\SubscriberController@update_personal_skill')->name('subscriber.update_personal_skill');
+    Route::delete('subscriber/{id}/delete_personal_skill', 'Api\Auth\SubscriberController@delete_personal_skill')->name('subscriber.delete_personal_skill');
+
+
 
     //Company Rating
     Route::post('subscriber/add_company_rating', 'Api\Auth\SubscriberController@add_company_rating')->name('subscriber.add_company_rating');
@@ -195,7 +211,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
 });
 
 
-//A Middleware For Subscriber Controller
+//A Middleware For Company Owner Controller
 Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], function () {
     // //Company Owner
     Route::get('company_owner', 'Api\Auth\CompanyOwnerController@index')->name('company_owner');
@@ -209,29 +225,28 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     Route::patch('/company_owner_update_company', 'Api\Auth\CompanyOwnerController@subscriber_company_update');
     Route::get('/company_owner/sign_in', 'Api\Auth\SubscriberLoginController@showLoginForm');
 
-       //vacancy
-       Route::post('company_owner_add_vacancy', 'Api\Auth\CompanyOwnerController@add_vacancy')->name('company_owner.add_vacancy');
-       Route::get('/company_owner_vacancy', 'Api\Auth\CompanyOwnerController@vacancy');
-       Route::get('company_owner/{id}/edit_vacancy', 'Api\Auth\CompanyOwnerController@edit_vacancy')->name('company_owner.edit_vacancy');
-       Route::patch('company_owner/{id}/update_vacancy', 'Api\Auth\CompanyOwnerController@update_vacancy')->name('company_owner.update_vacancy');
-       Route::delete('company_owner/{id}/delete_vacancy', 'Api\Auth\CompanyOwnerController@delete_vacancy')->name('company_owner.delete_vacancy');
+    //vacancy
+    Route::post('company_owner_add_vacancy', 'Api\Auth\CompanyOwnerController@add_vacancy')->name('company_owner.add_vacancy');
+    Route::get('/company_owner_vacancy', 'Api\Auth\CompanyOwnerController@vacancy');
+    Route::get('company_owner/{id}/edit_vacancy', 'Api\Auth\CompanyOwnerController@edit_vacancy')->name('company_owner.edit_vacancy');
+    Route::patch('company_owner/{id}/update_vacancy', 'Api\Auth\CompanyOwnerController@update_vacancy')->name('company_owner.update_vacancy');
+    Route::delete('company_owner/{id}/delete_vacancy', 'Api\Auth\CompanyOwnerController@delete_vacancy')->name('company_owner.delete_vacancy');
 
-               //service
+    //service
     Route::get('company_owner_service', 'Api\Auth\CompanyOwnerController@service')->name('company_owner.service');
     Route::post('company_owner_add_service', 'Api\Auth\CompanyOwnerController@add_service')->name('company_owner.add_service');
     Route::get('company_owner_/{id}/edit_service', 'Api\Auth\CompanyOwnerController@edit_service')->name('company_owner.edit_service');
     Route::patch('company_owner/{id}/update_service', 'Api\Auth\CompanyOwnerController@update_service')->name('company_owner.update_service');
     Route::delete('company_owner/{id}/delete_service', 'Api\Auth\CompanyOwnerController@delete_service')->name('company_owner.delete_service');
 
-     //Working Time
-     Route::get('company_owner_working_time', 'Api\Auth\CompanyOwnerController@working_time')->name('company_owner.working_time');
-     Route::post('company_owner_add_working_time', 'Api\Auth\CompanyOwnerController@add_working_time')->name('company_owner.add_working_time');
-     Route::get('company_owner/{id}/edit_working_time', 'Api\Auth\CompanyOwnerController@edit_working_time')->name('company_owner.edit_working_time');
-     Route::patch('company_owner/{id}/update_working_time', 'Api\Auth\CompanyOwnerController@update_working_time')->name('company_owner.update_working_time');
-     // Route::delete('company_owner/{id}/delete_service', 'Api\Auth\CompanyOwnerController@delete_service')->name('company_owner.delete_service');
- 
-      //Company Rating
+    //Working Time
+    Route::get('company_owner_working_time', 'Api\Auth\CompanyOwnerController@working_time')->name('company_owner.working_time');
+    Route::post('company_owner_add_working_time', 'Api\Auth\CompanyOwnerController@add_working_time')->name('company_owner.add_working_time');
+    Route::get('company_owner/{id}/edit_working_time', 'Api\Auth\CompanyOwnerController@edit_working_time')->name('company_owner.edit_working_time');
+    Route::patch('company_owner/{id}/update_working_time', 'Api\Auth\CompanyOwnerController@update_working_time')->name('company_owner.update_working_time');
+    // Route::delete('company_owner/{id}/delete_service', 'Api\Auth\CompanyOwnerController@delete_service')->name('company_owner.delete_service');
+
+    //Company Rating
     Route::post('company_owner_add_company_rating', 'Api\Auth\CompanyOwnerController@add_company_rating')->name('company_owner.add_company_rating');
     Route::patch('company_owner/{id}/update_company_rating', 'Api\Auth\CompanyOwnerController@update_company_rating')->name('company_owner.update_company_rating');
-
 });
