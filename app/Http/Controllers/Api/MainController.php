@@ -15,6 +15,7 @@ use App\Company;
 use App\Service;
 use App\Vacancy;
 use App\Category;
+use App\CompanyOwner;
 use App\Location;
 use App\VacancyCategory;
 use App\WorkingTime;
@@ -131,14 +132,14 @@ class MainController extends Controller
 
 // }
 // $post[$x]['working_time'] = $post([$x]['working_time'] >= 12)? 'pm' : 'am';
-            $post[$x]['review'] = CompanyReview::where('company_id', $post[$x]['id'])->get();
-            foreach ($post[$x]['review'] as $reviews) {
-             $reviews['subscriber_name'] = $reviews->subscriber()->first()->name;
-             $reviews['subscriber_image'] = $reviews->subscriber()->first()->image;
-            }
+            // $post[$x]['review'] = CompanyReview::where('company_id', $post[$x]['id'])->get();
+            // foreach ($post[$x]['review'] as $reviews) {
+            //  $reviews['subscriber_name'] = $reviews->subscriber()->first()->name;
+            //  $reviews['subscriber_image'] = $reviews->subscriber()->first()->image;
+            // }
             $post[$x]['rating'] = CompanyRating::where('company_id', $id)->get();
             foreach ($post[$x]['rating'] as $ratings) {
-                $ratings['subscriber_name'] = $ratings->subscriber()->first()->name;
+                $ratings['subscriber'] = Subscriber::where('id', $ratings->subscriber_id)->first(['first_name', 'last_name', 'image']);
             }
             $post[$x]['average_rating'] = CompanyRating::where('company_id', $id)->avg('rating');
             $post[$x]['vacancy'] = Vacancy::where('company_id', $post[$x]['id'])->get();
@@ -474,7 +475,7 @@ class MainController extends Controller
     }
 
 
-    public function verified_companies(Request $request)
+    public function verified_companies()
     {
         $post = Company::where('verification', 1)->get();
 
@@ -482,11 +483,25 @@ class MainController extends Controller
 
     }
 
-    public function recommended_companies(Request $request)
+    public function recommended_companies()
     {
         $post = Company::where('company_category', 2)->get();
 
         return response()->json($post);
 
+    }
+
+    public function similar_business($id){
+$post = Category::findOrFail($id);
+$company = Company::where('category_id', $post->id)->take(3)->get();
+
+for ($x = 0; $x < sizeof($company); $x++) {
+
+    $company[$x]['category_id'] = Category::where('id', $company[$x]['category_id'])->first('name');
+    $company[$x]['average_rating'] = CompanyRating::where('company_id', $company[$x]['id'])->avg('rating');
+    $company[$x]['location_id'] = Location::where('id', $company[$x]['category_id'])->first('name');
+}
+
+return response()->json($company);
     }
 }
