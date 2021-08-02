@@ -159,12 +159,6 @@
 
 # Company Owner
   - ## url
-     - /company_owner/add_company
-  - ## method
-     - POST
-  - ## description
-     -  Company Owner add new company
-  - ## url
      - /company_owner/company
   - ## method
      - GET
