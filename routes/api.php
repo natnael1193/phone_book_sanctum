@@ -249,4 +249,10 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     //Company Rating
     Route::post('company_owner_add_company_rating', 'Api\Auth\CompanyOwnerController@add_company_rating')->name('company_owner.add_company_rating');
     Route::patch('company_owner/{id}/update_company_rating', 'Api\Auth\CompanyOwnerController@update_company_rating')->name('company_owner.update_company_rating');
+
+
+    //premium order
+    Route::get('/banks_list', 'BankController@bank_list');
+    Route::post('/update_company_premium', 'PremiumController@store');
+    Route::get('/premiumCheck/{id}', 'PremiumCheckController@premiumCheck');
 });

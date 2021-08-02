@@ -21,6 +21,17 @@ class BankController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function bank_list()
+    {
+        $banks = bank::all();
+        return response()->json($banks, 200);
+    }
+    
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
