@@ -78,6 +78,7 @@ Route::get('dropzone/fetch/{id}', 'CompanyController@fetch')->name('dropzone.fet
 Route::post('/upload/images', 'CompanyController@upload')->name('dropzone.upload');
 Route::delete('/service/delete/{id}', 'CompanyController@delete_service');
 Route::resource('/blog_category', 'BlogCategoryController');
+Route::resource('/bank', 'BankController');
 
 
 Route::resource('activity_log', 'ActivityLogController');

@@ -160,6 +160,7 @@
                         href="{{ route('location.index') }}">Location</a></li>
                 <li class="sidebar-item {{ request()->is('blog_category*') ? 'active' : '' }}"><a class="sidebar-link" href="{{ route('blog_category.index') }}">Blog
                         Category</a></li>
+                <li class="sidebar-item {{ request()->is('bank*') ? 'active' : '' }}"><a class="sidebar-link" href="{{ route('bank.index') }}">Bank</a></li>
             </ul>
         </div>
     </nav>
