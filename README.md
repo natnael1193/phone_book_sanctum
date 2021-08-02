@@ -131,96 +131,6 @@
   - ## description
      - Edit Subscriber's Profile
 
-  - ## url
-     - /subscriber/add_company
-  - ## method
-     - POST
-  - ## description
-     -  Subscriber add new company
-  - ## url
-     - /subscriber/company
-  - ## method
-     - GET
-  - ## description
-     -  Subscriber's company
-  - ## url
-     - /subscriber/update_company
-  - ## method
-     - PATCH
-  - ## description
-     -  Subscriber update his/her company
-
-  - ## url
-     - /subscriber/vacancy
-  - ## method
-     - GET
-  - ## description
-     -  Subscriber's vacancies
-  - ## url
-     - /subscriber/add_vacancy
-  - ## method
-     - POST
-  - ## description
-     -  Subscriber add new vacancy
- - ## url
-     - /subscriber/id/update_vacancy
-  - ## method
-     - PATCH
-  - ## description
-     -  Subscriber update vacancy
-
- - ## url
-     - /subscriber/id/delete_vacancy
-  - ## method
-     - DELETE
-  - ## description
-     -  Subscriber delete vacancy
-
- - ## url
-     - /subscriber/service
-  - ## method
-     - GET
-  - ## description
-     -  Subscriber's services
-   - ## url
-     - /subscriber/add_serivce
-  - ## method
-     - POST
-  - ## description
-     -  Subscriber add new service
- - ## url
-     - /subscriber/id/update_service
-  - ## method
-     - PATCH
-  - ## description
-     -  Subscriber update service
-
- - ## url
-     - /subscriber/id/delete_service
-  - ## method
-     - DELETE
-  - ## description
-     -  Subscriber delete service
-
- - ## url
-     - /subscriber/working_time
-  - ## method
-     - GET
-  - ## description
-     -  Subscriber's working_time
-  - ## url
-     - /subscriber/add_working_time
-  - ## method
-     - POST
-  - ## description
-     -  Subscriber add working_time
- - ## url
-     - /subscriber/id/update_working_time
-  - ## method
-     - PATCH
-  - ## description
-     -  Subscriber update working_time
-
  - ## url
      - /subscriber/add_company_rating
   - ## method
@@ -246,4 +156,95 @@
      - PATCH
   - ## description
      -  Subscriber update company review  
+
+-## Company Owner
+  - ## url
+     - /company_owner/add_company
+  - ## method
+     - POST
+  - ## description
+     -  Company Owner add new company
+  - ## url
+     - /company_owner/company
+  - ## method
+     - GET
+  - ## description
+     -  Company Owner's company
+  - ## url
+     - /company_owner/update_company
+  - ## method
+     - PATCH
+  - ## description
+     -  Company Owner update his/her company
+
+  - ## url
+     - /company_owner/vacancy
+  - ## method
+     - GET
+  - ## description
+     -  Company Owner's vacancies
+  - ## url
+     - /company_owner/add_vacancy
+  - ## method
+     - POST
+  - ## description
+     -  Company Owner add new vacancy
+ - ## url
+     - /company_owner/id/update_vacancy
+  - ## method
+     - PATCH
+  - ## description
+     -  Company Owner update vacancy
+
+ - ## url
+     - /company_owner/id/delete_vacancy
+  - ## method
+     - DELETE
+  - ## description
+     -  Company Owner delete vacancy
+
+ - ## url
+     - /company_owner/service
+  - ## method
+     - GET
+  - ## description
+     -  Company Owner's services
+   - ## url
+     - /company_owner/add_serivce
+  - ## method
+     - POST
+  - ## description
+     -  Company Owner add new service
+ - ## url
+     - /company_owner/id/update_service
+  - ## method
+     - PATCH
+  - ## description
+     -  Company Owner update service
+
+ - ## url
+     - /company_owner/id/delete_service
+  - ## method
+     - DELETE
+  - ## description
+     -  Company Owner delete service
+
+ - ## url
+     - /company_owner/working_time
+  - ## method
+     - GET
+  - ## description
+     -  Company Owner's working_time
+  - ## url
+     - /company_owner/add_working_time
+  - ## method
+     - POST
+  - ## description
+     -  Company Owner add working_time
+ - ## url
+     - /company_owner/id/update_working_time
+  - ## method
+     - PATCH
+  - ## description
+     -  Company Owner update working_time
    
