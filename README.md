@@ -157,7 +157,7 @@
   - ## description
      -  Subscriber update company review  
 
--## Company Owner
+# Company Owner
   - ## url
      - /company_owner/add_company
   - ## method
