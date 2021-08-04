@@ -10,7 +10,7 @@ class Tinder extends Model
     //
     protected $appends = ['dates'];
 //    protected $appends1 = ['closing_date'];
-    protected $fillable = ['image', 'title', 'description', 'user_id', 'opening_date', 'closing_date', 'price', 'bond', 'company_id', 'category_id', 'title_am', 'description_am'];
+    protected $fillable = ['image', 'title', 'description', 'type', 'location', 'reference','reference_date','user_id', 'opening_date', 'closing_date', 'closing_time','price', 'bond', 'company_id', 'category_id', 'title_am', 'description_am'];
 
     public function getDatesAttribute()
     {$date = Carbon::parse($this->opening_date);

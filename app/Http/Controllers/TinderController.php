@@ -6,12 +6,13 @@ use App\Tinder;
 use App\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Location;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
 class TinderController extends Controller
 {
-  /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -40,7 +41,8 @@ class TinderController extends Controller
     {
         //
         $company = Company::all()->sortBy('name');
-        return view('tinder.add_tinder', compact('company'));
+        $locations = Location::all()->sortBy('name');
+        return view('tinder.add_tinder', compact('company', 'locations'));
     }
 
     /**
@@ -51,7 +53,7 @@ class TinderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd(request()->all());
         $data = request()->validate([
             'title' => 'required',
             'description' => '',
@@ -60,17 +62,24 @@ class TinderController extends Controller
             'image' => '',
             'price' => 'required',
             'bond' => '',
+            'type' => '',
+            'location' => 'required',
+            'reference' => 'required',
+            'reference_date' => 'required',
+            'location' => '',
             'category_id' => '',
             'opening_date' => 'required',
             'closing_date' => 'required',
+            'closing_time' => 'required',
             'company_id' => ''
         ]);
-        $user=['user_id' => auth()->user()->id];
-        if(request('image')){
-            $imagePath = request('image')->store('uploads','public');
-            $image = Image::make(public_path("storage/{$imagePath}"))->resize(300,300);
+        // dd($data);
+        $user = ['user_id' => auth()->user()->id];
+        if (request('image')) {
+            $imagePath = request('image')->store('uploads', 'public');
+            $image = Image::make(public_path("storage/{$imagePath}"))->resize(300, 300);
             $image->save();
-            $imageArray=['image' => $imagePath];
+            $imageArray = ['image' => $imagePath];
         }
 
         // dd($data,
@@ -81,8 +90,8 @@ class TinderController extends Controller
             $imageArray ?? [],
 
         ));
-    //    dd($data);
-return redirect()->back()->with('message', 'Tender Added Successfully');
+        //    dd($data);
+        return redirect('/tender')->with('message', 'Tender Added Successfully');
     }
 
     /**
@@ -104,14 +113,13 @@ return redirect()->back()->with('message', 'Tender Added Successfully');
      */
     public function edit($id)
     {
-        //
-        $tinder=Tinder::find($id);
+        $locations = Location::all()->sortBy('name');
+        $tinder = Tinder::find($id);
         // $this->authorize('view', $tinder);
         $post = $tinder;
         // return response()->json($post);
         $company = Company::all()->sortBy('name');
-        return view('tinder.edit_tinder', compact('post', 'company'));
-
+        return view('tinder.edit_tinder', compact('post', 'company', 'locations'));
     }
 
     /**
@@ -126,13 +134,13 @@ return redirect()->back()->with('message', 'Tender Added Successfully');
         //
         $data = request()->all();
         $oldData = Tinder::findOrFail($id);
-        $user=['user_id' => auth()->user()->id];
-        if(request('image')){
+        $user = ['user_id' => auth()->user()->id];
+        if (request('image')) {
             Storage::delete("/public/{$oldData->image}");
-            $imagePath = request('image')->store('uploads','public');
-            $image = Image::make(public_path("storage/{$imagePath}"))->resize(300,300);
+            $imagePath = request('image')->store('uploads', 'public');
+            $image = Image::make(public_path("storage/{$imagePath}"))->resize(300, 300);
             $image->save();
-            $imageArray=['image' => $imagePath];
+            $imageArray = ['image' => $imagePath];
         }
 
         $oldData->update(array_merge(
@@ -152,7 +160,7 @@ return redirect()->back()->with('message', 'Tender Added Successfully');
     public function destroy($id)
     {
         //
-       $post = Tinder::findOrFail($id)->delete();
+        $post = Tinder::findOrFail($id)->delete();
         // return response()->json($post);
         return redirect()->back()->with('message1', 'Tender Deleted Successfully');
     }
