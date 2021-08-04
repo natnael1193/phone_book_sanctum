@@ -64,16 +64,16 @@ class TinderController extends Controller
             'bond' => '',
             'type' => '',
             'location' => 'required',
+            'company_id' => 'required',
             'reference' => 'required',
             'reference_date' => 'required',
             'location' => '',
-            'category_id' => '',
+            'sub_category_id' => '',
             'opening_date' => 'required',
             'closing_date' => 'required',
             'closing_time' => 'required',
-            'company_id' => ''
+            'tender_sub_category_id' => ''
         ]);
-        // dd($data);
         $user = ['user_id' => auth()->user()->id];
         if (request('image')) {
             $imagePath = request('image')->store('uploads', 'public');

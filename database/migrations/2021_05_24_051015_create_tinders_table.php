@@ -16,10 +16,10 @@ class CreateTindersTable extends Migration
         Schema::create('tinders', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
+            $table->unsignedBigInteger('tender_sub_category_id');
             $table->string('price');
             $table->string('bond');
             $table->string('type');
-            $table->string('category_id');
             $table->string('opening_date');
             $table->string('closing_date');
             $table->string('closing_time');

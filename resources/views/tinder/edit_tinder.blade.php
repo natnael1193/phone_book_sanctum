@@ -50,7 +50,7 @@
                                         <select id="my-select" class="form-control" name="company_id">
                                             <option value="{{$post->company_id}}">Select Company</option>
                                             @foreach($company as $companies)
-                                            <option value={{$companies->id}}>{{$companies->company_name}}</option>
+                                            <option value="{{$companies->id}}" required>{{$companies->company_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -66,8 +66,9 @@
                                         <label for="my-select">Select Location</label>
                                         <select id="my-select" class="form-control" name="location">
                                             @if(count($locations) > 0)
+                                                <option value="{{$post->location}}">{{$post->location}}</option>
                                                 @foreach($locations as $companies)
-                                                    <option value={{$companies->id}}>{{$companies->name}}</option>
+                                                    <option value="{{$companies->id}}" required>{{$companies->name}}</option>
                                                 @endforeach
                                             @else
                                                 <option value=null>No Location Found</option>
@@ -79,11 +80,23 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label for="my-select">Select Category</label>
-                                    <select id="my-select" class="form-control" name="category_id">
-                                        <option value="{{ $post->category_id }}">Select Category</option>
-                                        @foreach(App\TenderCategory::all()->sortBy('name') as $categories)
-                                        <option value={{$categories->id}} required>{{$categories->name}}</option>
-                                        @endforeach
+                                    <select id="my-select" class="form-control" name="tender_sub_category_id">
+                                        @if(App\TenderCategory::all()->count() > 0)
+                                            @foreach(App\TenderCategory::all() ->sortBy('name') as $categories)
+                                                <optgroup label="{{$categories->name}}">
+                                                    <option value="{{ $post->tender_sub_category_id }}">{{ $data = App\TenderSubCategory::find($post->tender_sub_category_id)->name }}</option>
+                                                    @if($categories->categories->count() > 0)
+                                                        @foreach($categories->categories as $category)
+                                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                                        @endforeach
+                                                    @else
+                                                        <option>No Sub Categories Found</option>
+                                                    @endif
+                                                </optgroup>
+                                            @endforeach  
+                                        @else
+                                        <option value="">No Categories Found</option>
+                                        @endif
                                     </select>
                                 </div>
                                 <div class="col-6">

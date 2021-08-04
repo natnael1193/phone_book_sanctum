@@ -59,12 +59,12 @@
                                         <label for="my-select">Select Company</label>
                                         <select id="my-select" class="form-control" name="company_id">
                                             @if(count($company) > 0)
-                                                <option value=null>Company</option>
-                                                @foreach($company as $companies)
-                                                <option value={{$companies->id}}>{{$companies->company_name}}</option>
-                                                @endforeach
+                                            <option value=null>Company</option>
+                                            @foreach($company as $companies)
+                                            <option value={{$companies->id}}>{{$companies->company_name}}</option>
+                                            @endforeach
                                             @else
-                                                <option value=null>No Companies Found</option>
+                                            <option value=null>No Companies Found</option>
                                             @endif
                                         </select>
                                     </div>
@@ -80,11 +80,11 @@
                                         <label for="my-select">Select Location</label>
                                         <select id="my-select" class="form-control" name="location">
                                             @if(count($locations) > 0)
-                                                @foreach($locations as $companies)
-                                                    <option value={{$companies->id}}>{{$companies->name}}</option>
-                                                @endforeach
+                                            @foreach($locations as $companies)
+                                            <option value={{$companies->id}}>{{$companies->name}}</option>
+                                            @endforeach
                                             @else
-                                                <option value=null>No Location Found</option>
+                                            <option value=null>No Location Found</option>
                                             @endif
                                         </select>
                                     </div>
@@ -94,14 +94,21 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label for="my-select">Select Category</label>
-                                    <select id="my-select" class="form-control" name="category_id">
+                                    <select id="my-select" class="form-control" name="tender_sub_category_id">
                                         @if(App\TenderCategory::all()->count() > 0)
-                                            <option value="">Select Category</option>
                                             @foreach(App\TenderCategory::all() ->sortBy('name') as $categories)
-                                            <option value={{$categories->id}} required>{{$categories->name}}</option>
-                                            @endforeach
+                                                <optgroup label="{{$categories->name}}">
+                                                    @if($categories->categories->count() > 0)
+                                                        @foreach($categories->categories as $category)
+                                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                                        @endforeach
+                                                    @else
+                                                        <option>No Sub Categories Found</option>
+                                                    @endif
+                                                </optgroup>
+                                            @endforeach  
                                         @else
-                                            <option value="">No Categories Found</option>
+                                        <option value="">No Categories Found</option>
                                         @endif
                                     </select>
                                 </div>
