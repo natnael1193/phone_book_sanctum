@@ -26,11 +26,7 @@ class CompanyOwnerController extends Controller
 
     // protected $company_owner = false;
 
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-    }
-
+   
     public function index()
     {
         $post =  Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();

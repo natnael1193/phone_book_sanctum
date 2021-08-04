@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CompanyRating extends Model
 {
     //
-    protected $fillable = ['company_id', 'rating', 'subscriber_id'];
+    protected $fillable = ['company_id', 'rating', 'subscriber_id', 'review'];
     public function subscriber()
     {
         return $this->belongsTo(Subscriber::class);
@@ -18,3 +18,5 @@ class CompanyRating extends Model
     }
 
 }
+
+

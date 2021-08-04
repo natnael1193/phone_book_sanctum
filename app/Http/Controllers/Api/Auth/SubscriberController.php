@@ -32,10 +32,6 @@ use Illuminate\Support\Facades\Storage;
 class SubscriberController extends Controller
 {
     //
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-    }
 
     public function index()
     {
@@ -295,7 +291,7 @@ class SubscriberController extends Controller
         $subscriber_id = ['subscriber_id' => $subscriber->id];
         $skill = ProfessionalSkill::where('professional_skill_title', $request->input('professional_skill_title'))->exists();
 
-        if ($skill != true ) {
+        if ($skill != true) {
             ProfessionalSkill::create(array_merge(
                 $data,
                 $subscriber_id
@@ -365,11 +361,11 @@ class SubscriberController extends Controller
 
         // return response()->json("exist");
         // if ($skill != true && $user != true) {
-            PersonalSkill::create(array_merge(
-                $data,
-                $subscriber_id
-            ));
-            return response()->json($data);
+        PersonalSkill::create(array_merge(
+            $data,
+            $subscriber_id
+        ));
+        return response()->json($data);
         // } else {
         //     return response()->json(["error" => "Already exist"]);
         // }
@@ -435,11 +431,11 @@ class SubscriberController extends Controller
 
         // return response()->json("exist");
         // if ($skill != true && $user != true) {
-            Language::create(array_merge(
-                $data,
-                $subscriber_id
-            ));
-            return response()->json($data);
+        Language::create(array_merge(
+            $data,
+            $subscriber_id
+        ));
+        return response()->json($data);
         // } else {
         //     return response()->json(["error" => "Already exist"]);
         // }
@@ -493,6 +489,178 @@ class SubscriberController extends Controller
                 'error' => 'Unauthorized',
             ], 403);
         }
+    }
+    public function add_hobby(Request $request)
+    {
+        $data = request()->all();
+        $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
+        $subscriber_id = ['subscriber_id' => $subscriber->id];
+        // $skill = PersonalSkill::where('personal_skill_title', $request->input('personal_skill_title'))->exists();
+        // $user = PersonalSkill::where('subscriber_id', $request->input('id'))->exists();
+
+        // return response()->json("exist");
+        // if ($skill != true && $user != true) {
+        Hobby::create(array_merge(
+            $data,
+            $subscriber_id
+        ));
+        return response()->json($data);
+        // } else {
+        //     return response()->json(["error" => "Already exist"]);
+        // }
+
+
+        // if ($request->certification_title != null) {
+        //     foreach ($request->certification_title as $item => $v) {
+        //         $post2 = array(
+        //             'certification_title' => $request->certification_title[$item],
+        //             'subscriber_id' => auth()->user('sanctum')->id,                
+        //         );
+
+        //         Certification::create(array_merge(
+        //             $data,
+        //             $post2
+
+        //         ));
+        //     }
+        // }
+    }
+
+    public function update_hobby(Request $request, $id)
+    {
+        $data = request()->all();
+        $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
+        $subscriber_id = ['subscriber_id' => $subscriber->id];
+        $oldData = Hobby::findOrFail($id);
+
+        if ($oldData->subscriber_id == $subscriber->id) {
+            $oldData->update(array_merge(
+                $data,
+                $subscriber_id
+            ));
+            return response()->json($data);
+        } else {
+            return response([
+                'error' => 'Unauthorized',
+            ], 403);
+        }
+    }
+    public function delete_hobby(Request $request, $id)
+    {
+        $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
+        $oldData = Hobby::findOrFail($id);
+
+        if ($oldData->subscriber_id == $subscriber->id) {
+            $oldData->delete();
+            return response(['message' => 'Deleted Successfully'], 200);
+        } else {
+            return response([
+                'error' => 'Unauthorized',
+            ], 403);
+        }
+    }
+
+    public function add_reference(Request $request)
+    {
+        $data = request()->all();
+        $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
+        $subscriber_id = ['subscriber_id' => $subscriber->id];
+        // $skill = PersonalSkill::where('personal_skill_title', $request->input('personal_skill_title'))->exists();
+        // $user = PersonalSkill::where('subscriber_id', $request->input('id'))->exists();
+
+        // return response()->json("exist");
+        // if ($skill != true && $user != true) {
+        Reference::create(array_merge(
+            $data,
+            $subscriber_id
+        ));
+        return response()->json($data);
+        // } else {
+        //     return response()->json(["error" => "Already exist"]);
+        // }
+
+
+        // if ($request->certification_title != null) {
+        //     foreach ($request->certification_title as $item => $v) {
+        //         $post2 = array(
+        //             'certification_title' => $request->certification_title[$item],
+        //             'subscriber_id' => auth()->user('sanctum')->id,                
+        //         );
+
+        //         Certification::create(array_merge(
+        //             $data,
+        //             $post2
+
+        //         ));
+        //     }
+        // }
+    }
+
+    public function update_reference(Request $request, $id)
+    {
+        $data = request()->all();
+        $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
+        $subscriber_id = ['subscriber_id' => $subscriber->id];
+        $oldData = Reference::findOrFail($id);
+
+        if ($oldData->subscriber_id == $subscriber->id) {
+            $oldData->update(array_merge(
+                $data,
+                $subscriber_id
+            ));
+            return response()->json($data);
+        } else {
+            return response([
+                'error' => 'Unauthorized',
+            ], 403);
+        }
+    }
+    public function delete_reference(Request $request, $id)
+    {
+        $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
+        $oldData = Reference::findOrFail($id);
+
+        if ($oldData->subscriber_id == $subscriber->id) {
+            $oldData->delete();
+            return response(['message' => 'Deleted Successfully'], 200);
+        } else {
+            return response([
+                'error' => 'Unauthorized',
+            ], 403);
+        }
+    }
+
+    public function add_company_rating(Request $request)
+    {
+        $data = request()->all();
+        $subscriber = ['subscriber_id' => auth()->user('sanctum')->id];
+        $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
+//        $company_id =['company_id' => $company->id];
+
+        CompanyRating::create(array_merge(
+            $data,
+            $subscriber
+//            $company_id
+        ));
+
+        return response()->json([$data, $subscriber]);
+    }
+
+
+    public function update_company_rating(Request $request, $id)
+    {
+        $post = request()->all();
+        $oldData = CompanyRating::findOrFail($id);
+//        $this->authorize('view', $oldData);
+        $user = ['subscriber_id' => auth('sanctum')->user()->id];
+        // $company = ['company_id' => $data->id];
+
+        $oldData->update(array_merge(
+            $post,
+            $user
+        // $company
+        ));
+        return response()->json([$user, $post]);
     }
     public function apply_vacancy(Request $request)
     {
