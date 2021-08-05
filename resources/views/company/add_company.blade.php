@@ -97,9 +97,8 @@
                                                     <label for="my-select">Add Company Owner</label>
                                                     <select id="my-select" class="form-control" name="subscriber_id">
                                                         <option value=''>Select Company Owner</option>
-                                                        @foreach(App\Subscriber::all()->sortBy('name') as $subscribers)
-                                                            <option
-                                                                value="{{$subscribers->id}}">{{$subscribers->name}}</option>
+                                                        @foreach(App\CompanyOwner::all()->sortBy('name') as $subscribers)
+                                                            <option value="{{$subscribers->id}}">{{$subscribers->first_name}} {{$subscribers->last_name}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -109,16 +108,12 @@
                                             <div class="col-xl-6 col-lg-6">
                                                 <div class="form-group">
                                                     <label for="my-select">Company Category</label>
-                                                    <select id="my-select" class="form-control" name="category_id"
-                                                            >
-
+                                                    <select id="my-select" class="form-control" name="category_id">                                                           >
+                                                          <option value=null>Select Category</option>
                                                         @foreach($post as $posts)
-{{--                                                            @if($posts->id == 1)--}}
-                                                                <option value=null>Select Category</option>
-{{--                                                            @else--}}
                                                                 <option
                                                                     value="{{ $posts->id }}">{{ $posts->name }}</option>
-{{--                                                            @endif--}}
+
                                                         @endforeach
                                                     </select>
                                                 </div>

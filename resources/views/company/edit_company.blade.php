@@ -90,7 +90,7 @@
                                             <label for="my-select">Add Company Owner</label>
                                             <select id="my-select" class="form-control" name="subscriber_id">
                                                 <option value="{{$post->subscriber_id}}">Select Company Owner</option>
-                                                @foreach(App\Subscriber::all()->sortBy('name') as $subscribers)
+                                                @foreach(App\CompanyOwner::all()->sortBy('name') as $subscribers)
                                                     <option value="{{$subscribers->id}}">{{$subscribers->name}}</option>
                                                 @endforeach
                                             </select>

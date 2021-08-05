@@ -108,6 +108,9 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('tender_categories/{id}', 'Api\MainController@tender_category_detail');
     Route::post('tender_search', 'Api\MainController@tender_search')->name('tender.search');
     Route::get('/top_rated', 'Api\MainController@top_rated');
+    Route::get('/latest_companies', 'Api\MainController@latest_companies');
+    Route::get('/latest_vacancies', 'Api\MainController@latest_vacancies');
+    Route::get('/latest_tenders', 'Api\MainController@latest_tenders');
     Route::get('/verified_companies', 'Api\MainController@verified_companies');
     Route::get('/recommended_companies', 'Api\MainController@recommended_companies');
     Route::get('/similar_business/{id}', 'Api\MainController@similar_business');
@@ -189,15 +192,19 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
 
 
     //Company Rating
+    Route::get('subscriber/my_rating/{id}', 'Api\Auth\SubscriberController@company_rating')->name('subscriber.add_company_rating');
     Route::post('subscriber/add_company_rating', 'Api\Auth\SubscriberController@add_company_rating')->name('subscriber.add_company_rating');
     Route::patch('subscriber/{id}/update_company_rating', 'Api\Auth\SubscriberController@update_company_rating')->name('subscriber.update_company_rating');
 
     //Company Review
     Route::post('subscriber/add_company_review', 'Api\Auth\SubscriberController@add_company_review')->name('subscriber.add_company_review');
     Route::patch('subscriber/{id}/update_company_review', 'Api\Auth\SubscriberController@update_company_review')->name('subscriber.update_company_rating');
+    Route::post('subscriber/add_preference', 'Api\Auth\SubscriberController@subscriber_add_preference')->name('subscriber.add_company_review');
+    //Preference
 
-    //Reset Password
-    Route::post('subscriber/reset_password', 'Api\Auth\ForgotPasswordController@postEmail')->name('subscriber.reset_password');
+
+    //Apply Vacancy
+    Route::post('subscriber/apply_vacancy', 'Api\Auth\SubscriberController@apply_vacancy')->name('subscriber.add_company_review');
 
     Route::resource('rating', 'Api\RatingController');
     Route::resource('review', 'Api\ReviewController');
@@ -209,6 +216,12 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     Route::resource('working_time', 'Api\WorkingTimeController');
 });
 
+    //Reset Password
+    // Route::post('subscriber/reset_password', 'Api\Auth\ForgotPasswordController@postEmail')->name('subscriber.reset_password');
+    // Route::get('forget-password', 'Api\Auth\ForgotPasswordController@getEmail');
+    Route::post('subscriber/forget-password', 'Api\Auth\ForgotPasswordController@postEmail')->name('user.forget-password');
+    // Route::get('reset-password/{token}', 'Api\Auth\ForgotPasswordController@getPassword');
+    // Route::post('reset-password', 'Api\Auth\ForgotPasswordController@updatePassword');
 
 //A Middleware For Admin Controller
 Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], function () {

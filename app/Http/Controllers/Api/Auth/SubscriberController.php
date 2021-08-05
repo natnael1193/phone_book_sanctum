@@ -21,13 +21,18 @@ use App\Language;
 use App\PersonalSkill;
 use App\ProfessionalSkill;
 use App\Reference;
+use App\SubscriberPreference;
+use App\SubscriberPreferenceCareerLevel;
+use App\SubscriberPreferenceCategory;
+use App\SubscriberPreferenceJobType;
 use App\VacancyRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
-
+use phpDocumentor\Reflection\PseudoTypes\True_;
 
 class SubscriberController extends Controller
 {
@@ -50,6 +55,7 @@ class SubscriberController extends Controller
         $data = request()->all();
         $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
         $subscriber_id = ['subscriber_id' => $subscriber->id];
+        // $subscriber_prefeference = SubscriberPreference::where('subscriber_id', auth()->user('sanctum')->id);
 
         if (request('image')) {
             Storage::delete("/public/{$subscriber->image}");
@@ -495,19 +501,19 @@ class SubscriberController extends Controller
         $data = request()->all();
         $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
         $subscriber_id = ['subscriber_id' => $subscriber->id];
-        // $skill = PersonalSkill::where('personal_skill_title', $request->input('personal_skill_title'))->exists();
+        $hobby = Hobby::where('subscriber_id', auth()->user('sanctum')->id)->where('hobby_name', $request->hobby_name)->exists();
         // $user = PersonalSkill::where('subscriber_id', $request->input('id'))->exists();
 
         // return response()->json("exist");
-        // if ($skill != true && $user != true) {
-        Hobby::create(array_merge(
-            $data,
-            $subscriber_id
-        ));
-        return response()->json($data);
-        // } else {
-        //     return response()->json(["error" => "Already exist"]);
-        // }
+        if ($hobby != true) {
+            Hobby::create(array_merge(
+                $data,
+                $subscriber_id
+            ));
+            return response()->json($data);
+        } else {
+            return response()->json(["error" => "Already exist"]);
+        }
 
 
         // if ($request->certification_title != null) {
@@ -630,20 +636,37 @@ class SubscriberController extends Controller
         }
     }
 
+    public function company_rating($id)
+    {
+        $company = Company::findOrFail($id);
+        $post =  CompanyRating::where('company_id', $company->id)->first();
+        $rate = CompanyRating::where('subscriber_id', auth()->user('sanctum')->id)->exists();
+        //        $company_id =['company_id' => $company->id];
+
+        if ($rate == true) {
+
+            return response()->json($post);
+        } else {
+            return response()->json(["rating" => null]);
+        }
+    }
     public function add_company_rating(Request $request)
     {
         $data = request()->all();
         $subscriber = ['subscriber_id' => auth()->user('sanctum')->id];
         $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
-//        $company_id =['company_id' => $company->id];
+        $value = CompanyRating::where('subscriber_id', auth()->user('sanctum')->id)->where('company_id', $request->company_id)->exists();
+        //        $company_id =['company_id' => $company->id];
+        if ($value == true) {
+            return response()->json("exists");
+        } else {
+            CompanyRating::create(array_merge(
+                $data,
+                $subscriber
+            ));
 
-        CompanyRating::create(array_merge(
-            $data,
-            $subscriber
-//            $company_id
-        ));
-
-        return response()->json([$data, $subscriber]);
+            return response()->json([$data, $subscriber]);
+        }
     }
 
 
@@ -651,14 +674,14 @@ class SubscriberController extends Controller
     {
         $post = request()->all();
         $oldData = CompanyRating::findOrFail($id);
-//        $this->authorize('view', $oldData);
+        //        $this->authorize('view', $oldData);
         $user = ['subscriber_id' => auth('sanctum')->user()->id];
         // $company = ['company_id' => $data->id];
 
         $oldData->update(array_merge(
             $post,
             $user
-        // $company
+            // $company
         ));
         return response()->json([$user, $post]);
     }
@@ -666,11 +689,75 @@ class SubscriberController extends Controller
     {
         $data = request()->all();
         $subscriber = Subscriber::query()->where('id', auth()->user('sanctum')->id)->first();
+        $subscriber_id = ["subscriber_id" => $subscriber->id];
+        $value = VacancyRequest::where('subscriber_id', auth()->user('sanctum')->id)->where('vacancy_id', $request->vacancy_id)->exists();
 
-        VacancyRequest::create(array_merge(
-            $data,
-            $subscriber
-        ));
+        if ($value == true) {
+            return response()->json("exists");
+        } else {
+            VacancyRequest::create(array_merge(
+                $data,
+                $subscriber_id
+            ));
+
+            return response()->json($data);
+        }
+    }
+
+    public function subscriber_preference()
+    {
+
+
+        
+    }
+
+
+    public function subscriber_add_preference(Request $request)
+    {
+        $data = request()->all();
+        $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
+        $subscriber_id = ['subscriber_id' => $subscriber->id];
+
+        if ($request->career_level != null) {
+
+            foreach ($request->career_level as $item => $v) {
+                $post2 = array(
+                    'career_level' => $request->career_level[$item],
+                    'subscriber_id' => auth()->user('sanctum')->id,
+                );
+                SubscriberPreferenceCareerLevel::create(array_merge(
+                    // $data,
+                    $post2,
+                    $subscriber_id
+                ));
+            }
+        }
+        if ($request->category != null) {
+            foreach ($request->category as $item => $v) {
+                $post2 = array(
+                    'category' => $request->category[$item],
+                    'subscriber_id' => auth()->user('sanctum')->id,
+                );
+                SubscriberPreferenceCategory::create(array_merge(
+                    $data,
+                    $post2
+                ));
+            }
+        }
+        if ($request->job_type != null) {
+            foreach ($request->job_type as $item => $v) {
+                $post2 = array(
+                    'job_type' => $request->job_type[$item],
+                    'subscriber_id' => auth()->user('sanctum')->id,
+                );
+                SubscriberPreferenceJobType::create(array_merge(
+                    $data,
+                    $post2
+                ));
+            }
+        }
+
+        return response()->json($data);
     }
 }
 

@@ -12,7 +12,7 @@
                 <h2>{{"No Companies found "}}</h2>
             </div>
         @endif
-    </div>
+  
 
             @foreach($post as $posts)
                 {{-- @if($posts->verification != Null) --}}

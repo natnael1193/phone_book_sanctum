@@ -16,7 +16,8 @@ class LocationController extends Controller
     {
         //
         $location = Location::query()->orderBy('name')->get();
-        return view('location.location', compact('location'));
+        $category = Location::all();
+        return view('location.location', compact('location', 'category'));
     }
 
     /**
@@ -40,6 +41,7 @@ class LocationController extends Controller
         //
         $post = new Location();
         $post->name = $request->input('name');
+        $post->name_am = $request->input('name_am');
         $post->save();
         
         return redirect()->back();
@@ -77,6 +79,13 @@ class LocationController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $post = Location::findOrFail($id);
+        $post->name = $request->input('name');
+        $post->name_am = $request->input('name_am');
+        $post->save();
+        
+        return redirect()->back();
+
     }
 
     /**
