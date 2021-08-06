@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\TenderCategory;
+use App\TenderSubCategory;
 use App\Tinder;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
 
-class TenderCategoryController extends Controller
+class TenderSubCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,10 +16,10 @@ class TenderCategoryController extends Controller
     public function index()
     {
         //
-        $post  = TenderCategory::query()->get()->sortBy('name');
-        $category  = TenderCategory::query()->get()->sortBy('name');
+        $post  = TenderSubCategory::query()->get()->sortBy('name');
+        $category  = TenderSubCategory::query()->get()->sortBy('name');
 
-        return  view('category.tender_category', compact('post', 'category'));
+        return  view('category.tender_subcategory', compact('post', 'category'));
     }
 
     /**
@@ -42,27 +40,10 @@ class TenderCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $data = request()->all();
-
-        if(request('image')){
-            $imagePath = request('image')->store('uploads','public');
-            $image = Image::make(public_path("storage/{$imagePath}"))->resize(300,300);
-            $image->save();
-            $imageArray=['image' => $imagePath];
-        }
-
-        // dd($data,
-        // $imageArray, $user);
-        TenderCategory::create(array_merge(
-            $data,
-
-            $imageArray ?? []
-
-        ));
-//        dd($data);
+        
+        TenderSubCategory::create($data);
         return redirect()->back();
-
     }
 
     /**
@@ -98,41 +79,26 @@ class TenderCategoryController extends Controller
     {
         //
         $data = request()->all();
-        $oldData = TenderCategory::findOrFail($id);
+        $oldData = TenderSubCategory::findOrFail($id);
 
-        if(request('image')){
-            Storage::delete("/public/{$oldData->image}");
-            $imagePath = request('image')->store('uploads','public');
-            $image = Image::make(public_path("storage/{$imagePath}"))->resize(300,300);
-            $image->save();
-            $imageArray=['image' => $imagePath];
-        }
-
-        $oldData->update(array_merge(
-            $data,
-            $imageArray ?? []
-
-        ));
-        return redirect('/tender_category');
+        $oldData->update($data);
+        return redirect('/tender_sub_category');
     }
 
     /**
      * Remove the specified resource from storage.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
-        $post = TenderCategory::findOrFail($id);
+        $post = TenderSubCategory::findOrFail($id);
         $student = Tinder::where('batch_id', $post->id)->exists();
 
-        if($student != true){
-            TenderCategory::findOrFail($id)->delete();
+        if ($student != true) {
+            TenderSubCategory::findOrFail($id)->delete();
             return redirect()->back();
-        }
-        else{
+        } else {
             return redirect()->back()->with('message', 'Tender Registered With This Tender Category, Please Delete The Tender First');
         }
     }

@@ -66,6 +66,7 @@ Route::resource('image', 'ImageController');
 Route::resource('service', 'ServiceController');
 Route::resource('vacancy_category', 'VacancyCategoryController');
 Route::resource('tender_category', 'TenderCategoryController');
+Route::resource('tender_sub_category', 'TenderSubCategoryController');
 Route::resource('company_requests', 'CompanyRequestsController');
 Route::get('verified_company', 'CompanyRequestsController@verified_company')->name('verified_company');
 Route::post('/company/verified/{id}', 'CompanyController@verified')->name('company.verified');
