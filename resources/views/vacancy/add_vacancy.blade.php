@@ -89,6 +89,31 @@
 
                                 </div>
                                 <div class="row">
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sl-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Phone Number</label>
+                                            <input type="text" class="form-control" placeholder="Phone"
+                                              name="phone">
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sl-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Min Salary</label>
+                                            <input type="number" class="form-control" placeholder="Min Salary"
+                                                 name="min_salary">
+                                        </div>
+                                    </div>
+                         
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sl-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Max Salary</label>
+                                            <input type="number" class="form-control" placeholder="Max Salary"
+                                               name="max_salary">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
                                         <div class="form-group">
                                             <label class="form-label">Image</label>
                                             <input type="file" class="form-control" placeholder="Email" name="image" imageOnly>

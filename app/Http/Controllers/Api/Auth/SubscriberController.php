@@ -42,8 +42,42 @@ class SubscriberController extends Controller
     {
 
         $subscriber = Subscriber::query()->where('id', auth()->user('sanctum')->id)->first();
+        $level = Subscriber::query()->where('id', auth()->user('sanctum')->id)->get('education_level')->toArray();
+
         if ($subscriber == true) {
-            return response()->json($subscriber);
+            if ($subscriber->education_level == 1) {
+                $subscriber->education_level = "8th Grade";
+            } elseif ($subscriber->education_level == 2) {
+                $subscriber->education_level = "10th Grade";
+            } elseif ($subscriber->education_level == 3) {
+                $subscriber->education_level = "12th Grade";
+            } elseif ($subscriber->education_level == 4) {
+                $subscriber->education_level = "TVET Certificate";
+            } elseif ($subscriber->education_level == 5) {
+                $subscriber->education_level = "Diploma";
+            } elseif ($subscriber->education_level == 6) {
+                $subscriber->education_level = "Bsc";
+            } elseif ($subscriber->education_level == 7) {
+                $subscriber->education_level = "Msc";
+            } elseif ($subscriber->education_level == 8) {
+                $subscriber->education_level = "Phd";
+            }
+            else {
+                $subscriber->education_level = null;
+            }
+
+            if ($subscriber->career_level == 1) {
+                $subscriber->career_level = "Fresh Graduate";
+            } elseif ($subscriber->career_level == 2) {
+                $subscriber->career_level = "Junior Level";
+            } elseif ($subscriber->career_level == 3) {
+                $subscriber->career_level = "Senior Level";
+            }
+            else{
+                $subscriber->career_level = null;
+            }
+
+            return response()->json([$subscriber]);
         } else {
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
@@ -70,39 +104,6 @@ class SubscriberController extends Controller
             $subscriber_id,
             $imageArray ?? []
         ));
-
-        // Certification::create(array_merge(
-        //     $data,
-        //     $subscriber_id
-        // ));
-        // Experience::create(array_merge(
-        //     $data,
-        //     $subscriber_id
-        // ));
-        // Education::create(array_merge(
-        //     $data,
-        //     $subscriber_id
-        // ));
-        // ProfessionalSkill::create(array_merge(
-        //     $data,
-        //     $subscriber_id
-        // ));
-        // PersonalSkill::create(array_merge(
-        //     $data,
-        //     $subscriber_id
-        // ));
-        // Language::create(array_merge(
-        //     $data,
-        //     $subscriber_id
-        // ));
-        // Hobby::create(array_merge(
-        //     $data,
-        //     $subscriber_id
-        // ));
-        // Reference::create(array_merge(
-        //     $data,
-        //     $subscriber_id
-        // ));
 
         return response()->json($data);
     }
@@ -706,9 +707,6 @@ class SubscriberController extends Controller
 
     public function subscriber_preference()
     {
-
-
-        
     }
 
 

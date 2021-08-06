@@ -111,6 +111,10 @@ Route::get('/customer/sign_in', 'Auth\CustomerLoginController@showLoginForm');
 Route::post('/customer/login', 'Auth\CustomerLoginController@login')->name('customer.login');
 // Route::resource('company_owner', 'CompanyOwnerController');
 
+Route::get('/education_level', 'LevelController@education_level')->name('education_level.index');
+Route::post('/education_level', 'LevelController@add_education_level')->name('education_level.store');
+Route::patch('/education_level/{id}', 'LevelController@update_education_level')->name('education_level.update');
+
 Route::post('blog_image', 'BlogController@image');
 
 
@@ -119,6 +123,9 @@ Route::get('/layouts', function(){
 });
 
 Route::get('/top_rated', 'MainController@top_rated');
+
+
+
 
 
 
