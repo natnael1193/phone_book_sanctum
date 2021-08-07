@@ -38,8 +38,6 @@ class MainController extends Controller
         for ($x = 0; $x < sizeof($post); $x++) {
 
             $post[$x]['rating'] = CompanyRating::all()->where('company_id', $post[$x]['id'])->avg('rating');
-
-
             $post[$x]['approximate'] = number_format($post[$x]['rating'], 1);
             $post[$x]['location'] = Location::where('id', $post[$x]['location_id'])->first('name');
             $post[$x]['category'] = Category::where('id', $post[$x]['category_id'])->first(['name', 'image']);
@@ -53,14 +51,7 @@ class MainController extends Controller
             //            $category[$x]['rating'] = CompanyRating::where('rating' , '>' , 3.9)->get();
         }
 
-
         return response()->json($post);
-
-        //        $post = Company::all();
-        ////        $post = Company::all();
-        //        for ($x=0; $x<sizeof($post); $x++ ){
-        //            return response()->json($post);
-        //        }
     }
 
     public function blog()
@@ -218,6 +209,44 @@ class MainController extends Controller
         return response()->json($company);
     }
 
+
+    public function any_search($id)
+    {
+
+        $post = Company::where('company_name', 'LIKE', '%' . $id . '%')->get();
+        $vacancy = Vacancy::where('title', 'LIKE', '%' . $id . '%')->get();
+        $tender = Tinder::where('title', 'LIKE', '%' . $id . '%')->get();
+
+
+        if ($id != null) {
+            foreach ($post as  $posts) {
+                $posts['rating'] = CompanyRating::all()->where('company_id', $posts['id'])->avg('rating');
+                $posts['approximate'] = number_format($posts['rating'], 1);
+                $posts['location'] = Location::where('id', $posts['location_id'])->first('name');
+                $posts['category'] = Category::where('id', $posts['category_id'])->first(['name', 'image']);
+                $posts['company_type'] = CompanyCategory::where('id', $posts['company_category'])->first('name');
+            }
+        }
+        if ($id != null) {
+            foreach ($vacancy as  $vacancies) {
+                $vacancies['location'] = Location::where('id', $vacancies['location'])->first('name');
+                $vacancies['category'] = VacancyCategory::where('id', $vacancies['category_id'])->first(['name', 'image']);
+                $vacancies['posted_date'] = Carbon::parse($vacancies['created_at'])->diffForHumans();
+                $vacancies['due_date'] = Carbon::parse($vacancies['due_date'])->format('d-m-Y');
+            }
+        }
+        if ($id != null) {
+            foreach ($tender as  $tenders) {
+                $tenders['category'] = TenderCategory::where('id', $tenders['category_id'])->first(['name', 'image']);
+                $tenders['posted_date'] = Carbon::parse($tenders['created_at'])->diffForHumans();
+                $tenders['opening_date'] = Carbon::parse($tenders['opening_date'])->format('d-m-Y');
+                $tenders['closing_date'] = Carbon::parse($tenders['closing_date'])->format('d-m-Y');
+                $tenders['reference_date'] = Carbon::parse($tenders['reference_date'])->format('d-m-Y');
+            }
+        }
+
+        return response()->json(['company' => $post, 'vacancy' => $vacancy, 'tender' => $tender]);
+    }
     public function company_search($id)
     {
 
@@ -380,20 +409,27 @@ class MainController extends Controller
         //        return view('company.search', compact('post'));
     }
 
-    public function top_rated(Request $request)
+    public function top_rated()
     {
 
-        $data = Company::all();
+        $company = Company::get();
+        // $rating = CompanyRating::where('company_id', $company->id)->get();
 
-        for ($x = 0; $x < sizeof($data); $x++) {
-            $data[$x]['rating'] = CompanyRating::all()->where('company_id', $data[$x]['id'])->avg('rating');
+        foreach ($company as  $companies) {
+            $companies['rating'] = CompanyRating::where('company_id', $companies['id'])->avg('rating');
+          
+            // $vacancies['category'] = VacancyCategory::where('id', $vacancies['category_id'])->first(['name', 'image']);
+            // $vacancies['posted_date'] = Carbon::parse($vacancies['created_at'])->diffForHumans();
+            // $vacancies['due_date'] = Carbon::parse($vacancies['due_date'])->format('d-m-Y');
         }
-        foreach ($data as $datas) {
-            if ($datas->rating >= 2) {
-                return response($datas);
-            }
-        }
-    }
+        $value = $company->where('rating', '>=', 3);
+ 
+    return response()->json($value);
+}
+
+        // return response()->json($value);
+
+    
 
 
     public function verified_companies(Request $request)

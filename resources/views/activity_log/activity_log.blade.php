@@ -14,7 +14,13 @@
         {{-- <td>  {{   $post->changes}}</td> --}}
         @foreach($post as $posts)
         <tr>
+            @if($posts->causer_type == App\User::first())
             <td>{{ App\User::findOrFail($posts->causer_id)->name }}</td>
+            @elseif($posts->causer_type == App\Subscriber::get())
+            <td>{{ App\Subscriber::findOrFail($posts->causer_id)->name }}</td>
+            @else
+            <td>User Not Found</td>
+            @endif
             <td>{{ $posts->description }}</td>
             <td>{{ $posts->causer_type }}</td>
             <td><a href="/activity_log/{{$posts->id}}"><button class="btn btn-primary">Show</button> </a> </td>

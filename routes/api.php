@@ -96,6 +96,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('company_categories', 'Api\MainController@company_category');
     Route::get('company_categories/{id}', 'Api\MainController@company_category_detail');
     Route::get('company_search/{id}', 'Api\MainController@company_search');
+    Route::get('any_search/{id}', 'Api\MainController@any_search');
     Route::post('blog_search', 'Api\MainController@blog_search');
     Route::get('vacancies', 'Api\MainController@vacancy');
     Route::get('vacancy_detail/{id}', 'Api\MainController@vacancy_detail');

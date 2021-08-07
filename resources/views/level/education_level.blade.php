@@ -78,10 +78,11 @@
                                         <td>{{ $posts->name }}</td>
                                         <td>
                                             <div class="row">
-                                                <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#defaultModalEdit{{$posts->id}}">
-                                              Edit
+                                                <button type="button" class="btn btn-primary mr-2" data-toggle="modal"
+                                                    data-target="#defaultModalEdit{{ $posts->id }}">
+                                                    Edit
                                                 </button>
-                                                <form method="POST" action="">@csrf @method('DELETE')
+                                                <form method="POST" action="{{route('education_level.delete', $posts->id)}}">@csrf @method('DELETE')
                                                     <button class="btn btn-danger">Delete</button>
                                                 </form>
                                             </div>
@@ -106,7 +107,7 @@
                                 </div> --}}
 
                                 @foreach ($level as $levels)
-                                    <div class="modal fade" id="defaultModalEdit{{$levels->id}}" tabindex="-1"
+                                    <div class="modal fade" id="defaultModalEdit{{ $levels->id }}" tabindex="-1"
                                         role="dialog" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -126,7 +127,8 @@
                                                             <div class="for-group">
                                                                 <label>Education Level</label>
                                                                 <input type="text" name="name" class="form-control"
-                                                                    value="{{ $levels->name }}" placeholder="category name">
+                                                                    value="{{ $levels->name }}"
+                                                                    placeholder="category name">
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
