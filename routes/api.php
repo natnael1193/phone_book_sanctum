@@ -139,7 +139,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     Route::post('subscriber/add_certificate', 'Api\Auth\SubscriberController@add_certificate')->name('subscriber.add_certificate');
     Route::get('subscriber/certificate', 'Api\Auth\SubscriberController@certificate')->name('subscriber.certificate');
     Route::get('subscriber/{id}/edit_certificate', 'Api\Auth\SubscriberController@edit_certificate')->name('subscriber.edit_certificate');
-    Route::patch('subscriber/{id}/update_certificate', 'Api\Auth\SubscriberController@update_certificate')->name('subscriber.update_certificate');
+    Route::patch('/subscriber/{id}/update_certificate', 'Api\Auth\SubscriberController@update_certificate')->name('subscriber.update_certificate');
     Route::delete('subscriber/{id}/delete_certificate', 'Api\Auth\SubscriberController@delete_certificate')->name('subscriber.delete_certificate');
 
     //Education

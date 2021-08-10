@@ -14,7 +14,7 @@
         {{-- <td>  {{   $post->changes}}</td> --}}
         @foreach($post as $posts)
         <tr>
-            @if($posts->causer_type == App\User::first())
+            @if($posts->causer_type == App\User::get())
             <td>{{ App\User::findOrFail($posts->causer_id)->name }}</td>
             @elseif($posts->causer_type == App\Subscriber::get())
             <td>{{ App\Subscriber::findOrFail($posts->causer_id)->name }}</td>

@@ -25,6 +25,7 @@ use \Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
+use App\JobType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -78,13 +79,9 @@ class MainController extends Controller
         // $company_location = Company::whereIn('location_id' ,  $location)->first();
 
         foreach ($vacancy as  $vacancies) {
-            if ($vacancies['job_type'] == 1) {
-                $vacancies['job_type'] = 'Full Time';
-            } elseif ($vacancies['job_type'] == 2) {
-                $vacancies['job_type'] = 'Per Time';
-            } else {
-                $vacancies['job_type'] = 'Remotely';
-            }
+            $vacancies['job_type'] = JobType::where('id', $vacancies['job_type'])->first()->name;
+            $vacancies['location'] = Location::where('id', $vacancies['location'])->first()->name;
+            $vacancies['category_id'] = VacancyCategory::where('id', $vacancies['category_id'])->first(['image', 'name']);
         }
 
         //        $review = CompanyReview::query()->where('company_id', $id)->with('subscriber')->get();
@@ -194,17 +191,23 @@ class MainController extends Controller
         $company = Vacancy::where('category_id', $post->id)->get()->toArray();
         //        $cat
 
-        for ($x = 0; $x < sizeof($company); $x++) {
+        // for ($x = 0; $x < sizeof($company); $x++) {
 
-            $company[$x]['category'] = VacancyCategory::where('id', $company[$x]['category_id'])->first('name');
-            if ($company[$x]['job_type'] == 1) {
-                $company[$x]['job_type'] = 'Temporary';
-            } elseif ($company[$x]['job_type'] == 2) {
-                $company[$x]['job_type'] = 'Permanent';
-            } else {
-                $company[$x]['job_type'] = 'Remotely';
-            }
+        //     $company[$x]['category'] = VacancyCategory::where('id', $company[$x]['category_id'])->first('name');
+        //     if ($company[$x]['job_type'] == 1) {
+        //         $company[$x]['job_type'] = 'Temporary';
+        //     } elseif ($company[$x]['job_type'] == 2) {
+        //         $company[$x]['job_type'] = 'Permanent';
+        //     } else {
+        //         $company[$x]['job_type'] = 'Remotely';
+        //     }
+        // }
+        for ($x = 0; $x < sizeof($company); $x++) {
+            $company[$x]['category_id'] = VacancyCategory::where('id', $company[$x]['category_id'])->first('name');
+            $company[$x]['location'] = Location::where('id', $company[$x]['location'])->first('name');
+            $company[$x]['job_type'] = JobType::where('id', $company[$x]['job_type'])->first('name');
         }
+
 
         return response()->json($company);
     }
@@ -289,19 +292,12 @@ class MainController extends Controller
         for ($x = 0; $x < sizeof($post); $x++) {
             [
                 $post[$x]['location'] = Location::where('id', $post[$x]['location'])->first('name'),
-                $post[$x]['category'] = VacancyCategory::where('id', $post[$x]['category_id'])->first(['name', 'image']),
+                $post[$x]['category_id'] = VacancyCategory::where('id', $post[$x]['category_id'])->first(['name', 'image']),
+                $post[$x]['job_type'] = JobType::where('id', $post[$x]['job_type'])->first('name'),
                 $post[$x]['posted_date'] = Carbon::parse($post[$x]['created_at'])->diffForHumans(),
                 $post[$x]['due_date'] = Carbon::parse($post[$x]['due_date'])->format('d-m-Y')
                 // $post[$x]['date'] =  Carbon::createFromFormat('Y-m-d', $post[$x]['created_at'])->format('d/m/Y')
             ];
-
-            if ($post[$x]['job_type'] == 1) {
-                $post[$x]['job_type'] = 'Full Time';
-            } elseif ($post[$x]['job_type'] == 2) {
-                $post[$x]['job_type'] = 'Per Time';
-            } else {
-                $post[$x]['job_type'] = 'Remotely';
-            }
         }
 
 
@@ -319,10 +315,18 @@ class MainController extends Controller
 
     public function tender()
     {
-        $post = Tinder::all();
+        $dt = Carbon::now()->toDateString();
+        $post = Tinder::where('closing_date', '>=', $dt)->get()->toArray();
+
+        // $post = Tinder::all();
         for ($x = 0; $x < sizeof($post); $x++) {
             [
-                $post[$x]['category'] = TenderCategory::where('id', $post[$x]['category_id'])->first(['name', 'image'])
+                $post[$x]['category_id'] = TenderCategory::where('id', $post[$x]['category_id'])->first(['name', 'image']),
+                $post[$x]['location'] = Location::where('id', $post[$x]['location'])->first('name'),
+                $post[$x]['opening_date'] = Carbon::parse($post[$x]['opening_date'])->format('d-m-Y'),
+                $post[$x]['closing_date'] = Carbon::parse($post[$x]['closing_date'])->format('d-m-Y'),
+                $post[$x]['reference_date'] = Carbon::parse($post[$x]['reference_date'])->format('d-m-Y')
+
             ];
         }
         return response()->json($post);
@@ -343,7 +347,6 @@ class MainController extends Controller
         //        $cat
 
         for ($x = 0; $x < sizeof($company); $x++) {
-
             $company[$x]['category'] = TenderCategory::where('id', $company[$x]['category_id'])->first('name');
         }
 
@@ -417,19 +420,19 @@ class MainController extends Controller
 
         foreach ($company as  $companies) {
             $companies['rating'] = CompanyRating::where('company_id', $companies['id'])->avg('rating');
-          
+
             // $vacancies['category'] = VacancyCategory::where('id', $vacancies['category_id'])->first(['name', 'image']);
             // $vacancies['posted_date'] = Carbon::parse($vacancies['created_at'])->diffForHumans();
             // $vacancies['due_date'] = Carbon::parse($vacancies['due_date'])->format('d-m-Y');
         }
         $value = $company->where('rating', '>=', 3);
- 
-    return response()->json($value);
-}
 
-        // return response()->json($value);
+        return response()->json($value);
+    }
 
-    
+    // return response()->json($value);
+
+
 
 
     public function verified_companies(Request $request)

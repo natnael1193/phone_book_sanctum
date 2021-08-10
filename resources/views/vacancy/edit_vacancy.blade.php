@@ -65,11 +65,10 @@
                                             <label for="my-select">Job Type</label>
                                             <select id="my-select" class="form-control" name="job_type">
                                                 <option value="{{ $post->job_type }}">Select Job Type</option>
-                                                {{-- @foreach ($company as $companies) --}}
-                                                <option value="1">Full Time</option>
-                                                <option value="2">Part Time</option>
-                                                <option value="3">Remotely</option>
-                                                {{-- @endforeach --}}
+                                                @foreach (App\JobType::all() as $job_types)
+                                                    <option value="{{ $job_types->id }}">{{ $job_types->name }}
+                                                    </option>
+                                                    @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -94,7 +93,7 @@
                                                 value="{{ $post->phone }}" name="phone">
                                         </div>
                                     </div>
-                                  
+
                                     <div class="col-xl-4 col-lg-4 col-md-12 col-sl-12">
                                         <div class="form-group">
                                             <label class="form-label">Min Salary</label>
@@ -102,7 +101,7 @@
                                                 value="{{ $post->min_salary }}" name="min_salary">
                                         </div>
                                     </div>
-                         
+
                                     <div class="col-xl-4 col-lg-4 col-md-12 col-sl-12">
                                         <div class="form-group">
                                             <label class="form-label">Max Salary</label>

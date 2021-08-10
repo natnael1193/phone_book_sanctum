@@ -127,6 +127,31 @@
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6">
                                         <div class="form-group">
+                                            <label for="my-select">Company Status</label>
+                                            <select id="my-select" class="form-control" name="company_category">
+                                                <option value="{{ $post->company_category }}">Select Category</option>
+                                                @foreach($company_category as $company_categories)
+                                                    <option
+                                                        value="{{ $company_categories->id }}">{{ $company_categories->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="my-select">Company Verfication</label>
+                                            <select id="my-select" class="form-control" name="verification"
+                                                    value="{{ $post->verfication }}">
+                                                <option value="{{ $post->verification }}">Select Category</option>
+                                                <option value="">Not Verified</option>
+                                                <option value="1">Verified</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
                                             <label class="form-label">Company Name</label>
                                             <input type="text" class="form-control" placeholder="Name"
                                                    name="company_name" value="{{ $post->company_name }}">
@@ -243,31 +268,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-xl-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label for="my-select">Company Category</label>
-                                            <select id="my-select" class="form-control" name="company_category">
-                                                <option value="{{ $post->company_category }}">Select Category</option>
-                                                @foreach($company_category as $company_categories)
-                                                    <option
-                                                        value="{{ $company_categories->id }}">{{ $company_categories->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label for="my-select">Company Verfication</label>
-                                            <select id="my-select" class="form-control" name="verification"
-                                                    value="{{ $post->verfication }}">
-                                                <option value="{{ $post->verification }}">Select Category</option>
-                                                <option value="">Not Verified</option>
-                                                <option value="1">Verified</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 {{-- <div class="row">
                                     <div class="form-group">
                                         <label class="custom-control custom-checkbox m-0">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\CareerLevel;
 use App\Company;
 use App\Images;
 use App\Service;
@@ -13,6 +14,7 @@ use App\WorkingTime;
 use App\CompanyRating;
 use App\CompanyReview;
 use App\Education;
+use App\EducationLevel;
 use App\Experience;
 use App\Hobby;
 use Illuminate\Http\Request;
@@ -45,39 +47,9 @@ class SubscriberController extends Controller
         $level = Subscriber::query()->where('id', auth()->user('sanctum')->id)->get('education_level')->toArray();
 
         if ($subscriber == true) {
-            if ($subscriber->education_level == 1) {
-                $subscriber->education_level = "8th Grade";
-            } elseif ($subscriber->education_level == 2) {
-                $subscriber->education_level = "10th Grade";
-            } elseif ($subscriber->education_level == 3) {
-                $subscriber->education_level = "12th Grade";
-            } elseif ($subscriber->education_level == 4) {
-                $subscriber->education_level = "TVET Certificate";
-            } elseif ($subscriber->education_level == 5) {
-                $subscriber->education_level = "Diploma";
-            } elseif ($subscriber->education_level == 6) {
-                $subscriber->education_level = "Bsc";
-            } elseif ($subscriber->education_level == 7) {
-                $subscriber->education_level = "Msc";
-            } elseif ($subscriber->education_level == 8) {
-                $subscriber->education_level = "Phd";
-            }
-            else {
-                $subscriber->education_level = null;
-            }
-
-            if ($subscriber->career_level == 1) {
-                $subscriber->career_level = "Fresh Graduate";
-            } elseif ($subscriber->career_level == 2) {
-                $subscriber->career_level = "Junior Level";
-            } elseif ($subscriber->career_level == 3) {
-                $subscriber->career_level = "Senior Level";
-            }
-            else{
-                $subscriber->career_level = null;
-            }
-
-            return response()->json([$subscriber]);
+        $subscriber->education_level = EducationLevel::where('id', $subscriber->education_level)->first('name');
+        $subscriber->career_level = CareerLevel::where('id', $subscriber->career_level)->first('name');
+            return response()->json($subscriber);
         } else {
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
@@ -107,17 +79,31 @@ class SubscriberController extends Controller
 
         return response()->json($data);
     }
+
+    public function certificate(Request $request)
+    {
+        $data = Certification::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        return response()->json($data);
+    }
+
     public function add_certificate(Request $request)
     {
         $data = request()->all();
         $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
         $subscriber_id = ['subscriber_id' => $subscriber->id];
+        if (request('file')) {
+            $imagePath = request('file')->store('uploads', 'public');
+            $image = Image::make(public_path("storage/{$imagePath}"))->resize(300, 300);
+            $image->save();
+            $imageArray = ['file' => $imagePath];
+        }
 
-        Certification::create(array_merge(
+       $certification = Certification::create(array_merge(
             $data,
-            $subscriber_id
+            $subscriber_id,
+            $imageArray ?? []
         ));
-        return response()->json($data);
+        return response()->json(['subscriber_id' => $certification->subscriber_id,'certification_title'=> $certification->title,'file'=> $certification->file]);
 
         // if ($request->certification_title != null) {
         //     foreach ($request->certification_title as $item => $v) {
@@ -140,12 +126,20 @@ class SubscriberController extends Controller
         $data = request()->all();
         $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
         $subscriber_id = ['subscriber_id' => $subscriber->id];
+        if (request('file')) {
+            Storage::delete("/public/{$subscriber->file}");
+            $imagePath = request('file')->store('uploads', 'public');
+            $image = Image::make(public_path("storage/{$imagePath}"))->resize(300, 300);
+            $image->save();
+            $imageArray = ['file' => $imagePath];
+        }
         $oldData = Certification::findOrFail($id);
 
         if ($oldData->subscriber_id == $subscriber->id) {
             $oldData->update(array_merge(
                 $data,
-                $subscriber_id
+                $subscriber_id,
+                // $imageArray ?? []
             ));
             return response()->json($data);
         } else {
@@ -168,6 +162,12 @@ class SubscriberController extends Controller
                 'error' => 'Unauthorized',
             ], 403);
         }
+    }
+
+    public function education(Request $request)
+    {
+        $data = Education::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        return response()->json($data);
     }
     public function add_education(Request $request)
     {
@@ -230,6 +230,12 @@ class SubscriberController extends Controller
             ], 403);
         }
     }
+
+    public function experience(Request $request)
+    {
+        $data = Experience::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        return response()->json($data);
+    }
     public function add_experience(Request $request)
     {
         $data = request()->all();
@@ -290,6 +296,12 @@ class SubscriberController extends Controller
                 'error' => 'Unauthorized',
             ], 403);
         }
+    }
+
+    public function professional_skill(Request $request)
+    {
+        $data = ProfessionalSkill::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        return response()->json($data);
     }
     public function add_professional_skill(Request $request)
     {
@@ -357,6 +369,12 @@ class SubscriberController extends Controller
                 'error' => 'Unauthorized',
             ], 403);
         }
+    }
+
+    public function personal_skill(Request $request)
+    {
+        $data = PersonalSkill::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        return response()->json($data);
     }
     public function add_personal_skill(Request $request)
     {
@@ -427,7 +445,11 @@ class SubscriberController extends Controller
             ], 403);
         }
     }
-
+    public function language(Request $request)
+    {
+        $data = Language::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        return response()->json($data);
+    }
     public function add_language(Request $request)
     {
         $data = request()->all();
@@ -496,6 +518,11 @@ class SubscriberController extends Controller
                 'error' => 'Unauthorized',
             ], 403);
         }
+    }
+    public function hobby(Request $request)
+    {
+        $data = Hobby::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        return response()->json($data);
     }
     public function add_hobby(Request $request)
     {
@@ -566,7 +593,11 @@ class SubscriberController extends Controller
             ], 403);
         }
     }
-
+    public function reference(Request $request)
+    {
+        $data = Reference::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        return response()->json($data);
+    }
     public function add_reference(Request $request)
     {
         $data = request()->all();
@@ -707,6 +738,8 @@ class SubscriberController extends Controller
 
     public function subscriber_preference()
     {
+        $preference = SubscriberPreferenceCareerLevel::where('id', auth()->user('sanctum')->id)->first();
+        return response()->json($preference);
     }
 
 

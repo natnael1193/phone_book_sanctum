@@ -12,7 +12,7 @@
                     <div class="card-header">
                         <button type="button" class="btn btn-success" data-toggle="modal"
                             data-target="#defaultModalPrimary">
-                            Add Category
+                            Add Location
                         </button>
                     </div>
                     <table class="table">
@@ -58,7 +58,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add Cateogry</h5>
+                        <h5 class="modal-title">Add Location</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -70,6 +70,10 @@
                                 <div class="form-group col-xl-12">
                                     <label>Name</label>
                                     <input type="text" class="form-control" name="name">
+                                </div>
+                                <div class="form-group col-xl-12">
+                                    <label>Amharic Name</label>
+                                    <input type="text" class="form-control" name="name_am">
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">Submit</button>
