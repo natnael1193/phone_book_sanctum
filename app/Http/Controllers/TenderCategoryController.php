@@ -6,6 +6,7 @@ use App\TenderCategory;
 use App\Tinder;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class TenderCategoryController extends Controller
 {

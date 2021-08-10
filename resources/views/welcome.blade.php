@@ -204,5 +204,18 @@
         </div>
     </div>
 </div>
+
+
+
+{{-- @extends('layouts.app')
+@section('content')
+    @foreach (App\Category::where('category_id', null)->get() as $categories)
+        <p>{{ $categories->name }}</p>
+        @foreach (App\Category::where('category_id', $categories->id)->get() as $subcategories)
+        <p style="align-items: center; margin-left: 2%">{{ $subcategories->name }}</p>
+        @endforeach
+    @endforeach
+
+@endsection --}}
 </body>
 </html>

@@ -55,9 +55,9 @@
                         </a>
                     </li>
                     <li class="sidebar-item {{ request()->is('role*') ? 'active' : '' }}"">
-                        <a class="sidebar-link" href="{{ route('role.index') }}">
-                            <i class="align-middle" data-feather="user-check"></i> <span class="align-middle">User
-                                Roles</span>
+        <a class=" sidebar-link" href="{{ route('role.index') }}">
+                        <i class="align-middle" data-feather="user-check"></i> <span class="align-middle">User
+                            Roles</span>
                         </a>
                     </li>
                     <li class="sidebar-item {{ request()->is('activity_log*') ? 'active' : '' }}">
@@ -69,7 +69,7 @@
                 @endif
                 @if (Auth::user()->role == 1 || Auth::user()->role == 4)
                     <li class="sidebar-header ">
-                        Company Information
+                        <h5 style="color: white">Company Information</h5>
                     </li>
                     <li class="sidebar-item {{ request()->is('company*') ? 'active' : '' }}">
                         <a href="#forms1" data-toggle="collapse" class="sidebar-link collapsed">
@@ -111,7 +111,7 @@
                 @endif
                 @if (Auth::user()->role == 1 || Auth::user()->role == 5)
                     <li class="sidebar-header">
-                        Blog Information
+                        <h5 style="color: white">  Blog, Vacancy, Tender Information</h5>
                     </li>
                     <li class="sidebar-item {{ request()->is('blog*') ? 'active' : '' }}">
                         <a href="#forms2" data-toggle="collapse" class="sidebar-link collapsed">
@@ -148,18 +148,40 @@
                     </ul>
                 </li>
                 <li class="sidebar-header">
-                    Category And Location
+                    <h5 style="color: white"> Category And Location</h5>
                 </li>
                 <li class="sidebar-item {{ request()->is('category*') ? 'active' : '' }}"><a class="sidebar-link"
                         href="{{ route('category.index') }}">Category</a></li>
-                    <li class="sidebar-item {{ request()->is('vacancy_category*') ? 'active' : '' }}"><a class="sidebar-link"
-                                                                                                 href="{{ route('vacancy_category.index') }}">Vacancy Category</a></li>
-                    <li class="sidebar-item {{ request()->is('tender_category*') ? 'active' : '' }}"><a class="sidebar-link"
-                                                                                                 href="{{ route('tender_category.index') }}">Tender Category</a></li>
-                <li class="sidebar-item  {{ request()->is('location*') ? 'active' : '' }}"><a class="sidebar-link"
-                        href="{{ route('location.index') }}">Location</a></li>
-                <li class="sidebar-item {{ request()->is('blog_category*') ? 'active' : '' }}"><a class="sidebar-link" href="{{ route('blog_category.index') }}">Blog
+                <li class="sidebar-item {{ request()->is('vacancy_category*') ? 'active' : '' }}"><a
+                        class="sidebar-link" href="{{ route('vacancy_category.index') }}">Vacancy Category</a>
+                </li>
+                <li class="sidebar-item {{ request()->is('tender_category*') ? 'active' : '' }}"><a
+                        class="sidebar-link" href="{{ route('tender_category.index') }}">Tender Category</a></li>
+                <li class="sidebar-item {{ request()->is('tender_sub_category*') ? 'active' : '' }}"><a
+                        class="sidebar-link" href="{{ route('tender_sub_category.index') }}">Tender
+                        SubCategory</a></li>
+                <li class="sidebar-item  {{ request()->is('location*') ? 'active' : '' }}"><a
+                        class="sidebar-link" href="{{ route('location.index') }}">Location</a></li>
+                <li class="sidebar-item {{ request()->is('blog_category*') ? 'active' : '' }}"><a
+                        class="sidebar-link" href="{{ route('blog_category.index') }}">Blog
                         Category</a></li>
+                <li class="sidebar-item {{ request()->is('education_level*') ? 'active' : '' }}"><a
+                        class="sidebar-link" href="{{ route('education_level.index') }}">Education Level</a></li>
+                <li class="sidebar-item {{ request()->is('study_field*') ? 'active' : '' }}"><a
+                        class="sidebar-link" href="{{ route('study_field.index') }}">Study Fields</a></li>
+                <li class="sidebar-item {{ request()->is('job_type*') ? 'active' : '' }}"><a class="sidebar-link"
+                        href="{{ route('job_type.index') }}">Job Type</a></li>
+                <li class="sidebar-item {{ request()->is('career_level*') ? 'active' : '' }}"><a
+                        class="sidebar-link" href="{{ route('career_level.index') }}">Career Level</a></li>
+                <li class="sidebar-item {{ request()->is('company_verification_list*') ? 'active' : '' }}"><a
+                        class="sidebar-link" href="{{ route('company_verification_list.index') }}">Verification List</a></li>
+                <li class="sidebar-header">
+                    <h5 style="color: white">Bank and Order Management</h5>
+                </li>
+                <li class="sidebar-item {{ request()->is('bank*') ? 'active' : '' }}"><a class="sidebar-link"
+                        href="{{ route('bank.index') }}">Bank</a></li>
+                <li class="sidebar-item {{ request()->is('premium*') ? 'active' : '' }}"><a class="sidebar-link"
+                        href="{{ route('premium.index') }}">Premium Order Management</a></li>
             </ul>
         </div>
     </nav>
@@ -346,7 +368,7 @@
 								<a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="help-circle"></i> Help Center</a>
 								<div class="dropdown-divider"></div> --}}
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-   document.getElementById('logout-form').submit();">
+document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
                             </a>
 

@@ -5,7 +5,9 @@
         <div class="row">
             <div class="card col-xl-8 col-lg-8 col-md-8">
                 <div class="card-header">
-                    <h4>Caused By ---> {{ $activity->causer['name']}} ( {{ $activity->description}} )</h4>
+                    <h4>Caused By ---> @if($activity->causer_id == true) {{ App\User::findOrFail($activity->causer_id)->name }}
+                        @elseif() {{ App\Subscriber::findOrFail($activity->causer_id)->name }}
+                        ( {{ $activity->description}} )</h4>
                     <p>{{$activity->subject_type}}</p>
 
                 </div>

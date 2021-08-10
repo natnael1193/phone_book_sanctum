@@ -41,7 +41,7 @@
                                         <div class="form-group">
                                             <label for="my-select">Company</label>
                                             <select id="my-select" class="form-control" name="company_id" required>
-                                                <option>Select Company</option>
+                                                <option value="">Select Company</option>
                                                 @foreach($company as $companies)
                                                 <option value="{{ $companies->id }}">{{ $companies->company_name }}</option>
                                                 @endforeach
@@ -65,13 +65,10 @@
                                         <div class="form-group">
                                             <label for="my-select">Job Type</label>
                                             <select id="my-select" class="form-control" name="job_type" required>
-                                                <option>Select Job Type</option>
-                                                {{-- @foreach($company as $companies) --}}
-                                                <option value="1">Full Time</option>
-                                                <option value="2">Per Time</option>
-{{--                                                <option value="3">Contractual</option>--}}
-                                                <option value="3">Remotely</option>
-                                                {{-- @endforeach --}}
+                                                <option value="">Select Job Type</option>
+                                                @foreach(App\JobType::all() as $job_types)
+                                                <option value="{{ $job_types->id }}">{{ $job_types->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -79,7 +76,7 @@
                                         <div class="form-group">
                                             <label for="my-select">Location</label>
                                             <select id="my-select" class="form-control" name="location" required>
-                                                <option>Select Location</option>
+                                                <option value="">Select Location</option>
                                                 @foreach(App\Location::all() as $locations)
                                                 <option value="{{ $locations->id }}">{{ $locations->name }}</option>
                                                 @endforeach
@@ -87,6 +84,31 @@
                                         </div>
                                     </div>
 
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sl-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Phone Number</label>
+                                            <input type="text" class="form-control" placeholder="Phone"
+                                              name="phone">
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sl-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Min Salary</label>
+                                            <input type="number" class="form-control" placeholder="Min Salary"
+                                                 name="min_salary">
+                                        </div>
+                                    </div>
+                         
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sl-12">
+                                        <div class="form-group">
+                                            <label class="form-label">Max Salary</label>
+                                            <input type="number" class="form-control" placeholder="Max Salary"
+                                               name="max_salary">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                         <div class="form-group">

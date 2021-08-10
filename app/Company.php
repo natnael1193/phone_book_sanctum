@@ -63,6 +63,7 @@ class Company extends Model
     {
         return $this->hasMany(Service::class);
     }
+
     public function bookmarks()
     {
         return $this->hasMany(Bookmark::class);
@@ -70,6 +71,11 @@ class Company extends Model
 
     public function company_ratings() {
         return $this->hasOne('App\CompanyRating','id','company_id');
+    }
+
+    public function premiums()
+    {
+        return $this->hasOne(Premium::class);
     }
 
     public function getDatesAttribute()

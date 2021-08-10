@@ -90,7 +90,7 @@
                                             <label for="my-select">Add Company Owner</label>
                                             <select id="my-select" class="form-control" name="subscriber_id">
                                                 <option value="{{$post->subscriber_id}}">Select Company Owner</option>
-                                                @foreach(App\Subscriber::all()->sortBy('name') as $subscribers)
+                                                @foreach(App\CompanyOwner::all()->sortBy('name') as $subscribers)
                                                     <option value="{{$subscribers->id}}">{{$subscribers->name}}</option>
                                                 @endforeach
                                             </select>
@@ -120,6 +120,31 @@
                                                 @foreach($location as $locations)
                                                     <option value="{{ $locations->id }}">{{ $locations->name }}</option>
                                                 @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="my-select">Company Status</label>
+                                            <select id="my-select" class="form-control" name="company_category">
+                                                <option value="{{ $post->company_category }}">Select Category</option>
+                                                @foreach($company_category as $company_categories)
+                                                    <option
+                                                        value="{{ $company_categories->id }}">{{ $company_categories->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="my-select">Company Verfication</label>
+                                            <select id="my-select" class="form-control" name="verification"
+                                                    value="{{ $post->verfication }}">
+                                                <option value="{{ $post->verification }}">Select Category</option>
+                                                <option value="">Not Verified</option>
+                                                <option value="1">Verified</option>
                                             </select>
                                         </div>
                                     </div>
@@ -243,31 +268,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-xl-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label for="my-select">Company Category</label>
-                                            <select id="my-select" class="form-control" name="company_category">
-                                                <option value="{{ $post->company_category }}">Select Category</option>
-                                                @foreach($company_category as $company_categories)
-                                                    <option
-                                                        value="{{ $company_categories->id }}">{{ $company_categories->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label for="my-select">Company Verfication</label>
-                                            <select id="my-select" class="form-control" name="verification"
-                                                    value="{{ $post->verfication }}">
-                                                <option value="{{ $post->verification }}">Select Category</option>
-                                                <option value="">Not Verified</option>
-                                                <option value="1">Verified</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 {{-- <div class="row">
                                     <div class="form-group">
                                         <label class="custom-control custom-checkbox m-0">
