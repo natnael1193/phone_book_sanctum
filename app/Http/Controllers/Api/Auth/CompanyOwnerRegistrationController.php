@@ -56,7 +56,7 @@ class CompanyOwnerRegistrationController extends Controller
 
         if ($owner == true) {
             $company = Company::where('subscriber_id', $company_owner->id)->first();
-            // $subscriber_company = CompanyOwner::where('company_email', $company_owner->company_email)->first();  
+            // $subscriber_company = CompanyOwner::where('company_email', $company_owner->company_email)->first();
             return ["id" => $company_owner->id, "first_name" => $company_owner->first_name, "last_name" => $company_owner->last_name, 'image' => $company_owner->image,  "email" => $company_owner->email, "company_id" => $company->id, "company_name" => $company->company_name, "company_email" => $company->company_email, "company_phone" => $company->phone_number, "token" => $company_owner->createToken('API Token')->plainTextToken];
         } elseif ($sub == true) {
 
@@ -68,7 +68,7 @@ class CompanyOwnerRegistrationController extends Controller
         }
         // return response($data);
     }
-    //    
+    //
     // }
     public function save(array $data)
     {
@@ -108,7 +108,7 @@ class CompanyOwnerRegistrationController extends Controller
                 'subscriber_id' => $userId,
                 'company_email' => $data['company_email'],
                 'phone_number' => $data['phone_number'],
-                'phone_number' => $data['phone_number'],
+//                'phone_number' => $data['phone_number'],
 
             ]);
         } else {
@@ -120,7 +120,7 @@ class CompanyOwnerRegistrationController extends Controller
                     'email' => $data['email'],
                     'password' => Hash::make($data['password']),
                     'status_id' =>  1,
-                  
+
 
                 ]);
             } else {
@@ -129,7 +129,7 @@ class CompanyOwnerRegistrationController extends Controller
                     'last_name' => $data['last_name'],
                     'email' => $data['email'],
                     'password' => Hash::make($data['password']),
-                    
+
                 ]);
             }
         }

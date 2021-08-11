@@ -25,27 +25,27 @@
                                 @method('PATCH')
                                 <input hidden value="{{ $post->user_id }}" name="user_id">
                                 <div class="row">
-                                    <div class="col-4">
+                                    <div class="col-6 col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Opening Date</label>
-                                            <input type="date" class="form-control" placeholder="Opening Date"
+                                            <input type="datetime-local" class="form-control" placeholder="Opening Date"
                                                 name="opening_date" value="{{ $post->opening_date }}">
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-6 col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Closing Date</label>
-                                            <input type="date" class="form-control" placeholder="Closing Date"
+                                            <input type="datetime-local" class="form-control" placeholder="Closing Date"
                                                 name="closing_date" value="{{ $post->closing_date }}">
                                         </div>
                                     </div>
-                                    <div class="col-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Closing time</label>
-                                            <input type="datetime" class="form-control" placeholder="Closing Date"
-                                                name="closing_time" value="{{ $post->closing_time }}">
-                                        </div>
-                                    </div>
+{{--                                    <div class="col-4">--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <label class="form-label">Closing time</label>--}}
+{{--                                            <input type="time" class="form-control" placeholder="Closing Date"--}}
+{{--                                                name="closing_time" value="{{ $post->closing_time }}">--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
                                 </div>
                                 <div class="row">
                                     <div class="col-4">

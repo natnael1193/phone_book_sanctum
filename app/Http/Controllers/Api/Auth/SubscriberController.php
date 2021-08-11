@@ -4,19 +4,19 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\CareerLevel;
 use App\Company;
-use App\Images;
-use App\Service;
+use App\JobType;
+use App\Location;
+use App\SavedVacancy;
 use App\Vacancy;
-use App\Category;
 use App\Certification;
 use App\Subscriber;
-use App\WorkingTime;
+use App\VacancyCategory;
 use App\CompanyRating;
-use App\CompanyReview;
 use App\Education;
 use App\EducationLevel;
 use App\Experience;
 use App\Hobby;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Language;
@@ -47,8 +47,8 @@ class SubscriberController extends Controller
         $level = Subscriber::query()->where('id', auth()->user('sanctum')->id)->get('education_level')->toArray();
 
         if ($subscriber == true) {
-        $subscriber->education_level = EducationLevel::where('id', $subscriber->education_level)->first('name');
-        $subscriber->career_level = CareerLevel::where('id', $subscriber->career_level)->first('name');
+            $subscriber->education_level = EducationLevel::where('id', $subscriber->education_level)->first('name');
+            $subscriber->career_level = CareerLevel::where('id', $subscriber->career_level)->first('name');
             return response()->json($subscriber);
         } else {
             return response()->json(['error' => 'Unauthenticated'], 401);
@@ -98,18 +98,18 @@ class SubscriberController extends Controller
             $imageArray = ['file' => $imagePath];
         }
 
-       $certification = Certification::create(array_merge(
+        $certification = Certification::create(array_merge(
             $data,
             $subscriber_id,
             $imageArray ?? []
         ));
-        return response()->json(['subscriber_id' => $certification->subscriber_id,'certification_title'=> $certification->title,'file'=> $certification->file]);
+        return response()->json(['subscriber_id' => $certification->subscriber_id, 'certification_title' => $certification->title, 'file' => $certification->file]);
 
         // if ($request->certification_title != null) {
         //     foreach ($request->certification_title as $item => $v) {
         //         $post2 = array(
         //             'certification_title' => $request->certification_title[$item],
-        //             'subscriber_id' => auth()->user('sanctum')->id,                
+        //             'subscriber_id' => auth()->user('sanctum')->id,
         //         );
 
         //         Certification::create(array_merge(
@@ -139,7 +139,7 @@ class SubscriberController extends Controller
             $oldData->update(array_merge(
                 $data,
                 $subscriber_id,
-                // $imageArray ?? []
+            // $imageArray ?? []
             ));
             return response()->json($data);
         } else {
@@ -148,6 +148,7 @@ class SubscriberController extends Controller
             ], 403);
         }
     }
+
     public function delete_certificate(Request $request, $id)
     {
 
@@ -169,6 +170,7 @@ class SubscriberController extends Controller
         $data = Education::where('subscriber_id', auth()->user('sanctum')->id)->first();
         return response()->json($data);
     }
+
     public function add_education(Request $request)
     {
         $data = request()->all();
@@ -185,7 +187,7 @@ class SubscriberController extends Controller
         //     foreach ($request->certification_title as $item => $v) {
         //         $post2 = array(
         //             'certification_title' => $request->certification_title[$item],
-        //             'subscriber_id' => auth()->user('sanctum')->id,                
+        //             'subscriber_id' => auth()->user('sanctum')->id,
         //         );
 
         //         Certification::create(array_merge(
@@ -216,6 +218,7 @@ class SubscriberController extends Controller
             ], 403);
         }
     }
+
     public function delete_education(Request $request, $id)
     {
         $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
@@ -236,6 +239,7 @@ class SubscriberController extends Controller
         $data = Experience::where('subscriber_id', auth()->user('sanctum')->id)->first();
         return response()->json($data);
     }
+
     public function add_experience(Request $request)
     {
         $data = request()->all();
@@ -252,7 +256,7 @@ class SubscriberController extends Controller
         //     foreach ($request->certification_title as $item => $v) {
         //         $post2 = array(
         //             'certification_title' => $request->certification_title[$item],
-        //             'subscriber_id' => auth()->user('sanctum')->id,                
+        //             'subscriber_id' => auth()->user('sanctum')->id,
         //         );
 
         //         Certification::create(array_merge(
@@ -283,6 +287,7 @@ class SubscriberController extends Controller
             ], 403);
         }
     }
+
     public function delete_experience(Request $request, $id)
     {
         $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
@@ -303,6 +308,7 @@ class SubscriberController extends Controller
         $data = ProfessionalSkill::where('subscriber_id', auth()->user('sanctum')->id)->first();
         return response()->json($data);
     }
+
     public function add_professional_skill(Request $request)
     {
         $data = request()->all();
@@ -325,7 +331,7 @@ class SubscriberController extends Controller
         //     foreach ($request->certification_title as $item => $v) {
         //         $post2 = array(
         //             'certification_title' => $request->certification_title[$item],
-        //             'subscriber_id' => auth()->user('sanctum')->id,                
+        //             'subscriber_id' => auth()->user('sanctum')->id,
         //         );
 
         //         Certification::create(array_merge(
@@ -356,6 +362,7 @@ class SubscriberController extends Controller
             ], 403);
         }
     }
+
     public function delete_professional_skill(Request $request, $id)
     {
         $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
@@ -376,6 +383,7 @@ class SubscriberController extends Controller
         $data = PersonalSkill::where('subscriber_id', auth()->user('sanctum')->id)->first();
         return response()->json($data);
     }
+
     public function add_personal_skill(Request $request)
     {
         $data = request()->all();
@@ -400,7 +408,7 @@ class SubscriberController extends Controller
         //     foreach ($request->certification_title as $item => $v) {
         //         $post2 = array(
         //             'certification_title' => $request->certification_title[$item],
-        //             'subscriber_id' => auth()->user('sanctum')->id,                
+        //             'subscriber_id' => auth()->user('sanctum')->id,
         //         );
 
         //         Certification::create(array_merge(
@@ -431,6 +439,7 @@ class SubscriberController extends Controller
             ], 403);
         }
     }
+
     public function delete_personal_skill(Request $request, $id)
     {
         $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
@@ -445,11 +454,13 @@ class SubscriberController extends Controller
             ], 403);
         }
     }
+
     public function language(Request $request)
     {
         $data = Language::where('subscriber_id', auth()->user('sanctum')->id)->first();
         return response()->json($data);
     }
+
     public function add_language(Request $request)
     {
         $data = request()->all();
@@ -474,7 +485,7 @@ class SubscriberController extends Controller
         //     foreach ($request->certification_title as $item => $v) {
         //         $post2 = array(
         //             'certification_title' => $request->certification_title[$item],
-        //             'subscriber_id' => auth()->user('sanctum')->id,                
+        //             'subscriber_id' => auth()->user('sanctum')->id,
         //         );
 
         //         Certification::create(array_merge(
@@ -505,6 +516,7 @@ class SubscriberController extends Controller
             ], 403);
         }
     }
+
     public function delete_language(Request $request, $id)
     {
         $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
@@ -519,11 +531,13 @@ class SubscriberController extends Controller
             ], 403);
         }
     }
+
     public function hobby(Request $request)
     {
         $data = Hobby::where('subscriber_id', auth()->user('sanctum')->id)->first();
         return response()->json($data);
     }
+
     public function add_hobby(Request $request)
     {
         $data = request()->all();
@@ -548,7 +562,7 @@ class SubscriberController extends Controller
         //     foreach ($request->certification_title as $item => $v) {
         //         $post2 = array(
         //             'certification_title' => $request->certification_title[$item],
-        //             'subscriber_id' => auth()->user('sanctum')->id,                
+        //             'subscriber_id' => auth()->user('sanctum')->id,
         //         );
 
         //         Certification::create(array_merge(
@@ -579,6 +593,7 @@ class SubscriberController extends Controller
             ], 403);
         }
     }
+
     public function delete_hobby(Request $request, $id)
     {
         $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
@@ -593,11 +608,13 @@ class SubscriberController extends Controller
             ], 403);
         }
     }
+
     public function reference(Request $request)
     {
         $data = Reference::where('subscriber_id', auth()->user('sanctum')->id)->first();
         return response()->json($data);
     }
+
     public function add_reference(Request $request)
     {
         $data = request()->all();
@@ -622,7 +639,7 @@ class SubscriberController extends Controller
         //     foreach ($request->certification_title as $item => $v) {
         //         $post2 = array(
         //             'certification_title' => $request->certification_title[$item],
-        //             'subscriber_id' => auth()->user('sanctum')->id,                
+        //             'subscriber_id' => auth()->user('sanctum')->id,
         //         );
 
         //         Certification::create(array_merge(
@@ -653,6 +670,7 @@ class SubscriberController extends Controller
             ], 403);
         }
     }
+
     public function delete_reference(Request $request, $id)
     {
         $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
@@ -671,7 +689,7 @@ class SubscriberController extends Controller
     public function company_rating($id)
     {
         $company = Company::findOrFail($id);
-        $post =  CompanyRating::where('company_id', $company->id)->first();
+        $post = CompanyRating::where('company_id', $company->id)->first();
         $rate = CompanyRating::where('subscriber_id', auth()->user('sanctum')->id)->exists();
         //        $company_id =['company_id' => $company->id];
 
@@ -682,6 +700,7 @@ class SubscriberController extends Controller
             return response()->json(["rating" => null]);
         }
     }
+
     public function add_company_rating(Request $request)
     {
         $data = request()->all();
@@ -713,10 +732,31 @@ class SubscriberController extends Controller
         $oldData->update(array_merge(
             $post,
             $user
-            // $company
+        // $company
         ));
         return response()->json([$user, $post]);
     }
+
+    public function applied_vacancy()
+    {
+        $subscriber = Subscriber::query()->where('id', auth()->user('sanctum')->id)->first();
+        $value = VacancyRequest::where('subscriber_id', $subscriber->id)->get();
+//        $vacanc = Vacancy::get();
+
+        foreach ($value as $values) {
+//            if (Vacancy::where('id', $values['vacancy_id'])->exists() == true) {
+            $values['vacancy'] = Vacancy::where('id', $values['vacancy_id'])->get();
+            foreach ($values['vacancy'] as $vacancy) {
+                $vacancy['job_type'] = JobType::where('id', $vacancy['job_type'])->first();
+                $vacancy['location'] = Location::where('id', $vacancy['location'])->first();
+            }
+//            }
+        }
+        return response()->json($value);
+
+
+    }
+
     public function apply_vacancy(Request $request)
     {
         $data = request()->all();
@@ -733,6 +773,75 @@ class SubscriberController extends Controller
             ));
 
             return response()->json($data);
+        }
+    }
+
+    public function remove_applied_vacancy(Request $request, $id)
+    {
+        $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
+        $oldData = VacancyRequest::findOrFail($id);
+
+        if ($oldData->subscriber_id == $subscriber->id) {
+            $oldData->delete();
+            return response(['message' => 'Deleted Successfully'], 200);
+        } else {
+            return response([
+                'error' => 'Unauthorized',
+            ], 403);
+        }
+    }
+
+    public function saved_vacancy()
+    {
+        $subscriber = Subscriber::query()->where('id', auth()->user('sanctum')->id)->first();
+        $value = SavedVacancy::where('subscriber_id', $subscriber->id)->get();
+//        $vacanc = Vacancy::get();
+
+        foreach ($value as $values) {
+//            if (Vacancy::where('id', $values['vacancy_id'])->exists() == true) {
+            $values['vacancy'] = Vacancy::where('id', $values['vacancy_id'])->get();
+            foreach ($values['vacancy'] as $vacancy) {
+                $vacancy['job_type'] = JobType::where('id', $vacancy['job_type'])->first();
+                $vacancy['location'] = Location::where('id', $vacancy['location'])->first();
+            }
+//            }
+        }
+        return response()->json($value);
+
+
+    }
+
+    public function save_vacancy(Request $request)
+    {
+        $data = request()->all();
+        $subscriber = Subscriber::query()->where('id', auth()->user('sanctum')->id)->first();
+        $subscriber_id = ["subscriber_id" => $subscriber->id];
+        $value = SavedVacancy::where('subscriber_id', auth()->user('sanctum')->id)->where('vacancy_id', $request->vacancy_id)->exists();
+
+        if ($value == true) {
+            return response()->json("exists");
+        } else {
+            SavedVacancy::create(array_merge(
+                $data,
+                $subscriber_id
+            ));
+
+            return response()->json($data);
+        }
+    }
+
+    public function remove_saved_vacancy(Request $request, $id)
+    {
+        $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
+        $oldData = SavedVacancy::findOrFail($id);
+
+        if ($oldData->subscriber_id == $subscriber->id) {
+            $oldData->delete();
+            return response(['message' => 'Deleted Successfully'], 200);
+        } else {
+            return response([
+                'error' => 'Unauthorized',
+            ], 403);
         }
     }
 
@@ -757,7 +866,7 @@ class SubscriberController extends Controller
                     'subscriber_id' => auth()->user('sanctum')->id,
                 );
                 SubscriberPreferenceCareerLevel::create(array_merge(
-                    // $data,
+                // $data,
                     $post2,
                     $subscriber_id
                 ));
@@ -787,8 +896,27 @@ class SubscriberController extends Controller
                 ));
             }
         }
-
         return response()->json($data);
+    }
+
+    public function subscriber_preference_vacancy()
+    {
+        $preference = SubscriberPreferenceCategory::where('subscriber_id', auth()->user('sanctum')->id)->get('category');
+        foreach ($preference as $preferences) {
+            $dt = Carbon::now()->toDateString();
+//            $post = Vacancy::where('due_date', '>=', $dt)->get()->toArray();
+            $preferences['vacancy'] = Vacancy::where('category_id', $preferences['category'])->where('due_date', '>=', $dt)->get();
+            $preferences['category'] = VacancyCategory::where('id', $preferences['category'])->first();
+        }
+        return response()->json($preference);
+
+//      for ($x = 0; $x < sizeof($preference); $x++) {
+//
+////        $post[$x]['rating'] = CompanyRating::all()->where('company_id', $preference[$x]['id'])->avg('rating');
+////
+//          $preference[$x]['vacancy'] = Vacancy::where('category_id', $preference[$x]['category'])->get();
+//    }
+//        return response()->json($preference);
     }
 }
 

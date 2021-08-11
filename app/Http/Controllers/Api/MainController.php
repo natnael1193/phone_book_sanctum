@@ -10,6 +10,7 @@ use App\Rating;
 use App\Review;
 use App\Subscriber;
 use App\TenderCategory;
+use App\TenderSubCategory;
 use App\Tinder;
 use App\Company;
 use App\Service;
@@ -22,6 +23,7 @@ use App\WorkingTime;
 use App\CompanyRating;
 use App\CompanyReview;
 use \Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
@@ -181,7 +183,9 @@ class MainController extends Controller
         $post = TenderCategory::all();
         //        $post = Category::all()->sortBy('id');
         // $service = Service::where('company_id',  $id)->get();
-
+foreach ($post as $posts){
+    $posts['sub_category'] = TenderSubCategory::where('tender_category_id', $posts['id'])->get();
+}
         return response()->json($post);
     }
 
@@ -321,11 +325,14 @@ class MainController extends Controller
         // $post = Tinder::all();
         for ($x = 0; $x < sizeof($post); $x++) {
             [
-                $post[$x]['category_id'] = TenderCategory::where('id', $post[$x]['category_id'])->first(['name', 'image']),
+                $post[$x]['category_id'] = TenderCategory::where('id', $post[$x]['tender_sub_category_id'])->first(['name', 'image']),
                 $post[$x]['location'] = Location::where('id', $post[$x]['location'])->first('name'),
-                $post[$x]['opening_date'] = Carbon::parse($post[$x]['opening_date'])->format('d-m-Y'),
-                $post[$x]['closing_date'] = Carbon::parse($post[$x]['closing_date'])->format('d-m-Y'),
-                $post[$x]['reference_date'] = Carbon::parse($post[$x]['reference_date'])->format('d-m-Y')
+//                $oDate[$x]['oDate'] = DateTime::createFromFormat('d.m.Y H:i:s A.', 'opening_date'),
+                $post[$x]['opening_date'] = Carbon::parse($post[$x]['opening_date'])->format('G:ia d-m-Y'),
+                $post[$x]['closing_date'] = Carbon::parse($post[$x]['closing_date'])->format('G:ia d-m-Y'),
+                $post[$x]['reference_date'] = Carbon::parse($post[$x]['reference_date'])->format('d-m-Y'),
+                $post[$x]['posted_date'] = Carbon::parse($post[$x]['created_at'])->diffForHumans()
+
 
             ];
         }

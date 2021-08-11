@@ -26,11 +26,12 @@ class CompanyOwnerController extends Controller
 
     // protected $company_owner = false;
 
-   
+
     public function index()
     {
-        $post =  Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
+
         $user = CompanyOwner::query()->where('email', auth()->user('sanctum')->email)->first();
+        $post =  Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
         $service = Service::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
         $vacancy = Vacancy::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
         $working_time = WorkingTime::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
@@ -41,7 +42,7 @@ class CompanyOwnerController extends Controller
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
 
-        
+
     }
 
     public function update(Request $request)

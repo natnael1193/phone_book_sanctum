@@ -71,7 +71,6 @@ class TinderController extends Controller
             'sub_category_id' => '',
             'opening_date' => 'required',
             'closing_date' => 'required',
-            'closing_time' => 'required',
             'tender_sub_category_id' => ''
         ]);
         $user = ['user_id' => auth()->user()->id];
