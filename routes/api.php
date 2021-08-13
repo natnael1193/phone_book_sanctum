@@ -104,6 +104,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('vacancy_detail/{id}', 'Api\MainController@vacancy_detail');
     Route::post('vacancy_search', 'Api\MainController@vacancy_search');
     Route::get('vacancy_categories', 'Api\MainController@vacancy_category');
+    Route::get('some_vacancy_categories', 'Api\MainController@some_vacancy_categories');
     Route::get('vacancy_categories/{id}', 'Api\MainController@vacancy_category_detail');
     Route::get('tender_detail/{id}', 'Api\MainController@tender_detail');
     Route::get('tenders', 'Api\MainController@tender');
@@ -117,6 +118,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('/verified_companies', 'Api\MainController@verified_companies');
     Route::get('/recommended_companies', 'Api\MainController@recommended_companies');
     Route::get('/similar_business/{id}', 'Api\MainController@similar_business');
+    Route::get('/featured_companies', 'Api\MainController@featured_companies');
 });
 
 
@@ -214,6 +216,9 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     Route::get('subscriber/saved_vacancy', 'Api\Auth\SubscriberController@saved_vacancy')->name('subscriber.saved_vacancy');
     Route::post('subscriber/save_vacancy', 'Api\Auth\SubscriberController@save_vacancy')->name('subscriber.save_vacancy');
     Route::post('subscriber/delete_saved_vacancy', 'Api\Auth\SubscriberController@remove_saved_vacancy')->name('subscriber.save_vacancy');
+
+    //Checked Cv
+    Route::get('subscriber/check_cv', 'Api\Auth\SubscriberController@check_cv');
 
     Route::resource('rating', 'Api\RatingController');
     Route::resource('review', 'Api\ReviewController');

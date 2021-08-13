@@ -171,9 +171,26 @@ class MainController extends Controller
 
     public function vacancy_category()
     {
-        $post = VacancyCategory::all();
+        $post = VacancyCategory::get();
         //        $post = Category::all()->sortBy('id');
         // $service = Service::where('company_id',  $id)->get();
+
+        foreach($post as $posts){
+            $posts['number_of_vacancies'] = Vacancy::where('category_id',  $posts['id'])->count();
+        }
+
+        return response()->json($post);
+    }
+
+    public function some_vacancy_categories()
+    {
+        $post = VacancyCategory::take(7)->get();
+        //        $post = Category::all()->sortBy('id');
+        // $service = Service::where('company_id',  $id)->get();
+
+        foreach($post as $posts){
+            $posts['number_of_vacancies'] = Vacancy::where('category_id',  $posts['id'])->count();
+        }
 
         return response()->json($post);
     }
@@ -320,21 +337,23 @@ foreach ($post as $posts){
     public function tender()
     {
         $dt = Carbon::now()->toDateString();
-        $post = Tinder::where('closing_date', '>=', $dt)->get()->toArray();
+        $post = Tinder::where('closing_date', '>=', $dt)->orderBy('created_at', 'desc')->get();
 
         // $post = Tinder::all();
-        for ($x = 0; $x < sizeof($post); $x++) {
-            [
-                $post[$x]['category_id'] = TenderCategory::where('id', $post[$x]['tender_sub_category_id'])->first(['name', 'image']),
-                $post[$x]['location'] = Location::where('id', $post[$x]['location'])->first('name'),
-//                $oDate[$x]['oDate'] = DateTime::createFromFormat('d.m.Y H:i:s A.', 'opening_date'),
-                $post[$x]['opening_date'] = Carbon::parse($post[$x]['opening_date'])->format('G:ia d-m-Y'),
-                $post[$x]['closing_date'] = Carbon::parse($post[$x]['closing_date'])->format('G:ia d-m-Y'),
-                $post[$x]['reference_date'] = Carbon::parse($post[$x]['reference_date'])->format('d-m-Y'),
-                $post[$x]['posted_date'] = Carbon::parse($post[$x]['created_at'])->diffForHumans()
+        foreach($post as $posts) {
+                // $posts['category_id'] = TenderCategory::where('id', $posts['tender_sub_category_id'])->get(['name']);
+                $posts['category_id'] = TenderSubCategory::where('id', $posts['tender_sub_category_id'])->get(['id','name']);
+                $posts['location'] = Location::where('id', $posts['location'])->first('name');
+//                $oDates['oDate'] = DateTime::createFromFormat('d.m.Y H:i:s A.', 'opening_date');
+                $posts['opening_date'] = Carbon::parse($posts['opening_date'])->format('G:ia d-m-Y');
+                $posts['closing_date'] = Carbon::parse($posts['closing_date'])->format('G:ia d-m-Y');
+                $posts['reference_date'] = Carbon::parse($posts['reference_date'])->format('d-m-Y');
+                $posts['posted_date'] = Carbon::parse($posts['created_at'])->diffForHumans();
 
+                // foreach($posts['category_id'] as $categories){
+                //     $categories['sub_category'] = TenderSubCategory::where('tender_category_id', $categories['id'])->get();
+                // }
 
-            ];
         }
         return response()->json($post);
     }
@@ -349,15 +368,20 @@ foreach ($post as $posts){
 
     public function tender_category_detail($id)
     {
-        $post = TenderCategory::findOrFail($id);
-        $company = Tinder::where('category_id', $post->id)->get()->toArray();
-        //        $cat
+        $post = TenderSubCategory::findOrFail($id);
+        $dt = Carbon::now()->toDateString();
+        $tender = Tinder::where('tender_sub_category_id', $id)->where('closing_date', '>=', $dt)->get();
 
-        for ($x = 0; $x < sizeof($company); $x++) {
-            $company[$x]['category'] = TenderCategory::where('id', $company[$x]['category_id'])->first('name');
+        for ($x = 0; $x < sizeof($tender); $x++) {
+            $tender[$x]['category'] = TenderSubCategory::where('id', $tender[$x]['tender_sub_category_id'])->first('name');
+                  $tender[$x]['location'] = Location::where('id', $tender[$x]['location'])->first();
+                $tender[$x]['opening_date'] = Carbon::parse($tender[$x]['opening_date'])->format('G:ia d-m-Y');
+                $tender[$x]['closing_date'] = Carbon::parse($tender[$x]['closing_date'])->format('G:ia d-m-Y');
+                $tender[$x]['reference_date'] = Carbon::parse($tender[$x]['reference_date'])->format('d-m-Y');
+                $tender[$x]['posted_date'] = Carbon::parse($tender[$x]['created_at'])->diffForHumans();
         }
 
-        return response()->json($company);
+        return response()->json($tender);
 
         //        }
         // $service = Service::where('company_id',  $id)->get();
@@ -486,6 +510,15 @@ foreach ($post as $posts){
     {
         $post = Tinder::orderBy('id', 'DESC')->take(5)->get();
 
+        return response()->json($post);
+    }
+    public function featured_companies()
+    {
+        $post = Company::orderBy('id', 'DESC')->where('company_category', 1)->get();
+
+foreach($post as $posts){
+    $posts['vacancies'] = Vacancy::where('company_id', $posts['id'] )->get();
+}
         return response()->json($post);
     }
 }

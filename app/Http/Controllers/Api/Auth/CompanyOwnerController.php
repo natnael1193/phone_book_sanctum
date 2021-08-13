@@ -49,6 +49,8 @@ class CompanyOwnerController extends Controller
     {
         $data = request()->all();
         $user = CompanyOwner::query()->where('id', auth()->user('sanctum')->id)->first();
+        $password = ['password' => Hash::make($data['password'])];
+
         if (request('image')) {
             $imagePath = request('image')->store('uploads', 'public');
             $image = Image::make(public_path("storage/{$imagePath}"))->resize(300, 300);
@@ -57,7 +59,8 @@ class CompanyOwnerController extends Controller
         }
         $user->update(array_merge(
             $data,
-            $imageArray  ?? []
+            $imageArray  ?? [],
+            $password
         ));
         return response()->json($data);
     }
