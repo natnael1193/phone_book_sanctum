@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Tinder;
 use App\Company;
+use App\CompanyOwner;
+use App\Notifications\TenderNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Location;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 
 class TinderController extends Controller
 {
@@ -89,6 +93,7 @@ class TinderController extends Controller
             $imageArray ?? [],
 
         ));
+
         //    dd($data);
         return redirect('/tender')->with('message', 'Tender Added Successfully');
     }
