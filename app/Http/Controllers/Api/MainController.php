@@ -295,9 +295,18 @@ class MainController extends Controller
     public function vacancy_detail($id)
     {
         $post = Vacancy::findOrFail($id);
-        $category = VacancyCategory::whereIn('id', $post)->first(['name', 'image']);
         $post->due_date = Carbon::parse($post->due_date)->format('d-m-Y');
-        return response()->json(['vacancy' => $post, 'category' => $category,]);
+        $post->location = Location::where('id', $post->location)->first();
+        $post->job_type = JobType::where('id', $post->job_type)->first();
+        // $post->category_id = VacancyCategory::where('id', $post->category_id)->first();
+
+        $related = Vacancy::where('category_id', $post->category_id)->where('id', '!=', $post->id)->get();
+        foreach($related as $relates){
+            $relates['job_type'] = JobType::where('id', $relates['job_type'])->first();
+            $relates['location'] = Location::where('id', $relates['location'])->first();
+            $relates['category_id'] = VacancyCategory::where('id', $relates['category_id'])->first();
+        }
+        return response()->json(['vacancy' => $post, 'related' => $related]);
     }
 
 
