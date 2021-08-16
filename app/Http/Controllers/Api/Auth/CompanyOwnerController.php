@@ -13,6 +13,8 @@ use App\WorkingTime;
 use App\CompanyRating;
 use App\CompanyReview;
 use App\Http\Controllers\Controller;
+use App\SavedTender;
+use App\Tinder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -41,8 +43,6 @@ class CompanyOwnerController extends Controller
         } else {
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
-
-
     }
 
     public function update(Request $request)
@@ -130,12 +130,13 @@ class CompanyOwnerController extends Controller
     //Vacancy
     public function vacancy()
     {
-        $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
-        $company_id = ['company_id' => $company->id];
-        $vacancy =   Vacancy::where('company_id',  $company_id)->get();
 
-        return response()->json([$vacancy]);
+        $post =  Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->first('id');
+        $vacancy = Vacancy::where('company_id', $post->id)->get();
+
+        return response()->json($vacancy);
     }
+
     public function add_vacancy(Request $request)
     {
         $data = request()->all();
@@ -209,7 +210,7 @@ class CompanyOwnerController extends Controller
         $company_id = ['company_id' => $company->id];
         $service  = Service::where('company_id',  $company_id)->get();
 
-        return response()->json([$service]);
+        return response()->json($service);
     }
     public function add_service(Request $request)
     {
@@ -349,4 +350,73 @@ class CompanyOwnerController extends Controller
         Images::findOrFail($id)->delete();
         return redirect()->back();
     }
+
+    public function check_type()
+    {
+        $data = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        if ($data->company_category == 1) {
+            return response()->json(["type" => "Premium"]);
+        } else {
+            return response()->json(["type" => "Basic"]);
+        }
+    }
+
+    public function saved_tenders()
+    {
+        $company_owner = CompanyOwner::query()->where('id', auth()->user('sanctum')->id)->first();
+        if ($company_owner == true) {
+            $value = SavedTender::where('company_owner_id', $company_owner->id)->get();
+            // $value = VacancyRequest::where('company_owner_id', $company_owner->id)->get();
+            //        $vacanc = Vacancy::get();
+
+            foreach ($value as $values) {
+                //            if (Vacancy::where('id', $values['vacancy_id'])->exists() == true) {
+                $values['tender'] = Tinder::where('id', $values['tender_id'])->first();
+                // foreach ($values['vacancy'] as $vacancy) {
+                //     $vacancy['job_type'] = JobType::where('id', $vacancy['job_type'])->first();
+                //     $vacancy['location'] = Location::where('id', $vacancy['location'])->first();
+                // }
+                //            }
+            }
+            return response()->json($value);
+        } else {
+            return response([
+                'error' => 'Unauthorized',
+            ], 403);
+        }
+    }
+
+    public function save_tender(Request $request)
+    {
+        $data = request()->all();
+        $company_owner = CompanyOwner::query()->where('id', auth()->user('sanctum')->id)->first();
+        $company_owner_id = ["company_owner_id" => $company_owner->id];
+        $value = SavedTender::where('company_owner_id', auth()->user('sanctum')->id)->where('tender_id', $request->tender_id)->exists();
+
+        if ($value == true) {
+            return response()->json("exists");
+        } else {
+            SavedTender::create(array_merge(
+                $data,
+                $company_owner_id
+            ));
+
+            return response()->json($data);
+        }
+    }
+    public function remove_saved_tender(Request $request, $id)
+    {
+        $company_owner = CompanyOwner::where('id', auth()->user('sanctum')->id)->first();
+        $oldData = SavedTender::findOrFail($id);
+
+        if ($oldData->company_owner_id == $company_owner->id) {
+            $oldData->delete();
+            return response(['message' => 'Deleted Successfully'], 200);
+        } else {
+            return response([
+                'error' => 'Unauthorized',
+            ], 403);
+        }
+    }
+
 }
