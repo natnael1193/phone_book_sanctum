@@ -26,7 +26,8 @@ class CompanyOwnerLoginController extends Controller
                 'email' => ['The provided credentials are incorrect.'],
             ], 404);
         }
-        $subscriber_company = Company::where('subscriber_id', '=', $subscriber->id)->first();
-        return ["id" => $subscriber->id, "first_name" => $subscriber->first_name, "last_name" => $subscriber->last_name, "email" => $subscriber->email,  "token" => $subscriber->createToken('API Token')->plainTextToken];
+        $subscriber_company = Company::where('subscriber_id',  $subscriber->id)->first();
+        return ["id" => $subscriber->id, "first_name" => $subscriber->first_name, "last_name" => $subscriber->last_name, "email" => $subscriber->email, "company_id" => $subscriber_company->id,"company_name" => $subscriber_company->company_name, "company_email" => $subscriber_company->company_email,"company_phone" => $subscriber_company->phone_number,   "token" => $subscriber->createToken('API Token')->plainTextToken];
+//   return  response()->json($subscriber_company);
     }
 }
