@@ -28,6 +28,9 @@ use App\SubscriberPreferenceCareerLevel;
 use App\SubscriberPreferenceCategory;
 use App\SubscriberPreferenceJobType;
 use App\VacancyRequest;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -413,7 +416,7 @@ class SubscriberController extends Controller
     {
         $subscriber = Subscriber::query()->where('id', auth()->user('sanctum')->id)->first();
         if ($subscriber == true) {
-            $data = PersonalSkill::where('subscriber_id', auth()->user('sanctum')->id)->first();
+            $data = PersonalSkill::where('subscriber_id', auth()->user('sanctum')->id)->get();
             return response()->json($data);
         } else {
             return response([
@@ -969,12 +972,14 @@ class SubscriberController extends Controller
     public function subscriber_preference_vacancy()
     {
         $preference = SubscriberPreferenceCategory::where('subscriber_id', auth()->user('sanctum')->id)->get();
+  
 
         foreach ($preference as $preferences) {
 
-                $dt = Carbon::now()->toDateString();
-                $preferences['vacancy'] = Vacancy::where('category_id', $preferences->category)->where('due_date', '>=', $dt)
+                // $dt = Carbon::now()->toDateString();
+                $preferences['vacancy'] = Vacancy::where('category_id', $preferences['category'])
                                            ->orderBy('created_at','desc')->get();
+            
 
                 foreach ($preferences['vacancy']  as $vacancies) {
                     $vacancies['location']= Location::where('id', $vacancies->location)->first();
@@ -982,9 +987,19 @@ class SubscriberController extends Controller
                     $vacancies['due_date'] = Carbon::parse($vacancies['due_date'])->format('d-m-Y');
 
             }
+            // $obj = $preference->vacancy;
+            // return response()->json($preferences['vacancy'] );
         }
-
+        // return response()->json($preferences['vacancy'] );
+        // $obj = Collection::first($preference);
+        // $data = ['products' => ['desk' => ['price' => 100]]];
+//    $names = Arr::pluck($preference, 'vacancy');
+//    $names = Arr::pluck($preference, 'vacancy');
+        // $price = data_get($preference, 'names.vacancy');
+        // $names =   data_get($preference, '*.vacancy');
+     
         return response()->json($preference);
+
     }
 
     public function check_cv(){

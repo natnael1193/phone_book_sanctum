@@ -337,9 +337,16 @@ class MainController extends Controller
     public function tender_detail($id)
     {
         $post = Tinder::findOrFail($id);
-        $category = TenderCategory::where('id', $post->category_id)->first(['name', 'image']);
+        // $category = TenderCategory::where('id', $post->category_id)->first(['name', 'image']);
 
-        return response()->json(['tender' => $post, 'category' => $category]);
+        $related = Tinder::where('tender_sub_category_id', $post->tender_sub_category_id)->where('id', '!=', $post->id)->get();
+        // foreach($related as $relates){
+        //     $relates['job_type'] = JobType::where('id', $relates['job_type'])->first();
+        //     $relates['location'] = Location::where('id', $relates['location'])->first();
+        //     $relates['category_id'] = VacancyCategory::where('id', $relates['category_id'])->first();
+        // }
+
+        return response()->json(['tender' => $post, 'related' => $related]);
     }
 
     public function tender_category_detail($id)
