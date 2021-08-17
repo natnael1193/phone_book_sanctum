@@ -27,7 +27,7 @@ class CompanyOwnerRegistrationController extends Controller
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'company_email' => 'required',
-                'phone_number' => 'required',
+                'phone' => '',
                 'password' => 'required|confirmed|min:6',
                 'image' => ""
             ]);
@@ -36,6 +36,7 @@ class CompanyOwnerRegistrationController extends Controller
                 'email' => 'required|email|unique:subscribers',
                 'first_name' => 'required',
                 'last_name' => 'required',
+                'phone' => '',
                 'image' => "",
                 'status_id' => "",
                 'password' => 'required|confirmed|min:6',
@@ -56,11 +57,16 @@ class CompanyOwnerRegistrationController extends Controller
 
         if ($owner == true) {
             $company = Company::where('subscriber_id', $company_owner->id)->first();
-            // $subscriber_company = CompanyOwner::where('company_email', $company_owner->company_email)->first();  
-            return ["id" => $company_owner->id, "first_name" => $company_owner->first_name, "last_name" => $company_owner->last_name, 'image' => $company_owner->image,  "email" => $company_owner->email, "company_id" => $company->id, "company_name" => $company->company_name, "company_email" => $company->company_email, "company_phone" => $company->phone_number, "token" => $company_owner->createToken('API Token')->plainTextToken];
+            // $subscriber_company = CompanyOwner::where('company_email', $company_owner->company_email)->first();
+           
+            return ["id" => $company_owner->id, "first_name" => $company_owner->first_name, "last_name" => $company_owner->last_name, 'image' => $company_owner->image,  "email" => $company_owner->email, "company_id" => $company->id, "company_name" => $company->company_name, "company_email" => $company->company_email, "company_phone" => $company->phone_number, 'type' => 'company_owner',"token" => $company_owner->createToken('API Token')->plainTextToken];
         } elseif ($sub == true) {
-
-            return ["id" => $subscriber->id, "first_name" => $subscriber->first_name, "last_name" => $subscriber->last_name,  "email" => $subscriber->email, 'status_id' => $subscriber->status_id, "token" => $subscriber->createToken('API Token')->plainTextToken];
+if($request->status_id == 1){
+    return ["id" => $subscriber->id, "first_name" => $subscriber->first_name, "last_name" => $subscriber->last_name,  "email" => $subscriber->email, 'type' => 'job_seeker', "token" => $subscriber->createToken('API Token')->plainTextToken];
+}else{
+    return ["id" => $subscriber->id, "first_name" => $subscriber->first_name, "last_name" => $subscriber->last_name,  "email" => $subscriber->email, 'type' => 'normal_user', "token" => $subscriber->createToken('API Token')->plainTextToken];
+}
+           
         } else {
             return response([
                 'email' => ['The provided credentials are incorrect.'],
@@ -68,7 +74,7 @@ class CompanyOwnerRegistrationController extends Controller
         }
         // return response($data);
     }
-    //    
+    //
     // }
     public function save(array $data)
     {
@@ -88,6 +94,7 @@ class CompanyOwnerRegistrationController extends Controller
                     'last_name' => $data['last_name'],
                     'email' => $data['email'],
                     'company_email' => $data['company_email'],
+                    'phone' => $data['phone'],
                     'password' => Hash::make($data['password']),
                     'image' => $imagePath
 
@@ -98,6 +105,7 @@ class CompanyOwnerRegistrationController extends Controller
                     'last_name' => $data['last_name'],
                     'email' => $data['email'],
                     'company_email' => $data['company_email'],
+                    'phone' => $data['phone'],
                     'password' => Hash::make($data['password']),
 
                 ]);
@@ -108,7 +116,7 @@ class CompanyOwnerRegistrationController extends Controller
                 'subscriber_id' => $userId,
                 'company_email' => $data['company_email'],
                 'phone_number' => $data['phone_number'],
-                'phone_number' => $data['phone_number'],
+//                'phone_number' => $data['phone_number'],
 
             ]);
         } else {
@@ -118,9 +126,10 @@ class CompanyOwnerRegistrationController extends Controller
                     'first_name' => $data['first_name'],
                     'last_name' => $data['last_name'],
                     'email' => $data['email'],
+                    'phone' => $data['phone'],
                     'password' => Hash::make($data['password']),
                     'status_id' =>  1,
-                  
+
 
                 ]);
             } else {
@@ -128,8 +137,9 @@ class CompanyOwnerRegistrationController extends Controller
                     'first_name' => $data['first_name'],
                     'last_name' => $data['last_name'],
                     'email' => $data['email'],
+                    'phone' => $data['phone'],
                     'password' => Hash::make($data['password']),
-                    
+
                 ]);
             }
         }

@@ -19,7 +19,7 @@ class CompanyOwner extends Authenticatable
       *
       * @var array
       */
-      protected $fillable = ['first_name', 'last_name', 'password', 'email', 'company_email', 'image'];
+      protected $fillable = ['first_name', 'last_name', 'password', 'email', 'phone', 'company_email', 'image'];
       /**
        * The attributes that should be hidden for arrays.
        *

@@ -29,24 +29,24 @@
                             @csrf
                             <input hidden name="user_id">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-6 col-lg-6 col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Opening Date</label>
-                                        <input type="date" class="form-control" placeholder="Opening Date" name="opening_date">
+                                        <input type="datetime-local" class="form-control" placeholder="Opening Date" name="opening_date">
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-6 col-lg-6 col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Closing Date</label>
-                                        <input type="date" class="form-control" placeholder="Closing Date" name="closing_date">
+                                        <input type="datetime-local" class="form-control" placeholder="Closing Date" name="closing_date">
                                     </div>
                                 </div>
-                                <div class="col-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Closing time</label>
-                                        <input type="datetime" class="form-control" placeholder="Closing Date" name="closing_time">
-                                    </div>
-                                </div>
+{{--                                <div class="col-4">--}}
+{{--                                    <div class="form-group">--}}
+{{--                                        <label class="form-label">Closing time</label>--}}
+{{--                                        <input type="datetime-local" class="form-control" placeholder="Closing Date" name="closing_time">--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                             </div>
                             <!-- <div class="mb-3">
                               <label for="" class="form-label"></label>
@@ -106,7 +106,7 @@
                                                         <option>No Sub Categories Found</option>
                                                     @endif
                                                 </optgroup>
-                                            @endforeach  
+                                            @endforeach
                                         @else
                                         <option value="">No Categories Found</option>
                                         @endif
@@ -172,7 +172,7 @@
                                 <div class="col-xl-12 col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label">Title</label>
-                                        <input type="text" class="form-control" placeholder="Title" name="title">
+                                        <input type="text" class="form-control" placeholder="Title" name="title" required>
                                     </div>
                                 </div>
                             </div>
@@ -180,7 +180,7 @@
                                 <div class="col-xl-12 col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label">Title (Amharic)</label>
-                                        <input type="text" class="form-control" placeholder="Title" name="title_am">
+                                        <input type="text" class="form-control" placeholder="Title" name="title_am" required>
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +188,7 @@
                                 <div class="col-xl-12 col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label">Description</label>
-                                        <textarea class="form-control" id="summary-ckeditor" placeholder="description" name="description"></textarea>
+                                        <textarea class="form-control" id="summary-ckeditor" placeholder="description" name="description" required></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -196,7 +196,7 @@
                                 <div class="col-xl-12 col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label">Description (Amharic)</label>
-                                        <textarea class="form-control" id="summary-ckeditor1" placeholder="description" name="description_am"></textarea>
+                                        <textarea class="form-control" id="summary-ckeditor1" placeholder="description" name="description_am" required></textarea>
                                     </div>
                                 </div>
                             </div>

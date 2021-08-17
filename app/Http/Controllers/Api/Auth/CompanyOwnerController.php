@@ -12,7 +12,11 @@ use App\Subscriber;
 use App\WorkingTime;
 use App\CompanyRating;
 use App\CompanyReview;
+use App\EducationLevel;
 use App\Http\Controllers\Controller;
+use App\SavedTender;
+use App\Tinder;
+use App\VacancyRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -26,28 +30,29 @@ class CompanyOwnerController extends Controller
 
     // protected $company_owner = false;
 
-   
+
     public function index()
     {
-        $post =  Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
+
         $user = CompanyOwner::query()->where('email', auth()->user('sanctum')->email)->first();
-        $service = Service::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
-        $vacancy = Vacancy::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
-        $working_time = WorkingTime::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
-        $image = Images::query()->where('subscriber_id', auth()->user('sanctum')->id)->get();
+        $post =  Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $service = Service::query()->where('company_id', $post->id)->get();
+        $vacancy = Vacancy::query()->where('company_id', $post->id)->get();
+        $working_time = WorkingTime::query()->where('company_id', $post->id)->get();
+        $image = Images::query()->where('company_id', $post->id)->get();
         if ($user == true) {
             return response()->json(["company_owner" => $user, "company" => $post, "company services" => $service, "vacancy" => $vacancy, "working time" => $working_time, "images" => $image]);
         } else {
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
-
-        
     }
 
     public function update(Request $request)
     {
         $data = request()->all();
         $user = CompanyOwner::query()->where('id', auth()->user('sanctum')->id)->first();
+        $password = ['password' => Hash::make($data['password'])];
+
         if (request('image')) {
             $imagePath = request('image')->store('uploads', 'public');
             $image = Image::make(public_path("storage/{$imagePath}"))->resize(300, 300);
@@ -56,7 +61,8 @@ class CompanyOwnerController extends Controller
         }
         $user->update(array_merge(
             $data,
-            $imageArray  ?? []
+            $imageArray  ?? [],
+            $password
         ));
         return response()->json($data);
     }
@@ -92,7 +98,6 @@ class CompanyOwnerController extends Controller
             'company_email' => 'unique:companies',
             "company_name" => 'required',
             "phone_number" => "required",
-
             "company_category" => "",
             "category_id" => "",
             "location_id" => "",
@@ -126,12 +131,13 @@ class CompanyOwnerController extends Controller
     //Vacancy
     public function vacancy()
     {
-        $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
-        $company_id = ['company_id' => $company->id];
-        $vacancy =   Vacancy::where('company_id',  $company_id)->get();
 
-        return response()->json([$vacancy]);
+        $post =  Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->first('id');
+        $vacancy = Vacancy::where('company_id', $post->id)->get();
+
+        return response()->json($vacancy);
     }
+
     public function add_vacancy(Request $request)
     {
         $data = request()->all();
@@ -174,28 +180,37 @@ class CompanyOwnerController extends Controller
     public function update_vacancy(Request $request, $id)
     {
 
-        //   $data = Company::query()->where('company_email', auth()->user('sanctum')->company_email)->first();
+        $data = Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->first();
         $post = request()->all();
         $oldData = Vacancy::findOrFail($id);
-        $this->authorize('update', $oldData);
         $user = ['subscriber_id' => auth()->user('sanctum')->id];
-        // $company = ['company_id' => $data->id];
-
+        $company = ['company_id' => $data->id];
+        if ($oldData->company_id == $data->id) {
         $oldData->update(array_merge(
             $post,
-            $user
-            // $company
+            $user,
+            $company
         ));
         return response()->json([$user, $post]);
+    } else {
+        return response([
+            'error' => 'Unauthorized',
+        ], 403);
+    }
     }
 
     public function delete_vacancy($id)
     {
-
-        $vacancy = Vacancy::findOrFail($id);
-        $this->authorize('delete', $vacancy);
+        $data = Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $post = Vacancy::findOrFail($id);
+        if ($data->id == $post->company_id) {
         Vacancy::findOrFail($id)->delete();
         return response()->json("Deleted Successfully");
+    } else {
+        return response([
+            'error' => 'Unauthorized',
+        ], 403);
+    }
     }
 
     //Service
@@ -205,7 +220,7 @@ class CompanyOwnerController extends Controller
         $company_id = ['company_id' => $company->id];
         $service  = Service::where('company_id',  $company_id)->get();
 
-        return response()->json([$service]);
+        return response()->json($service);
     }
     public function add_service(Request $request)
     {
@@ -242,35 +257,46 @@ class CompanyOwnerController extends Controller
     {
 
         $service = Service::findOrFail($id);
-        $this->authorize('view', $service);
+        // $this->authorize('view', $service);
         return response()->json([$service]);
     }
 
     public function update_service(Request $request, $id)
     {
 
-        //   $data = Company::query()->where('company_email', auth()->user('sanctum')->company_email)->first();
+        $data = Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->first();
         $post = request()->all();
         $oldData = Service::findOrFail($id);
-        $this->authorize('update', $oldData);
+        // $this->authorize('update', $oldData);
         $user = ['subscriber_id' => auth()->user('sanctum')->id];
-        // $company = ['company_id' => $data->id];
-
+        $company = ['company_id' => $data->id];
+        if ($oldData->company_id == $data->id) {
         $oldData->update(array_merge(
             $post,
-            $user
-            // $company
+            $user,
+            $company
         ));
         return response()->json([$user, $post]);
+    } else {
+        return response([
+            'error' => 'Unauthorized',
+        ], 403);
+    }
     }
 
     public function delete_service($id)
     {
 
-        $service = Service::findOrFail($id);
-        $this->authorize('delete', $service);
-        Service::findOrFail($id)->delete();
-        return response()->json("Deleted Successfully");
+        $data = Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $post = Service::findOrFail($id);
+        if ($data->id == $post->company_id) {
+            Service::findOrFail($id)->delete();
+            return response()->json("Deleted Successfully");
+    } else {
+        return response([
+            'error' => 'Unauthorized',
+        ], 403);
+    }
     }
 
     //Working Time
@@ -302,19 +328,24 @@ class CompanyOwnerController extends Controller
     public function update_working_time(Request $request, $id)
     {
 
-        $data = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $data = Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->first();
         $post = request()->all();
         $oldData = WorkingTime::findOrFail($id);
         //   $this->authorize('view', $oldData);
         $user = ['subscriber_id' => auth()->user('sanctum')->id];
         $company = ['company_id' => $data->id];
-
+        if ($oldData->company_id == $data->id) {
         $oldData->update(array_merge(
             $post,
             $user,
             $company
         ));
         return response()->json([$user, $post]);
+    } else {
+        return response([
+            'error' => 'Unauthorized',
+        ], 403);
+    }
     }
     public function add_image(Request $request)
     {
@@ -341,8 +372,167 @@ class CompanyOwnerController extends Controller
     }
     public function delete_image($id)
     {
-        //    $company = Company::findOrFail($id);
-        Images::findOrFail($id)->delete();
-        return redirect()->back();
+        $data = Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $post = Images::findOrFail($id);
+        if ($data->id == $post->company_id) {
+            Images::findOrFail($id)->delete();
+            return response()->json("Deleted Successfully");
+    } else {
+        return response([
+            'error' => 'Unauthorized',
+        ], 403);
+    }
+    }
+
+    public function check_type()
+    {
+        $data = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        if ($data->company_category == 1) {
+            return response()->json(["type" => "Premium"]);
+        } else {
+            return response()->json(["type" => "Basic"]);
+        }
+    }
+
+    public function tender(){
+        $company = Company::where('subscriber_id', auth()->user()->id)->first();
+        $tender = Tinder::where('company_id', $company->id)->get();
+
+        return response()->json($tender);
+    }
+
+    public function add_tender(Request $request){
+        $data = request()->all();
+        // $subscriber = ['subscriber_id' => auth()->user('sanctum')->id];
+        $company = Company::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $company_id = ['company_id' => $company->id];
+
+        Tinder::create(array_merge(
+            $data,
+            // $subscriber,
+            $company_id
+        ));
+
+        return response()->json($data);
+    }
+
+    public function update_tender(Request $request, $id)
+    {
+
+        $data = Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $post = request()->all();
+        $oldData = Tinder::findOrFail($id);
+        // $this->authorize('update', $oldData);
+        $user = ['subscriber_id' => auth()->user('sanctum')->id];
+        $company = ['company_id' => $data->id];
+        if ($oldData->company_id == $data->id) {
+        $oldData->update(array_merge(
+            $post,
+            $user,
+            $company
+        ));
+        return response()->json([$user, $post]);
+    } else {
+        return response([
+            'error' => 'Unauthorized',
+        ], 403);
+    }
+    }
+    public function delete_tender($id)
+    {
+        $data = Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $post = Tinder::findOrFail($id);
+        // $this->authorize('delete', $post);
+        if ($data->id == $post->company_id) {
+        Tinder::findOrFail($id)->delete();
+        return response()->json("Deleted Successfully");
+    } else {
+        return response([
+            'error' => 'Unauthorized',
+        ], 403);
+    }
+    }
+
+    public function saved_tenders()
+    {
+        $company_owner = CompanyOwner::query()->where('id', auth()->user('sanctum')->id)->first();
+        if ($company_owner == true) {
+            $value = SavedTender::where('company_owner_id', $company_owner->id)->get();
+            // $value = VacancyRequest::where('company_owner_id', $company_owner->id)->get();
+            //        $vacanc = Vacancy::get();
+
+            foreach ($value as $values) {
+                //            if (Vacancy::where('id', $values['vacancy_id'])->exists() == true) {
+                $values['tender'] = Tinder::where('id', $values['tender_id'])->first();
+                // foreach ($values['vacancy'] as $vacancy) {
+                //     $vacancy['job_type'] = JobType::where('id', $vacancy['job_type'])->first();
+                //     $vacancy['location'] = Location::where('id', $vacancy['location'])->first();
+                // }
+                //            }
+            }
+            return response()->json($value);
+        } else {
+            return response([
+                'error' => 'Unauthorized',
+            ], 403);
+        }
+    }
+
+    public function save_tender(Request $request)
+    {
+        $data = request()->all();
+        $company_owner = CompanyOwner::query()->where('id', auth()->user('sanctum')->id)->first();
+        $company_owner_id = ["company_owner_id" => $company_owner->id];
+        $value = SavedTender::where('company_owner_id', auth()->user('sanctum')->id)->where('tender_id', $request->tender_id)->exists();
+
+        if ($value == true) {
+            return response()->json("exists");
+        } else {
+            SavedTender::create(array_merge(
+                $data,
+                $company_owner_id
+            ));
+
+            return response()->json($data);
+        }
+    }
+    public function remove_saved_tender(Request $request, $id)
+    {
+        $company_owner = CompanyOwner::where('id', auth()->user('sanctum')->id)->first();
+        $oldData = SavedTender::findOrFail($id);
+
+        if ($oldData->company_owner_id == $company_owner->id) {
+            $oldData->delete();
+            return response(['message' => 'Deleted Successfully'], 200);
+        } else {
+            return response([
+                'error' => 'Unauthorized',
+            ], 403);
+        }
+    }
+
+    public function vacancy_applicants(){
+        $company = Company::where('subscriber_id', auth()->user()->id)->first();
+        $vacancy = Vacancy::where('company_id', $company->id)->first();
+        $data = VacancyRequest::where('vacancy_id', $vacancy->id)->get();
+        foreach($data as $datas){
+            $datas['subscriber_id'] = Subscriber::where('id', $datas['subscriber_id'])->first();
+            $datas['subscriber_id']->education_level  = EducationLevel::where('id', $datas['subscriber_id']->education_level)->first();
+            $datas['subscriber_id']->career_level  = EducationLevel::where('id', $datas['subscriber_id']->career_level)->first();
+
+        }
+        return response()->json($data);
+    }
+    public function marked_applicants(){
+        $company = Company::where('subscriber_id', auth()->user()->id)->first();
+        $vacancy = Vacancy::where('company_id', $company->id)->first();
+        $data = VacancyRequest::where('vacancy_id', $vacancy->id)->where('marked', 1)->get();
+        foreach($data as $datas){
+            $datas['subscriber_id'] = Subscriber::where('id', $datas['subscriber_id'])->first();
+            $datas['subscriber_id']->education_level  = EducationLevel::where('id', $datas['subscriber_id']->education_level)->first();
+            $datas['subscriber_id']->career_level  = EducationLevel::where('id', $datas['subscriber_id']->career_level)->first();
+
+        }
+        return response()->json($data);
     }
 }
