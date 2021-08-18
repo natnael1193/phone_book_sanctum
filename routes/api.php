@@ -288,6 +288,8 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
 
     //premium order
     Route::get('/banks_list', 'BankController@bank_list');
+    Route::get('/premium/{id}', 'PremiumCheckController@premiumOrder');
+    Route::post('/premium/{id}', 'PremiumController@confirm');
     Route::post('/update_company_premium', 'PremiumController@store');
     Route::get('/premiumCheck/{id}', 'PremiumCheckController@premiumCheck');
 });

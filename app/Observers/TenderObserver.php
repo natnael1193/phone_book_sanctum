@@ -17,15 +17,15 @@ class TenderObserver
      */
     public function created(Tinder $tinder)
     {
-        $details = [
-            'title' => 'Mail from Larave Email',
-            'body' => 'This email is intended to a customer to notify the on our up coming products.'
-        ];
+        // $details = [
+        //     'title' => 'Mail from Larave Email',
+        //     'body' => 'This email is intended to a customer to notify the on our up coming products.'
+        // ];
 
-        $user = CompanyOwner ::findOrFail(16);
-        // foreach ($users as $user) {
-            Mail::to('yamlak.k@gmail.com')->send(new SendMail($details));
-        // }
+        // $user = CompanyOwner ::findOrFail(16);
+        // // foreach ($users as $user) {
+        //     Mail::to('yamlak.k@gmail.com')->send(new SendMail($details));
+        // // }
     }
 
     /**

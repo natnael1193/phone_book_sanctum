@@ -2,13 +2,13 @@
 
 namespace App\Mail;
 
-use App\Tinder;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SendMail extends Mailable
+class TenderMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -29,6 +29,7 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Welcome Email')->markdown('emails.TestMail')->with('tenders', $this->tinders);
+        $date = Carbon::now()->isoFormat('MMM Do YYYY');
+        return $this->subject('Hulum Tender alerts for '.$date)->markdown('emails.TenderMail')->with('tenders', $this->tinders);
     }
 }

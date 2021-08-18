@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\TenderNotification;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,7 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        TenderNotification::class
     ];
 
     /**
@@ -25,13 +27,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 
-        $schedule->call(function () {
-
-            // your schedule code
-            Log::info('Working');
-
-        })->everyMinute();
-        $schedule->command('backup:run --only-db')->everyMinute();
+        // $schedule->call(function () {Log::info('Working');})->everyMinute();
+        // $schedule->command('backup:run --only-db')->everyMinute();
+        $schedule->command('notify:tender')->everyMinute();
     }
 
     /**
