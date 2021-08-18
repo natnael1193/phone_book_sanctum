@@ -27,6 +27,9 @@
         </tr>
     </tbody>
 </table>
+<div>
+    
+</div>
 @endcomponent
 
 @endforeach

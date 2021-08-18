@@ -311,6 +311,8 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     Route::get('company_owner_marked_applicants', 'Api\Auth\CompanyOwnerController@marked_applicants');
     //premium order
     Route::get('/banks_list', 'BankController@bank_list');
+    Route::get('/premium/{id}', 'PremiumCheckController@premiumOrder');
+    Route::post('/premium/{id}', 'PremiumController@confirm');
     Route::post('/update_company_premium', 'PremiumController@store');
     Route::get('/premiumCheck/{id}', 'PremiumCheckController@premiumCheck');
 });

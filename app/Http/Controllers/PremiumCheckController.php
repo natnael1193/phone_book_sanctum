@@ -43,4 +43,21 @@ class PremiumCheckController extends Controller
             return response()->json(['message'=>'This User Has no Company Registered']);
         }
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function premiumOrder($id)
+    {
+        $company = Company::findOrFail($id);
+        $data = $company->premiums;
+
+        if($data != null){
+            return response()->json($data);
+        }
+        return response()->json(['message' => 'no premium requests Found']);
+    }
 }

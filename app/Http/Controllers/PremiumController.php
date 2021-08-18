@@ -43,13 +43,38 @@ class PremiumController extends Controller
         $post->name = $request->input('name');
         $post->email = $request->input('email');
         $post->bank = $request->input('bank');
-        $post->deposited_by = $request->input('deposited_by');
-        $post->txn_no = $request->input('txn_no');
-        $post->date = $request->input('date');
+        $post->deposited_by = '';
+        $post->txn_no = '';
+        $post->date = '';
         $post->company_id = $request->input('company_id');
         $post->save();
         return response()->json($post, 200);
-    }    
+    }  
+    
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function confirm(Request $request, $id)
+    {
+        $newData = request()->validate([
+            'deposited_by' => 'required',
+            'txn_no' => 'required',
+            'date' => 'required'
+        ]);
+
+        $company = Company::findOrFail($id);
+        $id = $company->premiums->id;
+        
+        // dd(request()->all());
+        $data = Premium::findOrFail($id);
+
+        $data->update($newData);
+
+        return response()->json($data, 200);
+    }  
 
     /**
      * Update the specified resource in storage.
