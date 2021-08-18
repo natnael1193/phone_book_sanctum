@@ -28,16 +28,11 @@ use App\SubscriberPreferenceCareerLevel;
 use App\SubscriberPreferenceCategory;
 use App\SubscriberPreferenceJobType;
 use App\VacancyRequest;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection as SupportCollection;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
-use phpDocumentor\Reflection\PseudoTypes\True_;
+
 
 class SubscriberController extends Controller
 {
@@ -976,8 +971,8 @@ class SubscriberController extends Controller
 
         foreach ($preference as $preferences) {
 
-                // $dt = Carbon::now()->toDateString();
-                $preferences['vacancy'] = Vacancy::where('category_id', $preferences['category'])
+                $dt = Carbon::now()->toDateString();
+                $preferences['vacancy'] = Vacancy::where('category_id', $preferences['category'])->where('due_date', '>=', $dt)
                                            ->orderBy('created_at','desc')->get();
             
 
@@ -987,18 +982,11 @@ class SubscriberController extends Controller
                     $vacancies['due_date'] = Carbon::parse($vacancies['due_date'])->format('d-m-Y');
 
             }
-            // $obj = $preference->vacancy;
-            // return response()->json($preferences['vacancy'] );
+
         }
-        // return response()->json($preferences['vacancy'] );
-        // $obj = Collection::first($preference);
-        // $data = ['products' => ['desk' => ['price' => 100]]];
-//    $names = Arr::pluck($preference, 'vacancy');
-//    $names = Arr::pluck($preference, 'vacancy');
-        // $price = data_get($preference, 'names.vacancy');
-        // $names =   data_get($preference, '*.vacancy');
-     
-        return response()->json($preference);
+        $array = data_get($preference, '*.vacancy');
+        $obj = Arr::collapse($array);
+        return response()->json($obj);
 
     }
 

@@ -317,21 +317,21 @@ class MainController extends Controller
 
         // $post = Tinder::all();
         foreach ($post as $posts) {
-            // $posts['category_id'] = TenderCategory::where('id', $posts['tender_sub_category_id'])->get(['name']);
+
             $posts['category_id'] = TenderSubCategory::where('id', $posts['tender_sub_category_id'])->get(['id', 'name']);
             $posts['location'] = Location::where('id', $posts['location'])->first('name');
-            //                $oDates['oDate'] = DateTime::createFromFormat('d.m.Y H:i:s A.', 'opening_date');
             $posts['opening_date'] = Carbon::parse($posts['opening_date'])->format('G:ia d-m-Y');
             $posts['closing_date'] = Carbon::parse($posts['closing_date'])->format('G:ia d-m-Y');
             $posts['reference_date'] = Carbon::parse($posts['reference_date'])->format('d-m-Y');
             $posts['posted_date'] = Carbon::parse($posts['created_at'])->diffForHumans();
 
-            // foreach($posts['category_id'] as $categories){
-            //     $categories['sub_category'] = TenderSubCategory::where('tender_category_id', $categories['id'])->get();
-            // }
-
         }
         return response()->json($post);
+
+        //   $dt = Carbon::now()->toDateString();
+        //   $date = Carbon::yesterday()->toDateString();
+        // $post = Tinder::where('created_at', '>=', $date)->where('created_at', '<=', $dt)->orderBy('created_at', 'desc')->get();
+        // return response()->json($post);
     }
 
     public function tender_detail($id)

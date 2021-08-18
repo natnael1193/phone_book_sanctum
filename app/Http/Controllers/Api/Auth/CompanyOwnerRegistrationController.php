@@ -27,7 +27,7 @@ class CompanyOwnerRegistrationController extends Controller
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'company_name' => 'required',
-                'company_email' => 'required',
+                'company_email' => 'required|unique:company_owners',
                 'phone' => 'required',
                 'password' => 'required|confirmed|min:6',
                 'image' => ""
