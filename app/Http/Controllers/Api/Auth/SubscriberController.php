@@ -10,6 +10,7 @@ use App\SavedVacancy;
 use App\Vacancy;
 use App\Certification;
 use App\Subscriber;
+use App\Career_level;
 use App\VacancyCategory;
 use App\CompanyRating;
 use App\Education;
@@ -28,11 +29,13 @@ use App\SubscriberPreferenceCareerLevel;
 use App\SubscriberPreferenceCategory;
 use App\SubscriberPreferenceJobType;
 use App\VacancyRequest;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
-
 
 class SubscriberController extends Controller
 {
@@ -84,8 +87,8 @@ class SubscriberController extends Controller
     {
         $subscriber = Subscriber::query()->where('id', auth()->user('sanctum')->id)->first();
         if ($subscriber == true) {
-            $data = Certification::where('subscriber_id', auth()->user('sanctum')->id)->first();
-            return response()->json($data);
+        $data = Certification::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        return response()->json($data);
         } else {
             return response([
                 'error' => 'Unauthorized',
@@ -146,7 +149,7 @@ class SubscriberController extends Controller
             $oldData->update(array_merge(
                 $data,
                 $subscriber_id,
-                // $imageArray ?? []
+            // $imageArray ?? []
             ));
             return response()->json($data);
         } else {
@@ -176,8 +179,8 @@ class SubscriberController extends Controller
     {
         $subscriber = Subscriber::query()->where('id', auth()->user('sanctum')->id)->first();
         if ($subscriber == true) {
-            $data = Education::where('subscriber_id', auth()->user('sanctum')->id)->first();
-            return response()->json($data);
+        $data = Education::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        return response()->json($data);
         } else {
             return response([
                 'error' => 'Unauthorized',
@@ -252,8 +255,8 @@ class SubscriberController extends Controller
     {
         $subscriber = Subscriber::query()->where('id', auth()->user('sanctum')->id)->first();
         if ($subscriber == true) {
-            $data = Experience::where('subscriber_id', auth()->user('sanctum')->id)->first();
-            return response()->json($data);
+        $data = Experience::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        return response()->json($data);
         } else {
             return response([
                 'error' => 'Unauthorized',
@@ -329,8 +332,8 @@ class SubscriberController extends Controller
     {
         $subscriber = Subscriber::query()->where('id', auth()->user('sanctum')->id)->first();
         if ($subscriber == true) {
-            $data = ProfessionalSkill::where('subscriber_id', auth()->user('sanctum')->id)->first();
-            return response()->json($data);
+        $data = ProfessionalSkill::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        return response()->json($data);
         } else {
             return response([
                 'error' => 'Unauthorized',
@@ -411,9 +414,10 @@ class SubscriberController extends Controller
     {
         $subscriber = Subscriber::query()->where('id', auth()->user('sanctum')->id)->first();
         if ($subscriber == true) {
-            $data = PersonalSkill::where('subscriber_id', auth()->user('sanctum')->id)->get();
+            $data = PersonalSkill::where('subscriber_id', auth()->user('sanctum')->id)->first();
             return response()->json($data);
-        } else {
+        }
+        else {
             return response([
                 'error' => 'Unauthorized',
             ], 403);
@@ -497,11 +501,12 @@ class SubscriberController extends Controller
         if ($subscriber == true) {
             $data = Language::where('subscriber_id', auth()->user('sanctum')->id)->first();
             return response()->json($data);
-        } else {
+        }else {
             return response([
                 'error' => 'Unauthorized',
             ], 403);
         }
+
     }
 
     public function add_language(Request $request)
@@ -581,7 +586,8 @@ class SubscriberController extends Controller
         if ($subscriber == true) {
             $data = Hobby::where('subscriber_id', auth()->user('sanctum')->id)->first();
             return response()->json($data);
-        } else {
+        }
+        else{
             return response([
                 'error' => 'Unauthorized',
             ], 403);
@@ -665,7 +671,8 @@ class SubscriberController extends Controller
         if ($subscriber == true) {
             $data = Reference::where('subscriber_id', auth()->user('sanctum')->id)->first();
             return response()->json($data);
-        } else {
+        }
+        else{
             return response([
                 'error' => 'Unauthorized',
             ], 403);
@@ -788,7 +795,7 @@ class SubscriberController extends Controller
         $oldData->update(array_merge(
             $post,
             $user
-            // $company
+        // $company
         ));
         return response()->json([$user, $post]);
     }
@@ -799,19 +806,24 @@ class SubscriberController extends Controller
         if ($subscriber == true) {
             $value = SavedVacancy::where('subscriber_id', $subscriber->id)->get();
             $value = VacancyRequest::where('subscriber_id', $subscriber->id)->get();
-            //        $vacanc = Vacancy::get();
+//        $vacanc = Vacancy::get();
 
             foreach ($value as $values) {
-                //            if (Vacancy::where('id', $values['vacancy_id'])->exists() == true) {
+//            if (Vacancy::where('id', $values['vacancy_id'])->exists() == true) {
                 $values['vacancy'] = Vacancy::where('id', $values['vacancy_id'])->get();
                 foreach ($values['vacancy'] as $vacancy) {
+                     $vacancy['company']= Company::where('id', $vacancy['company_id'])->first(['id', 'company_name']);
                     $vacancy['job_type'] = JobType::where('id', $vacancy['job_type'])->first();
                     $vacancy['location'] = Location::where('id', $vacancy['location'])->first();
                 }
-                //            }
+//            }
             }
-            return response()->json($value);
-        } else {
+            // return response()->json($value);
+            $array = data_get($value, '*.vacancy');
+            $obj = Arr::collapse($array);
+            return response()->json($obj);
+        }
+        else{
             return response([
                 'error' => 'Unauthorized',
             ], 403);
@@ -857,23 +869,30 @@ class SubscriberController extends Controller
         $subscriber = Subscriber::query()->where('id', auth()->user('sanctum')->id)->first();
         if ($subscriber == true) {
             $value = SavedVacancy::where('subscriber_id', $subscriber->id)->get();
-            //        $vacanc = Vacancy::get();
+//        $vacanc = Vacancy::get();
 
             foreach ($value as $values) {
-                //            if (Vacancy::where('id', $values['vacancy_id'])->exists() == true) {
+//            if (Vacancy::where('id', $values['vacancy_id'])->exists() == true) {
                 $values['vacancy'] = Vacancy::where('id', $values['vacancy_id'])->get();
                 foreach ($values['vacancy'] as $vacancy) {
+                      $vacancy['company']= Company::where('id', $vacancy['company_id'])->first(['id', 'company_name']);
+                    //  $vacancy['company_id'] = Company::where('id', $vacancy['company_id'])->first('company_name');
                     $vacancy['job_type'] = JobType::where('id', $vacancy['job_type'])->first();
                     $vacancy['location'] = Location::where('id', $vacancy['location'])->first();
                 }
-                //            }
+//            }
             }
-            return response()->json($value);
-        } else {
+                        $array = data_get($value, '*.vacancy');
+            $obj = Arr::collapse($array);
+            return response()->json($obj);
+            // return response()->json($value);
+        }
+        else{
             return response([
                 'error' => 'Unauthorized',
             ], 403);
         }
+
     }
 
     public function save_vacancy(Request $request)
@@ -910,12 +929,26 @@ class SubscriberController extends Controller
         }
     }
 
-    public function subscriber_preference()
+  public function subscriber_preference()
     {
-        $preference = SubscriberPreferenceCareerLevel::where('id', auth()->user('sanctum')->id)->first();
-        return response()->json($preference);
-    }
+        $level = SubscriberPreferenceCareerLevel::where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $level->career_level = CareerLevel::where('id', $level->career_level)->first(['id', 'name']);
 
+         $category = SubscriberPreferenceCategory::where('subscriber_id', auth()->user('sanctum')->id)->get();
+         foreach($category as $categories){
+             $categories['category'] = VacancyCategory::where('id', $categories['category'])->get(['id', 'name']);
+         }
+           $array = data_get($category, '*.category');
+        $obj = Arr::collapse($array);
+        // return response()->json($obj);
+        $type= SubscriberPreferenceJobType::where('subscriber_id', auth()->user('sanctum')->id)->get();
+                 foreach($type as $types){
+             $types['job_type'] = JobType::where('id', $types['job_type'])->get(['id', 'name']);
+         }
+           $array1 = data_get($type, '*.job_type');
+        $obj1 = Arr::collapse($array1);
+        return response()->json(["career_level" => $level, "job_type" => $obj1, "category" => $obj]);
+    }
 
     public function subscriber_add_preference(Request $request)
     {
@@ -925,19 +958,21 @@ class SubscriberController extends Controller
 
         if ($request->career_level != null) {
 
-            foreach ($request->career_level as $item => $v) {
-                $post2 = array(
-                    'career_level' => $request->career_level[$item],
-                    'subscriber_id' => auth()->user('sanctum')->id,
-                );
+            // foreach ($request->career_level as $item => $v) {
+            //     $post2 = array(
+            //         'career_level' => $request->career_level[$item],
+            //         'subscriber_id' => auth()->user('sanctum')->id,
+            //     );
+            SubscriberPreferenceCareerLevel::where('subscriber_id', explode(",",auth()->user('sanctum')->id))->delete();
                 SubscriberPreferenceCareerLevel::create(array_merge(
-                    // $data,
-                    $post2,
-                    $subscriber_id
+                $data,
+                    // $post2,
+                   $subscriber_id
                 ));
-            }
+            // }
         }
         if ($request->category != null) {
+            SubscriberPreferenceCategory::where('subscriber_id', explode(",",auth()->user('sanctum')->id))->delete();
             foreach ($request->category as $item => $v) {
                 $post2 = array(
                     'category' => $request->category[$item],
@@ -945,11 +980,13 @@ class SubscriberController extends Controller
                 );
                 SubscriberPreferenceCategory::create(array_merge(
                     $data,
-                    $post2
+                    $post2,
+                    // $subscriber_id
                 ));
             }
         }
         if ($request->job_type != null) {
+            SubscriberPreferenceJobType::where('subscriber_id', explode(",",auth()->user('sanctum')->id))->delete();
             foreach ($request->job_type as $item => $v) {
                 $post2 = array(
                     'job_type' => $request->job_type[$item],
@@ -957,7 +994,8 @@ class SubscriberController extends Controller
                 );
                 SubscriberPreferenceJobType::create(array_merge(
                     $data,
-                    $post2
+                    $post2,
+                            //  $subscriber_id
                 ));
             }
         }
@@ -977,9 +1015,11 @@ class SubscriberController extends Controller
             
 
                 foreach ($preferences['vacancy']  as $vacancies) {
+                    $vacancies['company']= Company::where('id',  $vacancies['company_id'])->first(['id', 'company_name']);
                     $vacancies['location']= Location::where('id', $vacancies->location)->first();
                     $vacancies['job_type'] = JobType::where('id', $vacancies['job_type'])->first();
                     $vacancies['due_date'] = Carbon::parse($vacancies['due_date'])->format('d-m-Y');
+                    $vacancies['posted_date'] = Carbon::parse($vacancies['created_at'])->diffForHumans();
 
             }
 
@@ -987,10 +1027,9 @@ class SubscriberController extends Controller
         $array = data_get($preference, '*.vacancy');
         $obj = Arr::collapse($array);
         return response()->json($obj);
-
     }
-
-    public function check_cv(){
+    
+        public function check_cv(){
 $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
 $education = Education::where('subscriber_id', auth()->user('sanctum')->id)->exists();
 
@@ -1002,7 +1041,6 @@ else{
 }
 
     }
-
 }
 
 
