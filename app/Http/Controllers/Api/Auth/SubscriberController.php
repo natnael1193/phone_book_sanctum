@@ -63,7 +63,7 @@ class SubscriberController extends Controller
         $subscriber = Subscriber::where('id', auth()->user('sanctum')->id)->first();
         $subscriber_id = ['subscriber_id' => $subscriber->id];
         // $subscriber_prefeference = SubscriberPreference::where('subscriber_id', auth()->user('sanctum')->id);
-        $password = ['password' => Hash::make($data['password'])];
+        // $password = ['password' => Hash::make($data['password'])];
 
         if (request('image')) {
             Storage::delete("/public/{$subscriber->image}");
@@ -77,10 +77,35 @@ class SubscriberController extends Controller
             $data,
             $subscriber_id,
             $imageArray ?? [],
-            $password
+            // $password
         ));
 
         return response()->json($data);
+    }
+    public function update_password(Request $request)
+    {
+ 
+        $data = request()->validate([
+            'password_confirmation' => ['required', 'string', 'max:255'],
+            'new_password' => ['required', 'string', 'max:255'],
+            'old_password' => ['required', 'string', 'max:255'],
+        ]);
+
+        if(!(Hash::check(request('old_password'), auth()->user('sanctum')->password))){
+            return response()->json(['error'=>'Password do not match']);
+        }
+        if(strcmp(request('old_password'),request('new_password')) == 0) {
+            return response()->json(['error'=>'Current password and new password can not be the same']);
+        }
+        if(strcmp(request('password_confirmation'),request('new_password')) != 0) {
+            return response()->json(['error'=>'Password confiramtion error']);
+        }
+        $user = auth()->user('sanctum');
+        $user->password = Hash::make(request('new_password'));
+        $user->save();
+
+        return response()->json(['message'=> 'Password changed Successfully']);
+        // return back()->with('message', 'Profiled updated Successfully');
     }
 
     public function certificate(Request $request)
@@ -971,6 +996,9 @@ class SubscriberController extends Controller
                 ));
             // }
         }
+                 else{
+             SubscriberPreferenceCareerLevel::where('subscriber_id',auth()->user('sanctum')->id)->delete();
+        }
         if ($request->category != null) {
             SubscriberPreferenceCategory::where('subscriber_id', explode(",",auth()->user('sanctum')->id))->delete();
             foreach ($request->category as $item => $v) {
@@ -980,13 +1008,16 @@ class SubscriberController extends Controller
                 );
                 SubscriberPreferenceCategory::create(array_merge(
                     $data,
-                    $post2,
+                    $post2
                     // $subscriber_id
                 ));
             }
         }
+    
+        
+        
         if ($request->job_type != null) {
-            SubscriberPreferenceJobType::where('subscriber_id', explode(",",auth()->user('sanctum')->id))->delete();
+            SubscriberPreferenceJobType::where('subscriber_id',auth()->user('sanctum')->id)->delete();
             foreach ($request->job_type as $item => $v) {
                 $post2 = array(
                     'job_type' => $request->job_type[$item],
@@ -994,10 +1025,13 @@ class SubscriberController extends Controller
                 );
                 SubscriberPreferenceJobType::create(array_merge(
                     $data,
-                    $post2,
+                    $post2
                             //  $subscriber_id
                 ));
             }
+        }
+        else{
+             SubscriberPreferenceJobType::where('subscriber_id',auth()->user('sanctum')->id)->delete();
         }
         return response()->json($data);
     }

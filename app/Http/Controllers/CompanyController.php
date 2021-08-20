@@ -117,12 +117,12 @@ class CompanyController extends Controller
 
 
         if ($request->city != null) {
-       Map::create(array_merge(
-           $data,
-           $user,
-           $company_id
+            Map::create(array_merge(
+                $data,
+                $user,
+                $company_id
 
-       ));
+            ));
             // foreach ($request->city as $item => $v) {
             //     $post2 = array(
             //         'city' => $request->city[$item],
@@ -137,7 +137,8 @@ class CompanyController extends Controller
             // }
         }
 
-        $time = request()->validate([
+        $time = request()->validate(
+            [
                 "monday_open" => '',
             ]
         );
@@ -178,27 +179,24 @@ class CompanyController extends Controller
                 ));
             }
         }
-//        dd($data);
+        //        dd($data);
 
         return redirect()->back()->with('message', 'Company added successfully');
-
     }
 
     public function upload(Request $request)
     {
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $file) {
-//            $file = $request->file('image');
+                //            $file = $request->file('image');
                 $filename = $file->getClientOriginalName();
                 $folder = uniqid() . '-' . now()->timestamp;
                 $path = $file->store('uploads', 'public');
                 $data[] = $path;
                 return $path;
-
             }
         }
         return '';
-
     }
 
 
@@ -239,7 +237,6 @@ class CompanyController extends Controller
 
 
         return view('company.edit_company', compact('post', 'category', 'company_category', 'location', 'available_hour', 'service', 'all', 'company', 'images', 'map', 'edit_map'));
-
     }
 
     /**
@@ -295,14 +292,13 @@ class CompanyController extends Controller
         }
 
         if ($check_map != true) {
-            if ($request->city != null){
+            if ($request->city != null) {
                 Map::create(array_merge(
                     $data,
                     $user,
                     $company_id
                 ));
-        }
-
+            }
         } else {
             $map->update(array_merge(
                 $data,
@@ -344,7 +340,7 @@ class CompanyController extends Controller
         }
 
 
-//        return redirect()->back();
+        //        return redirect()->back();
         return redirect('/company')->with('message', 'Company Updated Successfully');
     }
 
@@ -417,7 +413,7 @@ class CompanyController extends Controller
         $oldData->update(array_merge(
             $data,
             $user
-        // $call
+            // $call
         ));
 
         return redirect()->back();
@@ -457,21 +453,21 @@ class CompanyController extends Controller
             $post = $post->where('company_name', 'LIKE', '%' . $keyword . '%');
         }
         $post = $post->get();
-//        return response()->json($post);
+        //        return response()->json($post);
 
         return view('company.search', compact('post'));
     }
 
     function delete($id)
     {
-//        $company = Company::findOrFail($id);
+        //        $company = Company::findOrFail($id);
         Images::findOrFail($id)->delete();
         return redirect()->back();
     }
 
     function delete_service($id)
     {
-//        $company = Company::findOrFail($id);
+        //        $company = Company::findOrFail($id);
         Service::findOrFail($id)->delete();
         return redirect()->back();
     }
@@ -497,7 +493,15 @@ class CompanyController extends Controller
         }
         $output .= '</div>';
         echo $output;
+    }
 
+    public function add_company(Request $request)
+    {
+        $data = request()->all();
 
+        Company::create(array_merge(
+            $data
+        ));
+        return redirect()->back();
     }
 }

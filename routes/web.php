@@ -68,6 +68,7 @@ Route::resource('vacancy_category', 'VacancyCategoryController');
 Route::resource('tender_category', 'TenderCategoryController');
 Route::resource('tender_sub_category', 'TenderSubCategoryController');
 Route::resource('company_requests', 'CompanyRequestsController');
+Route::post('add_company', 'CompanyController@add_company')->name('add_company');
 Route::get('verified_company', 'CompanyRequestsController@verified_company')->name('verified_company');
 Route::post('/company/verified/{id}', 'CompanyController@verified')->name('company.verified');
 Route::post('/company/called/{id}', 'CompanyController@call_update')->name('company.called');

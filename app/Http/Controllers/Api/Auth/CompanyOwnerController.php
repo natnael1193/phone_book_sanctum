@@ -515,6 +515,7 @@ class CompanyOwnerController extends Controller
         $company = Company::where('subscriber_id', auth()->user()->id)->first();
         $vacancy = Vacancy::where('company_id', $company->id)->first();
         $data = VacancyRequest::where('vacancy_id', $vacancy->id)->get();
+        
         foreach($data as $datas){
             $datas['subscriber_id'] = Subscriber::where('id', $datas['subscriber_id'])->first();
             $datas['subscriber_id']->education_level  = EducationLevel::where('id', $datas['subscriber_id']->education_level)->first();

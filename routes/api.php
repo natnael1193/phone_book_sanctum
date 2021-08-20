@@ -140,6 +140,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     // Route::get('/subscriber/sign_up', 'Api\Auth\SubscriberRegistrationController@index');
     Route::get('subscriber/company', 'Api\Auth\SubscriberController@subscriber_company');
     Route::patch('/subscriber/update', 'Api\Auth\SubscriberController@update');
+    Route::patch('/subscriber/update_password', 'Api\Auth\SubscriberController@update_password');
     Route::patch('/subscriber/update_company', 'Api\Auth\SubscriberController@subscriber_company_update');
     Route::get('/subscriber/sign_in', 'Api\Auth\SubscriberLoginController@showLoginForm');
 
@@ -216,11 +217,13 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     Route::get('subscriber/applied_vacancy', 'Api\Auth\SubscriberController@applied_vacancy')->name('subscriber.applied_vacancy');
     Route::post('subscriber/apply_vacancy', 'Api\Auth\SubscriberController@apply_vacancy')->name('subscriber.apply_vacancy');
     Route::post('subscriber/delete_applied_vacancy', 'Api\Auth\SubscriberController@remove_applied_vacancy')->name('subscriber.remove_applied_vacancy');
+ 
     //Preference Vacancies
     Route::get('subscriber/preference', 'Api\Auth\SubscriberController@subscriber_preference')->name('subscriber.subscriber_preference_vacancy');
     Route::get('subscriber/preference_vacancy', 'Api\Auth\SubscriberController@subscriber_preference_vacancy')->name('subscriber.subscriber_preference_vacancy');
     Route::post('subscriber/add_preference', 'Api\Auth\SubscriberController@subscriber_add_preference')->name('subscriber.add_company_review');
     Route::post('subscriber/update_preference', 'Api\Auth\SubscriberController@subscriber_update_preference')->name('subscriber.add_company_review');
+   
     //Saved Vacancy
     Route::get('subscriber/saved_vacancy', 'Api\Auth\SubscriberController@saved_vacancy')->name('subscriber.saved_vacancy');
     Route::post('subscriber/save_vacancy', 'Api\Auth\SubscriberController@save_vacancy')->name('subscriber.save_vacancy');
