@@ -48,7 +48,7 @@
                             </div>
 
                             <br>
-                            <p style="color: black">Posted By: {{ App\User::findOrFail($posts->user_id)->name }}</p>
+                            {{-- <p style="color: black">Posted By: @if(App\User::findOrFail($posts->user_id)->exists()) {{ App\User::findOrFail($posts->user_id)->name }} @endif</p> --}}
                         </div>
                     </div>
                 </div>

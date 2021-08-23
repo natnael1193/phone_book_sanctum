@@ -138,7 +138,7 @@ class MainController extends Controller
 
     public function company_category()
     {
-        $post = Category::get()->toArray();
+        $post = Category::orderBy('name', 'asc')->get()->toArray();
 
         for ($x = 0; $x < sizeof($post); $x++) {
             $post[$x]['companies'] = Company::where('category_id', $post[$x]['id'])->count();
@@ -473,7 +473,36 @@ class MainController extends Controller
         }
         return response()->json($post);
     }
+    public function vacancy_category_search()
+    {
+        $data = request()->all();
+        $keyword = $data['keyword'];
+        $category = $data['category'];
+        $location = $data['location'];
+        $post = Vacancy::query();
 
+        if ($category != null) {
+            $post = $post->where('category_id', $category);
+        }
+        if ($keyword != null) {
+            $post = $post->where('title', 'LIKE', '%' . $keyword . '%');
+        }
+        if ($location != null) {
+            $post = $post->where('location', $location);
+        }
+        $dt = Carbon::now()->toDateString();
+        $post = $post->where('due_date', '>=', $dt)->get();
+        // $post = $post->get();
+        foreach ($post as $posts) {
+            $posts['company'] = Company::where('id', $posts['company_id'])->first(['id', 'company_name']);
+            $posts['due_date'] = Carbon::parse($posts['due_date'])->format('d-m-Y');
+            $posts['category'] = TenderCategory::where('id', $posts['category_id'])->first();
+            $posts['location'] = Location::where('id', $posts['location'])->first();
+            $posts['job_type'] = JobType::where('id', $posts['job_type'])->first();
+        }
+
+        return response()->json($post);
+    }
     public function tender_search($id)
     {
 
@@ -498,7 +527,38 @@ class MainController extends Controller
         }
         return response()->json($post);
     }
+    public function tender_category_search()
+    {
+        $data = request()->all();
+        $keyword = $data['keyword'];
+        $category = $data['tender_sub_category_id'];
+        $location = $data['location'];
+        $post = Tinder::query();
 
+        if ($category != null) {
+            $post = $post->where('tender_sub_category_id', $category);
+        }
+        if ($keyword != null) {
+            $post = $post->where('title', 'LIKE', '%' . $keyword . '%');
+        }
+        if ($location != null) {
+            $post = $post->where('location', $location);
+        }
+        $dt = Carbon::now()->toDateString();
+        $post = $post->where('closing_date', '>=', $dt)->get();
+        // $post = $post->get();
+        foreach ($post as $posts) {
+            $posts['company'] = Company::where('id', $posts['company_id'])->first(['id', 'company_name']);
+            $posts['category'] = TenderSubCategory::where('id', $posts['tender_sub_category_id'])->first('name');
+            $posts['location'] = Location::where('id', $posts['location'])->first();
+            $posts['opening_date'] = Carbon::parse($posts['opening_date'])->format('d-m-Y');
+            $posts['closing_date'] = Carbon::parse($posts['closing_date'])->format('d-m-Y');
+            $posts['reference_date'] = Carbon::parse($posts['reference_date'])->format('d-m-Y');
+            $posts['posted_date'] = Carbon::parse($posts['created_at'])->diffForHumans();
+        }
+
+        return response()->json($post);
+    }
     public function top_rated()
     {
 
@@ -622,4 +682,23 @@ class MainController extends Controller
         $post = VacancyCategory::orderBy('name', 'asc')->get();
         return response()->json($post);
     }
+    public function last_tenders()
+    {
+        $dt = Carbon::now()->toDateString();
+        $date = Carbon::yesterday()->toDateString();
+        $post = Tinder::where('created_at', '>=', $date)->where('created_at', '<=', $dt)->orderBy('created_at', 'desc')->count();
+        return response()->json($post);
+    }
+
+    public function location()
+    {
+        $post = Location::orderBy('name', 'asc')->get();
+        return response()->json($post);
+    }
+
+    // public function category()
+    // {
+    //     $post = Category::orderBy('name', 'asc')->get();
+    //     return response()->json($post);
+    // }
 }

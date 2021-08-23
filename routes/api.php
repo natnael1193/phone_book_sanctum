@@ -104,6 +104,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('vacancies', 'Api\MainController@vacancy');
     Route::get('vacancy_detail/{id}', 'Api\MainController@vacancy_detail');
     Route::get('vacancy_search/{id}', 'Api\MainController@vacancy_search');
+    Route::post('vacancy_keyword_category_search', 'Api\MainController@vacancy_category_search');
     Route::get('vacancy_categories', 'Api\MainController@vacancy_category');
     Route::get('some_vacancy_categories', 'Api\MainController@some_vacancy_categories');
     Route::get('number_of_vacancy_categories', 'Api\MainController@number_of_vacancy_categories');
@@ -111,9 +112,11 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('vacancy_categories/{id}', 'Api\MainController@vacancy_category_detail');
     Route::get('tender_detail/{id}', 'Api\MainController@tender_detail');
     Route::get('tenders', 'Api\MainController@tender');
+    Route::get('last_tenders_count', 'Api\MainController@last_tenders');
     Route::get('tender_categories', 'Api\MainController@tender_category');
     Route::get('tender_categories/{id}', 'Api\MainController@tender_category_detail');
     Route::get('tender_search/{id}', 'Api\MainController@tender_search')->name('tender.search');
+    Route::post('tender_keyword_category_search', 'Api\MainController@tender_category_search');
     Route::get('/top_rated', 'Api\MainController@top_rated');
     Route::get('/latest_companies', 'Api\MainController@latest_companies');
     Route::get('/latest_vacancies', 'Api\MainController@latest_vacancies');
@@ -125,6 +128,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('/job_type_vacancies/{id}', 'Api\MainController@job_type_vacancy');
     Route::get('/career_levels', 'Api\MainController@career_levels');
     Route::get('/job_types', 'Api\MainController@job_types');
+    Route::get('/locations', 'Api\MainController@location');
+    Route::get('/categories', 'Api\MainController@category');
     Route::get('/vacancy_categories', 'Api\MainController@vacancy_categories');
 });
 
@@ -229,8 +234,10 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     Route::post('subscriber/save_vacancy', 'Api\Auth\SubscriberController@save_vacancy')->name('subscriber.save_vacancy');
     Route::post('subscriber/delete_saved_vacancy', 'Api\Auth\SubscriberController@remove_saved_vacancy')->name('subscriber.save_vacancy');
 
-    //Check Cv
+    //Check Cv And Vacancy
     Route::get('subscriber/check_cv', 'Api\Auth\SubscriberController@check_cv');
+    Route::get('subscriber/check_saved_vacancy/{id}', 'Api\Auth\SubscriberController@check_saved_vacancy');
+    Route::get('subscriber/check_applied_vacancy/{id}', 'Api\Auth\SubscriberController@check_applied_vacancy');
 
     Route::resource('rating', 'Api\RatingController');
     Route::resource('review', 'Api\ReviewController');
@@ -273,7 +280,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     // Route::patch('/company_owner/update/{id}', 'Api\Auth\CompanyOwnerController@store')->name('company_owner.update');
     // Route::get('/company_owner/sign_up', 'Api\Auth\SubscriberRegistrationController@index');
     Route::get('company_owner/company', 'Api\Auth\CompanyOwnerController@subscriber_company');
-    Route::post('/company_owner/update', 'Api\Auth\CompanyOwnerController@update');
+    Route::post('/company_owner/update', 'Api\Auth\Com709|nyh1dRNpgV8xNT1EVLMF8GtmerVAPP83pOQdhV3NpanyOwnerController@update');
     Route::patch('/company_owner_update_company', 'Api\Auth\CompanyOwnerController@subscriber_company_update');
     Route::get('/company_owner/sign_in', 'Api\Auth\SubscriberLoginController@showLoginForm');
 
