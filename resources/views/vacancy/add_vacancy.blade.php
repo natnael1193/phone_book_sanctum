@@ -9,6 +9,14 @@
                     @endif
 
                     </div>
+                    <div class="row">
+                        <div class="row col-xl-8 col-lg-8 col-md-8 col-sm-12">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#defaultModalPrimary">
+                        Add Company
+                    </button>
+                        </div>
+                    </div>
+    
                 <div class="col-auto ml-auto text-right mt-n1">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
@@ -42,7 +50,7 @@
                                             <label for="my-select">Company</label>
                                             <select id="my-select" class="form-control" name="company_id" required>
                                                 <option value="">Select Company</option>
-                                                @foreach($company as $companies)
+                                                @foreach($company->sortBy('company_name')  as $companies)
                                                 <option value="{{ $companies->id }}">{{ $companies->company_name }}</option>
                                                 @endforeach
                                             </select>
@@ -66,7 +74,7 @@
                                             <label for="my-select">Job Type</label>
                                             <select id="my-select" class="form-control" name="job_type" required>
                                                 <option value="">Select Job Type</option>
-                                                @foreach(App\JobType::all() as $job_types)
+                                                @foreach(App\JobType::all()->sortBy('name') as $job_types)
                                                 <option value="{{ $job_types->id }}">{{ $job_types->name }}</option>
                                                 @endforeach
                                             </select>
@@ -77,7 +85,7 @@
                                             <label for="my-select">Location</label>
                                             <select id="my-select" class="form-control" name="location" required>
                                                 <option value="">Select Location</option>
-                                                @foreach(App\Location::all() as $locations)
+                                                @foreach(App\Location::all()->sortBy('name')  as $locations)
                                                 <option value="{{ $locations->id }}">{{ $locations->name }}</option>
                                                 @endforeach
                                             </select>
@@ -116,7 +124,7 @@
                                             <input type="file" class="form-control" placeholder="Email" name="image" imageOnly>
                                         </div>
                                     </div>
-
+{{-- 
                                     <div class="row">
                                         <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
@@ -124,7 +132,7 @@
                                             <input type="text" class="form-control" placeholder="Company" name="company" required>
                                         </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="row">
                                         <div class="col-xl-12 col-lg-12">
@@ -167,5 +175,155 @@
                 </div>
             </div>
         </div>
+
+        <div class="card">
+
+
+            <!-- BEGIN primary modal -->
+    
+            <div class="modal fade" id="defaultModalPrimary" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Default modal</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body m-3">
+    
+                            <form method="POST" action="{{ route('add_company') }}">
+                                @csrf
+                                <div class="row">
+                                    <div class="form-group col-xl-12">
+                                        {{-- <label>Role</label> --}}
+                                        <input hidden name="user_id" value="{{auth()->user()->id}}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="my-select">Company Category</label>
+                                            <select id="my-select" class="form-control" name="category_id">                                                           >
+                                                  <option value=null>Select Category</option>
+                                                @foreach(App\Category::all()->sortBy('name') as $posts)
+                                                        <option
+                                                            value="{{ $posts->id }}">{{ $posts->name }}</option>
+
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="my-select">Location</label>
+                                            <select id="my-select" class="form-control" name="location_id"
+                                                    >
+                                                <option value="">Select Location</option>
+                                                @foreach(App\Location::all()->sortBy('name')  as $locations)
+                                                    <option
+                                                        value="{{ $locations->id }}">{{ $locations->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="my-select">Company Status</label>
+                                            <select id="my-select" class="form-control" name="company_category"
+                                                    >
+                                                <option value="">Select Company Status</option>
+                                                @foreach(App\CompanyCategory::all()->sortBy('name')  as $company_categories)
+                                                    <option
+                                                        value="{{ $company_categories->id }}">{{ $company_categories->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="my-select">Company Verification</label>
+                                            <select id="my-select" class="form-control" name="verification"
+                                                    >
+                                                <option value="">Select Category</option>
+                                                <option value="">Not Verified</option>
+                                                <option value="1">Verified</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="form-group col-xl-12">
+                                        <label>Company Name</label>
+                                        <input type="text" class="form-control" name="company_name" placeholder="company name">
+    
+                                        @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-xl-12">
+                                        <label>Company Email</label>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                               placeholder="company email" name="company_email" autocomplete="email">
+                                        @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-xl-12">
+                                        <label>Phone Number</label>
+                                        <input type="number"
+                                               class="form-control" 
+                                               name="phone_number" placeholder="phone number"
+                                               autocomplete="phone_number">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Address</label>
+                                            <input type="text" class="form-control" placeholder="Address"
+                                                   name="address">
+                                            {{-- <select id="my-select" class="form-control" name="company_name" >
+                                                <option value="">Select Company</option>
+                                                @foreach($all as $items)
+                                                <option value="{{$items->id}}">{{$items->company_name}}</option>
+                                                @endforeach
+                                            </select> --}}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Specific Address</label>
+                                            <input type="text" class="form-control"
+                                                   placeholder="Specific Address" name="specific_address">
+                                        </div>
+                                        {{-- <div class="form-group">
+                                            <label class="form-label">Email address</label>
+                                            <input type="email" class="form-control" placeholder="Email" name="email" >
+                                        </div> --}}
+                                    </div>
+                                </div>
+ 
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    
     </main>
     @endsection

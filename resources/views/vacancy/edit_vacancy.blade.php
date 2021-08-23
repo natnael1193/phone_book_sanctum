@@ -39,7 +39,7 @@
                                             <label for="my-select">Company</label>
                                             <select id="my-select" class="form-control" name="company_id" required>
                                                 <option value="{{ $post->company_id }}">Select Company</option>
-                                                @foreach (App\Company::all()->sortBy('name') as $companies)
+                                                @foreach (App\Company::all()->sortBy('company_name') as $companies)
                                                     <option value="{{ $companies->id }}">{{ $companies->company_name }}
                                                     </option>
                                                 @endforeach
@@ -51,7 +51,7 @@
                                             <label for="my-select">Category</label>
                                             <select id="my-select" class="form-control" name="category_id" required>
                                                 <option value="{{ $post->category_id }}">Select Category</option>
-                                                @foreach ($category as $categories)
+                                                @foreach ($category->sortBy('name') as $categories)
                                                     <option value="{{ $categories->id }}">{{ $categories->name }}
                                                     </option>
                                                 @endforeach
@@ -65,7 +65,7 @@
                                             <label for="my-select">Job Type</label>
                                             <select id="my-select" class="form-control" name="job_type">
                                                 <option value="{{ $post->job_type }}">Select Job Type</option>
-                                                @foreach (App\JobType::all() as $job_types)
+                                                @foreach (App\JobType::all()->sortBy('name')  as $job_types)
                                                     <option value="{{ $job_types->id }}">{{ $job_types->name }}
                                                     </option>
                                                     @endforeach
@@ -77,7 +77,7 @@
                                             <label for="my-select">Location</label>
                                             <select id="my-select" class="form-control" name="location">
                                                 <option value="{{ $post->location }}">Select Location</option>
-                                                @foreach (App\Location::all() as $locations)
+                                                @foreach (App\Location::all()->sortBy('name')  as $locations)
                                                     <option value="{{ $locations->id }}">{{ $locations->name }}
                                                     </option>
                                                 @endforeach
@@ -118,7 +118,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="col-xl-12 col-lg-12">
                                         <div class="form-group">
                                             <label class="form-label">Company</label>
@@ -126,7 +126,7 @@
                                                 value="{{ $post->company }}" name="company">
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12">

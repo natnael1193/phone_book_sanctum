@@ -107,6 +107,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('vacancy_search/{id}', 'Api\MainController@vacancy_search');
     Route::get('vacancy_categories', 'Api\MainController@vacancy_category');
     Route::get('some_vacancy_categories', 'Api\MainController@some_vacancy_categories');
+    Route::get('number_of_vacancy_categories', 'Api\MainController@number_of_vacancy_categories');
+    Route::get('featured_vacancies', 'Api\MainController@featured_vacancies');
     Route::get('vacancy_categories/{id}', 'Api\MainController@vacancy_category_detail');
     Route::get('tender_detail/{id}', 'Api\MainController@tender_detail');
     Route::get('tenders', 'Api\MainController@tender');
@@ -122,6 +124,9 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('/similar_business/{id}', 'Api\MainController@similar_business');
     Route::get('/featured_companies', 'Api\MainController@featured_companies');
     Route::get('/job_type_vacancies/{id}', 'Api\MainController@job_type_vacancy');
+    Route::get('/career_levels', 'Api\MainController@career_levels');
+    Route::get('/job_types', 'Api\MainController@job_types');
+    Route::get('/vacancy_categories', 'Api\MainController@vacancy_categories');
 });
 
 
@@ -136,6 +141,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     // Route::get('/subscriber/sign_up', 'Api\Auth\SubscriberRegistrationController@index');
     Route::get('subscriber/company', 'Api\Auth\SubscriberController@subscriber_company');
     Route::patch('/subscriber/update', 'Api\Auth\SubscriberController@update');
+    Route::patch('/subscriber/update_password', 'Api\Auth\SubscriberController@update_password');
     Route::patch('/subscriber/update_company', 'Api\Auth\SubscriberController@subscriber_company_update');
     Route::get('/subscriber/sign_in', 'Api\Auth\SubscriberLoginController@showLoginForm');
 
@@ -204,7 +210,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     //Company Review
     Route::post('subscriber/add_company_review', 'Api\Auth\SubscriberController@add_company_review')->name('subscriber.add_company_review');
     Route::patch('subscriber/{id}/update_company_review', 'Api\Auth\SubscriberController@update_company_review')->name('subscriber.update_company_rating');
-    Route::post('subscriber/add_preference', 'Api\Auth\SubscriberController@subscriber_add_preference')->name('subscriber.add_company_review');
+    
     //Preference
 
 
@@ -212,9 +218,13 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     Route::get('subscriber/applied_vacancy', 'Api\Auth\SubscriberController@applied_vacancy')->name('subscriber.applied_vacancy');
     Route::post('subscriber/apply_vacancy', 'Api\Auth\SubscriberController@apply_vacancy')->name('subscriber.apply_vacancy');
     Route::post('subscriber/delete_applied_vacancy', 'Api\Auth\SubscriberController@remove_applied_vacancy')->name('subscriber.remove_applied_vacancy');
+ 
     //Preference Vacancies
+    Route::get('subscriber/preference', 'Api\Auth\SubscriberController@subscriber_preference')->name('subscriber.subscriber_preference_vacancy');
     Route::get('subscriber/preference_vacancy', 'Api\Auth\SubscriberController@subscriber_preference_vacancy')->name('subscriber.subscriber_preference_vacancy');
-
+    Route::post('subscriber/add_preference', 'Api\Auth\SubscriberController@subscriber_add_preference')->name('subscriber.add_company_review');
+    Route::post('subscriber/update_preference', 'Api\Auth\SubscriberController@subscriber_update_preference')->name('subscriber.add_company_review');
+   
     //Saved Vacancy
     Route::get('subscriber/saved_vacancy', 'Api\Auth\SubscriberController@saved_vacancy')->name('subscriber.saved_vacancy');
     Route::post('subscriber/save_vacancy', 'Api\Auth\SubscriberController@save_vacancy')->name('subscriber.save_vacancy');
@@ -310,6 +320,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     //Vacancy Applicants
     Route::get('company_owner_vacancy_applicants', 'Api\Auth\CompanyOwnerController@vacancy_applicants');
     Route::get('company_owner_marked_applicants', 'Api\Auth\CompanyOwnerController@marked_applicants');
+    
     //premium order
     Route::get('/banks_list', 'BankController@bank_list');
     Route::get('/premium/{id}', 'PremiumCheckController@premiumOrder');
