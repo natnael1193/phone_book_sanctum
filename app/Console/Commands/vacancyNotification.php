@@ -2,29 +2,32 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Command;
 use App\Company;
 use App\Mail\SendMail;
 use App\Mail\TenderMail;
+use App\Mail\vacancyMail;
+use App\Subscriber;
 use App\Tinder;
+use App\Vacancy;
 use Carbon\Carbon;
-use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
-class TenderNotification extends Command
+class vacancyNotification extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'notify:tender';
+    protected $signature = 'notify:vacancy';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Send Email notification of tenders';
+    protected $description = 'Send Email notification of Vacancy';
 
     /**
      * Create a new command instance.
@@ -45,15 +48,15 @@ class TenderNotification extends Command
     {
         $dt = Carbon::now()->toDateString();
         $date = Carbon::yesterday()->toDateString();
-        $tender = Tinder::where('created_at', '>=', $date)->where('created_at', '<=', $dt)->orderBy('created_at', 'desc')->get();
-        $companies = Company::where('company_category','1')->orderBy('created_at', 'desc')->get();
+
+        $vacancies = Vacancy::where('created_at', '>=', $date)->where('created_at', '<=', $dt)->orderBy('created_at', 'desc')->get();
+        $subscriber = Subscriber::orderBy('created_at', 'desc')->get();
 
         // foreach ($companies as $company) {
         //     Mail::to($company->company_email)->send(new TenderMail($tenders));
         // }
-        // foreach ($users as $user) {
-            Mail::to('yamlak.k@gmail.com')->send(new TenderMail($tender));
-        // }
+            Mail::to('yamlak.k@gmail.com')->send(new vacancyMail($vacancies));
+
 
     }
 }

@@ -5,6 +5,7 @@ use App\User;
 use App\Company;
 use App\Customer;
 use App\Subscriber;
+use App\vacancy;
 use App\WorkingTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

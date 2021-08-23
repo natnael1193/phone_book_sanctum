@@ -31,16 +31,15 @@ class PremiumCheckController extends Controller
             $month = $today->month;
             $day   = $today->day;
 
-            if($year_old + 1 <= $year && $month_old >= $month){
+            if ($year_old + 1 <= $year && $month_old >= $month) {
                 $company->company_category = 2;
                 $company->save;
-                return response()->json(['message'=>'Premium Subscription Expired']);
+                return response()->json(['message' => 'Premium Subscription Expired']);
+            } else {
+                return response()->json(['message' => 'Premium Subscription Valid']);
             }
-            else{
-                return response()->json(['message'=>'Premium Subscription Valid']);
-            }
-        }else{
-            return response()->json(['message'=>'This User Has no Company Registered']);
+        } else {
+            return response()->json(['message' => 'This User Has no Company Registered']);
         }
     }
 
@@ -53,11 +52,27 @@ class PremiumCheckController extends Controller
     public function premiumOrder($id)
     {
         $company = Company::findOrFail($id);
-        $data = $company->premiums;
 
-        if($data != null){
-            return response()->json($data);
+        $company = $company->company_category;
+
+        if ($company == null) {
+            $data = $company->premiums;
+
+            if ($data != null) {
+                return response()->json($data);
+            }
+            return response()->json(['message' => 'no premium requests Found'], 400);
         }
-        return response()->json(['message' => 'no premium requests Found']);
+        elseif($company == 1){
+            $data = $company->premiums;
+
+            if ($data != null) {
+                return response()->json($data);
+            }
+            return response()->json(['message' => 'no premium requests Found'], 400);
+        }
+        else{
+            return response()->json(['message' => 'premium has expired. Order New Premium Subscription'], 400);
+        }
     }
 }
