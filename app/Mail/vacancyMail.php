@@ -8,19 +8,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class TenderMail extends Mailable implements ShouldQueue
+class vacancyMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $tinders;
+    public $vacancies;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($tinder)
+    public function __construct($vacancies)
     {
-        $this->tinders = $tinder;
+        $this->vacancies = $vacancies;
     }
 
     /**
@@ -30,6 +30,6 @@ class TenderMail extends Mailable implements ShouldQueue
     public function build()
     {
         $date = Carbon::now()->isoFormat('MMM Do YYYY');
-        return $this->subject('Hulum Tender alerts for '.$date)->markdown('emails.TestMail')->with('tenders', $this->tinders);
+        return $this->subject('Hulum Vacancy alerts for '.$date)->markdown('emails.vacncyMail')->with('vacancies', $this->vacancies);
     }
 }

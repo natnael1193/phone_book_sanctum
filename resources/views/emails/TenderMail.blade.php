@@ -1,8 +1,8 @@
 @component('mail::message')
-<h1>Hulum Tender alerts for {{ Carbon\Carbon::now()->format('d/m/Y')}}</h1>
+<h1>Hulum Tender alerts for {{ Carbon\Carbon::now()->isoFormat('MMM Do YYYY')}}</h1>
 <p>
-    This is a summary of tenders posted on hulum.et on {{ Carbon\Carbon::now()->format('d/m/Y')}}.
-    ይህ በ hulum.et ላይ በ {{ Carbon\Carbon::now()->format('d/m/Y')}}. የተለጠፉ ጨረታዎችን የሚይሳይ ዝርዝር ነው። </p>
+    This is a summary of tenders posted on hulum.et on {{ Carbon\Carbon::now()->isoFormat('MMM Do YYYY')}}.
+    ይህ በ hulum.et ላይ በ {{ Carbon\Carbon::now()->isoFormat('MMM Do YYYY')}}. የተለጠፉ ጨረታዎችን የሚይሳይ ዝርዝር ነው። </p>
 
 @if(count($tenders) > 0)
 @foreach($tenders as $tender)
@@ -41,8 +41,9 @@
 
 
 @endcomponent
-
 @endforeach
+@else
+<p>Sorry no Tenders for today</p>
 @endif
 
 
