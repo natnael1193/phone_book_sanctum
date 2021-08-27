@@ -57,6 +57,7 @@ Route::resource('blog', 'BlogController');
 Route::resource('vacancy', 'VacancyController');
 Route::resource('tender', 'TinderController');
 Route::resource('location', 'LocationController');
+Route::resource('language_list', 'LanguageListController');
 Route::resource('company', 'CompanyController');
 Route::resource('category', 'CategoryController');
 Route::resource('company_category', 'CompanyCategoryController');

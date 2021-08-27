@@ -99,7 +99,9 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('blog_detail/{id}', 'Api\MainController@blog_detail');
     Route::get('company_categories', 'Api\MainController@company_category');
     Route::get('company_categories/{id}', 'Api\MainController@company_category_detail');
+    Route::get('company_category_filter/{id}/{key}', 'Api\MainController@company_category_filter');
     Route::get('company_search/{id}', 'Api\MainController@company_search');
+    Route::post('company_keyword_location_search', 'Api\MainController@search_company');
     Route::get('any_search/{id}', 'Api\MainController@any_search');
     Route::post('blog_search', 'Api\MainController@blog_search');
     Route::get('vacancies', 'Api\MainController@vacancy');
@@ -122,8 +124,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('/latest_companies', 'Api\MainController@latest_companies');
     Route::get('/latest_vacancies', 'Api\MainController@latest_vacancies');
     Route::get('/latest_tenders', 'Api\MainController@latest_tenders');
-    Route::get('/verified_companies', 'Api\MainController@verified_companies');
-    Route::get('/recommended_companies', 'Api\MainController@recommended_companies');
+    Route::get('/verified_companies/{id}', 'Api\MainController@verified_companies');
+    Route::get('/recommended_companies/{id}', 'Api\MainController@recommended_companies');
     Route::get('/similar_business/{id}', 'Api\MainController@similar_business');
     Route::get('/featured_companies', 'Api\MainController@featured_companies');
     Route::get('/job_type_vacancies/{id}', 'Api\MainController@job_type_vacancy');
@@ -131,6 +133,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('/job_types', 'Api\MainController@job_types');
     Route::get('/locations', 'Api\MainController@location');
     Route::get('/categories', 'Api\MainController@category');
+    Route::get('/languages', 'Api\MainController@language');
     Route::get('/vacancy_categories', 'Api\MainController@vacancy_categories');
 });
 
@@ -280,8 +283,9 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     Route::post('/company_owner/store', 'Api\Auth\CompanyOwnerController@create')->name('company_owner.store_company');
     // Route::patch('/company_owner/update/{id}', 'Api\Auth\CompanyOwnerController@store')->name('company_owner.update');
     // Route::get('/company_owner/sign_up', 'Api\Auth\SubscriberRegistrationController@index');
-    Route::get('company_owner/company', 'Api\Auth\CompanyOwnerController@subscriber_company');
-    Route::post('/company_owner/update', 'Api\Auth\Com709|nyh1dRNpgV8xNT1EVLMF8GtmerVAPP83pOQdhV3NpanyOwnerController@update');
+    Route::get('company_owner_company', 'Api\Auth\CompanyOwnerController@company');
+    Route::post('/company_owner/update', 'Api\Auth\CompanyOwnerController@update');
+    Route::patch('/company_owner/update_password', 'Api\Auth\CompanyOwnerController@update_password');
     Route::patch('/company_owner_update_company', 'Api\Auth\CompanyOwnerController@subscriber_company_update');
     Route::get('/company_owner/sign_in', 'Api\Auth\SubscriberLoginController@showLoginForm');
 
@@ -325,8 +329,9 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     Route::get('company_owner_check_type', 'Api\Auth\CompanyOwnerController@check_type');
 
     //Vacancy Applicants
-    Route::get('company_owner_vacancy_applicants', 'Api\Auth\CompanyOwnerController@vacancy_applicants');
-    Route::get('company_owner_marked_applicants', 'Api\Auth\CompanyOwnerController@marked_applicants');
+    Route::get('company_owner_vacancy_applicants/{id}', 'Api\Auth\CompanyOwnerController@vacancy_applicants');
+    Route::get('company_owner_marked_applicants/{id}', 'Api\Auth\CompanyOwnerController@marked_applicants');
+    Route::get('company_owner_vacancy_applicants_detail/{id}', 'Api\Auth\CompanyOwnerController@vacancy_applicants_detail');
     
     //premium order
     Route::get('/banks_list', 'BankController@bank_list');

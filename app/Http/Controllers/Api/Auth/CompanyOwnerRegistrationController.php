@@ -45,7 +45,7 @@ class CompanyOwnerRegistrationController extends Controller
         }
 if(CompanyOwner::whereEmail($request->email)->exists() || Subscriber::whereEmail($request->email)->exists())
 {
-    return response()->json(['errors' => "The email has already been taken."]);
+    return response()->json(['errors' => "The email has already been taken."], 409);
 }
 else{
     $data = request()->all();

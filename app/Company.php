@@ -51,9 +51,9 @@ class Company extends Model
     {
         return $this->belongsTo(Subscriber::class);
     }
-    public function rating()
+    public function ratings()
     {
-        return $this->belongsTo(Rating::class);
+        return $this->hasMany(CompanyRating::class);
     }
     public function company_rating()
     {

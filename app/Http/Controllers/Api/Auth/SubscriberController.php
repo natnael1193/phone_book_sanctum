@@ -21,6 +21,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Language;
+use App\LanguageList;
 use App\PersonalSkill;
 use App\ProfessionalSkill;
 use App\Reference;
@@ -523,8 +524,20 @@ class SubscriberController extends Controller
     {
         $subscriber = Subscriber::query()->where('id', auth()->user('sanctum')->id)->first();
         if ($subscriber == true) {
-            $data = Language::where('subscriber_id', auth()->user('sanctum')->id)->first();
-            return response()->json($data);
+            $data = Language::where('subscriber_id', auth()->user('sanctum')->id)->get();
+            foreach($data as $datas){
+                $datas['language_name'] = LanguageList::where('id', $datas['language_name'])->get();
+                foreach($datas['language_name'] as $level){
+                    $level['level'] = Language::where('language_name', $level['id'])->first()->level;
+                }
+            }
+
+            // return response()->json($data);
+            // $obj = Arr::pluck($data, 'language_name');
+            $array = data_get($data, '*.language_name');
+            $obj = Arr::collapse($array);
+
+            return response()->json($obj);
         } else {
             return response([
                 'error' => 'Unauthorized',
@@ -632,7 +645,7 @@ class SubscriberController extends Controller
             ));
             return response()->json($data);
         } else {
-            return response()->json(["error" => "Already exist"]);
+            return response()->json(["error" => "Already exist"], 403);
         }
 
 
@@ -921,7 +934,7 @@ class SubscriberController extends Controller
         $value = SavedVacancy::where('subscriber_id', auth()->user('sanctum')->id)->where('vacancy_id', $request->vacancy_id)->exists();
 
         if ($value == true) {
-            return response()->json("exists");
+            return response()->json("exists", 403);
         } else {
             SavedVacancy::create(array_merge(
                 $data,

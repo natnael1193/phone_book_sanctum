@@ -7,17 +7,27 @@ use App\Images;
 use App\Service;
 use App\Vacancy;
 use App\Category;
+use App\Certification;
 use App\CompanyOwner;
 use App\Subscriber;
 use App\WorkingTime;
 use App\CompanyRating;
 use App\CompanyReview;
+use App\Education;
 use App\EducationLevel;
+use App\Experience;
+use App\Hobby;
 use App\Http\Controllers\Controller;
+use App\Language;
+use App\LanguageList;
+use App\PersonalSkill;
+use App\ProfessionalSkill;
+use App\Reference;
 use App\SavedTender;
 use App\Tinder;
 use App\VacancyRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -51,7 +61,7 @@ class CompanyOwnerController extends Controller
     {
         $data = request()->all();
         $user = CompanyOwner::query()->where('id', auth()->user('sanctum')->id)->first();
-        $password = ['password' => Hash::make($data['password'])];
+        // $password = ['password' => Hash::make($data['password'])];
 
         if (request('image')) {
             $imagePath = request('image')->store('uploads', 'public');
@@ -62,32 +72,41 @@ class CompanyOwnerController extends Controller
         $user->update(array_merge(
             $data,
             $imageArray  ?? [],
-            $password
+            // $password
         ));
         return response()->json($data);
     }
-    public function new_company(Request $request)
+
+    public function update_password(Request $request)
     {
-        $data = request()->validate([
-            'subscriber_id' => 'required',
-            'company_email' => 'required',
-            "company_name" => 'required',
-            "phone_number" => "required"
-        ]);
-        $oldData =  CompanyOwner::where('id', auth()->user('sanctum')->id)->first();
-        $subscriber = ['subscriber_id' => auth()->user('sanctum')->id];
+    $data = request()->validate([
+        'password_confirmation' => ['required', 'string', 'max:255'],
+        'new_password' => ['required', 'string', 'max:255'],
+        'old_password' => ['required', 'string', 'max:255'],
+    ]);
 
-        Company::create(array_merge(
-            $data,
-            $subscriber
-        ));
+    if (!(Hash::check(request('old_password'), auth()->user('sanctum')->password))) {
+        return response()->json(['error' => 'Password do not match']);
+    }
+    if (strcmp(request('old_password'), request('new_password')) == 0) {
+        return response()->json(['error' => 'Current password and new password can not be the same']);
+    }
+    if (strcmp(request('password_confirmation'), request('new_password')) != 0) {
+        return response()->json(['error' => 'Password confiramtion error']);
+    }
+    $user = auth()->user('sanctum');
+    $user->password = Hash::make(request('new_password'));
+    $user->save();
 
-        $oldData->update(array_merge(
-            $data,
-            $subscriber
-        ));
+    return response()->json(['message' => 'Password changed Successfully']);
+}
 
-        return response()->json([$data, $subscriber]);
+    public function company(Request $request)
+    {
+        $post =  Company::query()->where('subscriber_id', auth()->user('sanctum')->id)->first();
+        $post->rating = CompanyRating::where('company_id', $post->id)->get();
+        
+        return response()->json($post);
     }
 
     public function subscriber_company_update()
@@ -511,29 +530,85 @@ class CompanyOwnerController extends Controller
         }
     }
 
-    public function vacancy_applicants(){
-        $company = Company::where('subscriber_id', auth()->user()->id)->first();
-        $vacancy = Vacancy::where('company_id', $company->id)->first();
-        $data = VacancyRequest::where('vacancy_id', $vacancy->id)->get();
-        
-        foreach($data as $datas){
-            $datas['subscriber_id'] = Subscriber::where('id', $datas['subscriber_id'])->first();
-            $datas['subscriber_id']->education_level  = EducationLevel::where('id', $datas['subscriber_id']->education_level)->first();
-            $datas['subscriber_id']->career_level  = EducationLevel::where('id', $datas['subscriber_id']->career_level)->first();
+    public function vacancy_applicants($id){
+        if (Vacancy::where('id', $id)->exists() == true) {
+            $post = Vacancy::findOrFail($id);
+            $company = Company::where('subscriber_id', auth()->user()->id)->first();
+            $data = VacancyRequest::where('vacancy_id', $post->id)->get();
+            $subscriber = Subscriber::get();
+    
+            if ($post->company_id == $company->id) {
+                foreach ($data as $datas) {
+                    $datas['subscriber_id'] = Subscriber::where('id', $datas['subscriber_id'])->first();
+                    $datas['subscriber_id']->education_level = EducationLevel::where('id', $datas['subscriber_id']->education_level)->first();
+                    $datas['subscriber_id']->career_level = EducationLevel::where('id', $datas['subscriber_id']->career_level)->first();
+                    $datas['subscriber_id']->experiences = Experience::where('subscriber_id', $datas['subscriber_id']->id)->get();
+                    $datas['subscriber_id']->language = Language::where('subscriber_id', $datas['subscriber_id']->id)->get();
+                }
 
-        }
-        return response()->json($data);
+                // foreach($subscriber as $subscribers){
+                //     $subscribers['experiences'] = Experience::where('subscriber_id', $subscribers['id'])->get();
+                // }
+
+                return response()->json($data);
+            } else {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+            } else {
+                $data = [];
+                return response()->json($data);
+            }
     }
-    public function marked_applicants(){
+    public function marked_applicants($id)
+    {
+        if (Vacancy::where('id', $id)->exists() == true) {
+        $post = Vacancy::findOrFail($id);
         $company = Company::where('subscriber_id', auth()->user()->id)->first();
-        $vacancy = Vacancy::where('company_id', $company->id)->first();
-        $data = VacancyRequest::where('vacancy_id', $vacancy->id)->where('marked', 1)->get();
-        foreach($data as $datas){
-            $datas['subscriber_id'] = Subscriber::where('id', $datas['subscriber_id'])->first();
-            $datas['subscriber_id']->education_level  = EducationLevel::where('id', $datas['subscriber_id']->education_level)->first();
-            $datas['subscriber_id']->career_level  = EducationLevel::where('id', $datas['subscriber_id']->career_level)->first();
+        $data = VacancyRequest::where('vacancy_id', $post->id)->where('marked', 1)->get();
 
+            if ($post->company_id == $company->id) {
+                foreach ($data as $datas) {
+                    $datas['subscriber_id'] = Subscriber::where('id', $datas['subscriber_id'])->first();
+                    $datas['subscriber_id']->education_level = EducationLevel::where('id', $datas['subscriber_id']->education_level)->first();
+                    $datas['subscriber_id']->career_level = EducationLevel::where('id', $datas['subscriber_id']->career_level)->first();
+
+                }
+                return response()->json($data);
+            } else {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+        } else {
+            $data = [];
+            return response()->json($data);
         }
-        return response()->json($data);
+
+    }
+
+
+ public function vacancy_applicants_detail($id){
+$subscriber = Subscriber::findOrFail($id);
+
+$subscriber->experience = Experience::where('subscriber_id', $subscriber->id)->get();
+$subscriber->education = Education::where('subscriber_id', $subscriber->id)->get();
+$subscriber->cartificate = Certification::where('subscriber_id', $subscriber->id)->get();
+$language = Language::where('subscriber_id', $subscriber->id)->get();
+
+foreach($language as $datas){
+    $datas['language_name'] = LanguageList::where('id', $datas['language_name'])->get();
+    foreach($datas['language_name'] as $level){
+        $level['level'] = Language::where('language_name', $level['id'])->first()->level;
+    }
+}
+$array = data_get($language, '*.language_name');
+$obj = Arr::collapse($array);
+$subscriber->language = $obj;
+
+$subscriber->hobby = Hobby::where('subscriber_id', $subscriber->id)->get();
+$subscriber->reference = Reference::where('subscriber_id', $subscriber->id)->get();
+$subscriber->personal_skill = PersonalSkill::where('subscriber_id', $subscriber->id)->get();
+$subscriber->professional_skill = ProfessionalSkill::where('subscriber_id', $subscriber->id)->get();
+
+return response()->json($subscriber);
+
     }
 }

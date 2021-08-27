@@ -28,6 +28,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use App\JobType;
+use App\LanguageList;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -354,6 +355,27 @@ class MainController extends Controller
         return response()->json($post);
     }
 
+    public function vacancy_list()
+    {
+        $dt = Carbon::now()->toDateString();
+        $post = Vacancy::where('due_date', '>=', $dt)->orderBy('created_at', 'desc')->get()->toArray();
+
+        for ($x = 0; $x < sizeof($post); $x++) {
+            [
+                $post[$x]['company'] = Company::where('id', $post[$x]['company_id'])->first('company_name'),
+                $post[$x]['location'] = Location::where('id', $post[$x]['location'])->first('name'),
+                $post[$x]['category'] = VacancyCategory::where('id', $post[$x]['category_id'])->first(['id', 'name', 'image']),
+                $post[$x]['job_type'] = JobType::where('id', $post[$x]['job_type'])->first('name'),
+                $post[$x]['posted_date'] = Carbon::parse($post[$x]['created_at'])->diffForHumans(),
+                $post[$x]['due_date'] = Carbon::parse($post[$x]['due_date'])->format('d-m-Y')
+                // $post[$x]['date'] =  Carbon::createFromFormat('Y-m-d', $post[$x]['created_at'])->format('d/m/Y')
+            ];
+        }
+
+
+        return response()->json($post);
+    }
+
     public function vacancy_detail($id)
     {
         $post = Vacancy::findOrFail($id);
@@ -401,9 +423,26 @@ class MainController extends Controller
     public function tender_detail($id)
     {
         $post = Tinder::findOrFail($id);
-        $category = TenderCategory::where('id', $post->category_id)->first(['id', 'name', 'image']);
+        // $post->company_id = Company::where('id', $post->company_id)->first();
+        $company = Company::where('id', $post->company_id)->first();
+        $post->opening_date = Carbon::parse($post->opening_date)->format('G:ia d-m-Y');
+        $post->closing_date = Carbon::parse($post->closing_date)->format('G:ia d-m-Y');
+        $related = Tinder::where('tender_sub_category_id', $post->tender_sub_category_id)->where('id', '!=', $post->id)->get();
+        foreach ($related as $posts) {
+            $posts['company'] = Company::where('id', $posts['company_id'])->first(['id', 'company_name']);
+            $posts['category_id'] = TenderSubCategory::where('id', $posts['tender_sub_category_id'])->first(['id', 'name']);
+            $posts['location'] = Location::where('id', $posts['location'])->first('name');
+            $posts['opening_date'] = Carbon::parse($posts['opening_date'])->format('G:ia d-m-Y');
+            $posts['closing_date'] = Carbon::parse($posts['closing_date'])->format('G:ia d-m-Y');
+            $posts['reference_date'] = Carbon::parse($posts['reference_date'])->format('d-m-Y');
+            $posts['posted_date'] = Carbon::parse($posts['created_at'])->diffForHumans();
 
-        return response()->json(['tender' => $post, 'category' => $category]);
+            // foreach($posts['category_id'] as $categories){
+            //     $categories['sub_category'] = TenderSubCategory::where('tender_category_id', $categories['id'])->get();
+            // }
+
+        }
+        return response()->json(['tender' => $post, 'company' => $company, 'related' => $related]);
     }
 
     public function tender_category_detail($id)
@@ -444,6 +483,21 @@ class MainController extends Controller
             $post = $post->where('company_name', 'LIKE', '%' . $keyword . '%');
         }
         $post = $post->get();
+
+        for ($x = 0; $x < sizeof($post); $x++) {
+
+            $post[$x]['average_rating'] = CompanyRating::all()->where('company_id', $post[$x]['id'])->avg('rating');
+            $post[$x]['location'] = Location::where('id', $post[$x]['location_id'])->first('name');
+            $post[$x]['category'] = Category::where('id', $post[$x]['category_id'])->first(['name', 'image']);
+            $post[$x]['company_type'] = CompanyCategory::where('id', $post[$x]['company_category'])->first('name');
+
+            if ($post[$x]['verification'] == 1) {
+                $post[$x]['verification'] = 'verified';
+            } else {
+                $post[$x]['verification'] = 'not verified';
+            }
+            //            $category[$x]['rating'] = CompanyRating::where('rating' , '>' , 3.9)->get();
+        }
         return response()->json($post);
 
         //        return view('company.search', compact('post'));
@@ -471,6 +525,7 @@ class MainController extends Controller
             $posts['location'] = Location::where('id', $posts['location'])->first();
             $posts['job_type'] = JobType::where('id', $posts['job_type'])->first();
         }
+
         return response()->json($post);
     }
     public function vacancy_category_search()
@@ -479,6 +534,7 @@ class MainController extends Controller
         $keyword = $data['keyword'];
         $category = $data['category'];
         $location = $data['location'];
+
         $post = Vacancy::query();
 
         if ($category != null) {
@@ -490,6 +546,7 @@ class MainController extends Controller
         if ($location != null) {
             $post = $post->where('location', $location);
         }
+
         $dt = Carbon::now()->toDateString();
         $post = $post->where('due_date', '>=', $dt)->get();
         // $post = $post->get();
@@ -533,6 +590,7 @@ class MainController extends Controller
         $keyword = $data['keyword'];
         $category = $data['tender_sub_category_id'];
         $location = $data['location'];
+
         $post = Tinder::query();
 
         if ($category != null) {
@@ -544,6 +602,7 @@ class MainController extends Controller
         if ($location != null) {
             $post = $post->where('location', $location);
         }
+
         $dt = Carbon::now()->toDateString();
         $post = $post->where('closing_date', '>=', $dt)->get();
         // $post = $post->get();
@@ -572,26 +631,32 @@ class MainController extends Controller
             // $vacancies['posted_date'] = Carbon::parse($vacancies['created_at'])->diffForHumans();
             // $vacancies['due_date'] = Carbon::parse($vacancies['due_date'])->format('d-m-Y');
         }
-        $value = $company->where('rating', '>=', 3);
+        $value = $company->where('rating', '>=', 1);
 
         return response()->json($value);
     }
 
-    // return response()->json($value);
-
-
-
-
-    public function verified_companies(Request $request)
+    public function verified_companies($id)
     {
-        $post = Company::where('verification', 1)->get();
+        $category = Category::findOrFail($id);
+
+        $post = Company::where('verification', 1)->where('category_id', $id)->get();
+        foreach ($post as $posts) {
+            $posts['category_id'] = Category::where('id', $posts['category_id'])->first();
+            $posts['location_id'] = Location::where('id', $posts['location_id'])->first();
+        }
 
         return response()->json($post);
     }
 
-    public function recommended_companies(Request $request)
+    public function recommended_companies($id)
     {
-        $post = Company::where('company_category', 2)->get();
+        $category = Category::findOrFail($id);
+        $post = Company::where('company_category', 2)->where('category_id', $id)->get();
+        foreach ($post as $posts) {
+            $posts['category_id'] = Category::where('id', $posts['category_id'])->first();
+            $posts['location_id'] = Location::where('id', $posts['location_id'])->first();
+        }
 
         return response()->json($post);
     }
@@ -701,4 +766,32 @@ class MainController extends Controller
     //     $post = Category::orderBy('name', 'asc')->get();
     //     return response()->json($post);
     // }
+
+    public function language()
+    {
+        $post = LanguageList::orderBy('name', 'asc')->get();
+        return response()->json($post);
+    }
+
+    public function company_category_filter($id, $key)
+    {
+        $category = Category::findOrFail($id);
+        // $status = CompanyCategory::findOrFail($key);
+
+        if ($key == 1) {
+            $company = Company::where('category_id', $category->id)->where('company_category',  2)->get();
+        }
+        if ($key == 2) {
+            $company = Company::where('category_id', $category->id)->where('verification',  1)->get();
+        }
+        if ($key == 3) {
+
+            $company = Company::where('category_id', $category->id)->withCount(['ratings as average_rating' => function($query) {
+                $query->select(DB::raw('coalesce(avg(rating),0)'));
+            }])->orderByDesc('average_rating')->get();
+
+        }
+
+        return response()->json($company);
+    }
 }
