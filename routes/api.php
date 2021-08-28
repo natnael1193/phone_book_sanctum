@@ -285,7 +285,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:sanctum']], functi
     // Route::get('/company_owner/sign_up', 'Api\Auth\SubscriberRegistrationController@index');
     Route::get('company_owner_company', 'Api\Auth\CompanyOwnerController@company');
     Route::post('/company_owner/update', 'Api\Auth\CompanyOwnerController@update');
-    Route::patch('/company_owner/update_password', 'Api\Auth\CompanyOwnerController@update_password');
+    Route::patch('/company_owner_update_password', 'Api\Auth\CompanyOwnerController@update_password');
     Route::patch('/company_owner_update_company', 'Api\Auth\CompanyOwnerController@subscriber_company_update');
     Route::get('/company_owner/sign_in', 'Api\Auth\SubscriberLoginController@showLoginForm');
 
